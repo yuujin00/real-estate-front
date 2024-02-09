@@ -1,6 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import Onboarding from './pages/Onboarding.js';
+import Main from './pages/Main.js';
+import Login from './pages/Login.js';
+import Signup from './pages/Signup.js';
 import ROBOTO from './assets/font/Roboto-Medium.ttf';
 
 const GlobalStyle = createGlobalStyle`
@@ -16,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
   background-color: white;
   letter-spacing: -0.1px;
   margin: 0;
+  background-color: black;
   padding: 0;
   overflow-x: hidden;
 }
@@ -27,6 +31,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0 auto ;
     overflow-y: scroll;
     overflow-x: hidden;
+    border-radius: 52px;
 }
 
 .layout::-webkit-scrollbar {
@@ -44,6 +49,9 @@ function App() {
 			<div className='layout'>
 				<Routes>
 					<Route path='/' element={<Onboarding />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/main' element={<Main />} />
 				</Routes>
 			</div>
 		</BrowserRouter>
