@@ -1,28 +1,46 @@
 import { styled, Grid } from '@mui/material';
 
 const styles = {
-    main: {
-		display: 'flex',
-		flexDirection: 'column',
-		paddingTop: '80px',
-		margin: '0px 20px',
-	},
-	introTagLine: {
-		marginLeft: '10px',
-		fontWeight: 600,
-	},
-    description: {
-		marginTop: '10px',
-		fontSize: '14px',
-		marginLeft: '10px',
-	},
+	//헤더
+	
 	main_background: {
-		marginTop: '30px',
+		marginTop: '50px',
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		textAlign: 'center',
 		alignItems: 'center',
+	},
+
+	headerMain: {
+		display: 'flex',
+		justifyContent: 'left',
+		margin: '20px 0px',
+	},
+
+	headerTitle: {
+		flex: 0.9,
+		marginTop: 6,
+		color: '#88BDE7',
+		textAlign: 'center',
+		fontSize: '28px',
+		fontWeight: 700,
+		marginRight: '18px',
+	},
+	
+	onboardingSlide: {
+		padding: '20px',
+	},
+
+	onboardingButton: {
+		display: 'flex',
+		justifyContent: 'center',
+		padding: '20px 0px',
+	},
+	onboardingContent: {
+		padding: '0px 10px',
+		lineHeight: 1.5,
+		fontSize: '18px',
 	},
 };
 
