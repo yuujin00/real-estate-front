@@ -4,7 +4,7 @@ import Onboarding from './pages/Onboarding.js';
 import Main from './pages/Main.js';
 import Login from './pages/Login.js';
 import Signup from './pages/Signup.js';
-import ROBOTO from './assets/font/Roboto-Medium.ttf';
+import ROBOTO from './assets/font/Jua-Regular.ttf';
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -31,7 +31,6 @@ const GlobalStyle = createGlobalStyle`
     margin: 0 auto ;
     overflow-y: scroll;
     overflow-x: hidden;
-    border-radius: 52px;
 }
 
 .layout::-webkit-scrollbar {

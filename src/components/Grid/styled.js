@@ -15,7 +15,7 @@ const styles = {
 	headerMain: {
 		display: 'flex',
 		justifyContent: 'left',
-		margin: '20px 0px',
+		margin: '10px 10px',
 	},
 
 	headerTitle: {
@@ -44,6 +44,14 @@ const styles = {
 	},
 
 	//로그인
+	registerForm: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		padding: '0px 10px',
+		gap: 15,
+	},
+
 	header: {
 		position: 'fixed',
   		top: 20,
@@ -59,24 +67,31 @@ const styles = {
 	},
 	
 	loginFont: {
+		width: '100%',
+		margin: '0 auto',
 		display: 'center',
 		padding: '20px 130px',
 		fontWeight: 'bold',
 		fontSize: '30px',
+		textAlign: 'center',
 	},
 
 	JoinFont: {
-		display: 'center',
-		padding: '20px 115px',
+		width: '100%',
+		margin: '0 auto',
 		fontWeight: 'bold',
 		fontSize: '30px',
+		textAlign: 'center',
 	},
 
 	sloginFont: {
-		display: 'center',
-		padding: '10px 120px',
+		width: '100%',
+		margin: '0 auto',
+		marginBottom: '10px',
 		fontSize: '15px',
+		textAlign: 'center',
 	},
+
 	loginForm: {
 		display: 'flex',
 		flexDirection: 'column',

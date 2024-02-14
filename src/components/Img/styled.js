@@ -12,14 +12,12 @@ const styles = {
 
 	//로그인
 	loginImage : {
-		width: '30px', // 이미지의 너비
-        height: '32px', // 이미지의 높이
-		marginTop: '4px', 
+		margin: '8px'
 	},
 
 	loginImage_ : {
-		width: '20px', // 이미지의 너비
-        height: '20px', // 이미지의 높이
+		width: '20px', 
+        height: '20px', 
 	},
 };
 
