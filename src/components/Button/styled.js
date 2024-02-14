@@ -11,7 +11,7 @@ const styles = {
 		width: '100px',
 	},
 
-    mainStartBtn: {
+	mainStartBtn: {
 		display: 'flex',
 		width: '280px',
 		padding: '18px',
@@ -21,11 +21,13 @@ const styles = {
 		fontWeight: 'bold',
 		borderRadius: '25px',
 		background: '#D99E73',
+		boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
 		color: '#fff',
 		'&:hover': {
 			background: '#ECCCB1',
 		},
 	},
+	
 
 	//로그인
 	// 회원가입

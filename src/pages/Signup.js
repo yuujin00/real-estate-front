@@ -122,29 +122,25 @@ function Signup() {
 
                 <Grid theme='onboardingSlide'>
                     <Grid theme='JoinFont'>회원가입</Grid>
+                    <br/>
                     <Grid theme='signForm'>
                     <form onSubmit={postSignupData}>
                         <Grid theme='registerForm'>
-                            <div style={{ marginTop: '2px', color: 'black' }}>이름</div>
                             <TextField 
                                 id='name' 
-                                placeholder='이름' 
+                                label='이름' 
                                 variant='outlined' 
                                 size='small' 
                                 onChange={handleNameChange} 
-                                InputLabelProps={{ shrink: false }} 
-                                sx={{ '& .MuiInputBase-input': { width: '260px' }, backgroundColor: '#EDEDED' }}/>
+                            />
                             
-                            <div style={{ marginTop: '2px', color: 'black' }}>이메일</div>
                             <TextField 
-                                id='email' 
-                                type='email' 
-                                placeholder='이메일' 
+                                id='email'
+								label='이메일' 
                                 variant='outlined' 
                                 size='small' 
                                 onChange={handleEmailChange} 
-                                InputLabelProps={{ shrink: false }} 
-                                sx={{ '& .MuiInputBase-input': { width: '260px' }, backgroundColor: '#EDEDED' }}/>
+                                />
                             <Button theme='signupBtn' onClick={handleEmailCheck} disabled={!signupData.email || !signupData.email.includes('@')}>사용 가능 여부 확인</Button>
                             <div style={{ display: emailAlertMessage ? 'block' : 'none' }}>
                                 <Alert 
@@ -159,17 +155,14 @@ function Signup() {
                                     {emailAlertMessage}
                                 </Alert>
                             </div>
-                            
-                            <div style={{ marginTop: '2px', color: 'black' }}>비밀번호</div>
+            
                             <TextField
                                 id='password'
-                                placeholder='비밀번호'
+                                label='비밀번호'
                                 variant='outlined'
                                 size='small'
                                 type='password'
                                 onChange={handlePasswordChange}
-                                InputLabelProps={{ shrink: false }}
-                                sx={{ '& .MuiInputBase-input': { width: '260px' }, backgroundColor: '#EDEDED' }}
                             />
                             <Button theme='signupBtn' onClick={handlePasswordCheck}>사용 가능 여부 확인</Button>
                             <div style={{ display: passwordAlertMessage ? 'block' : 'none' }}>
@@ -185,31 +178,23 @@ function Signup() {
                                     {passwordAlertMessage}
                                 </Alert>
                             </div>
-                            
-                            <div style={{ marginTop: '2px', color: 'black' }}>성별</div>
                             <Select 
                                 id='gender' 
-                                placeholder='성별'  
-                                variant='outlined' 
                                 size='small' 
-                                value={signupData.gender} 
+                                value="man"
                                 onChange={handleGenderChange}
-                                sx={{ '& .MuiSelect-outlined': { width: '242px', height: '40px' },  backgroundColor: '#EDEDED' }} >
+                                >
                                 <MenuItem value='man'>남성</MenuItem>
                                 <MenuItem value='woman'>여성</MenuItem>
                             </Select>
-
-                            <div style={{ marginTop: '2px', color: 'black' }}>나이</div>
                             <TextField
                                 id='age'
-                                placeholder='나이'
+                                label='나이'
                                 inputProps={{ min: 14, max: 120 }}
                                 variant='outlined'
                                 size='small'
                                 type='number'
                                 onChange={handleAgeChange}
-                                InputLabelProps={{ shrink: false }}
-                                sx={{ '& .MuiInputBase-input': { width: '260px' }, backgroundColor: '#EDEDED' }}
                             />
                         </Grid>
 

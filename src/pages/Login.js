@@ -93,7 +93,8 @@ function Login(){
 			<div style={{ height: '70px' }}></div>
 			
 			<Grid theme='onboardingSlide'>
-				<Grid theme='loginFont'>로그인</Grid>
+				<Grid theme='JoinFont'>로그인</Grid>
+				<br/>
 				<form onSubmit={handleFormSubmit}>
 
 					<Grid theme='loginForm'>
@@ -105,8 +106,7 @@ function Login(){
 								label='아이디(이름)' 
 								variant='outlined' 
 								size='small' 
-								onChange={handleNameChange}
-								sx={{ backgroundColor: '#EDEDED' }} />
+								onChange={handleNameChange} />
                         </Grid>
                         
                         <Grid theme='loginOption'>
@@ -118,7 +118,6 @@ function Login(){
                                 variant='outlined'
                                 size='small'
                                 onChange={handlePasswordChange}
-								sx={{ backgroundColor: '#EDEDED' }}
                             />
                         </Grid>
 						{successLogin ? null : (
@@ -155,8 +154,9 @@ function Login(){
                         </Grid>
 
                         <Grid theme='loginOption'>
-                            <div style={{ marginTop: '2px', color: '#757575' }}>계정이 없으신가요?</div>
+                            <div style={{ marginTop: '2px', color: '#757575' }}>계정이 없으신가요?
                             <Button theme='signupBtn' children='회원가입' onClick={onClickSignup} />
+							</div>
                         </Grid>
 
                         <Grid theme='loginOption'>
