@@ -11,7 +11,7 @@ function Onboarding() {
     };
 
     const onClickLogo = () => {
-        navigate('/main');
+        navigate('/');
     };
 
     return (

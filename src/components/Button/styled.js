@@ -26,6 +26,63 @@ const styles = {
 			background: '#ECCCB1',
 		},
 	},
+
+	//로그인
+	// 회원가입
+	signupBtn: {
+		color: '#5E4017',
+		cursor: 'pointer',
+		textDecorationLine: 'underline',
+		background: '#fff',
+		border: 'none',
+		paddingTop: 0,
+	},
+
+	signupBtn_: {
+		color: 'Black',
+		cursor: 'pointer',
+		background: '#fff',
+		border: 'none',
+		paddingTop: '7px',
+	},
+
+	startBtn: {
+		display: 'flex',
+		width: '260px',
+		padding: '8px',
+		margin: '10px 20px',
+		justifyContent: 'center',
+		textAlign: 'center',
+		fontWeight: 'bold',
+		borderRadius: '25px',
+		background: '#D99E73', 
+		fontSize: '20px',
+		color: '#fff',
+		'&:hover': {
+			background: '#ECCCB1',
+		},
+	},
+
+	emailcheckBtn: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		padding: 'px 10px',
+		backgroundColor: '#88bde7',
+		color: '#fff',
+		'&:hover': {
+			background: '#88BDE7',
+		},
+	},
+
+	loginBtn: {
+		borderRadius: '10px',
+		padding: '11.5px 5.5px',
+		display: 'flex',
+		alignItems: 'center',
+		border: '1px solid rgba(0, 0, 0, 0.2)',
+	},
+
 };
 
 export const StyledButton = styled(MuiButton)(({ theme }) => ({
