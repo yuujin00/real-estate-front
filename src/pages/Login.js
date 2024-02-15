@@ -152,8 +152,6 @@ function Login(){
 						<hr style={{ width: '50%', height: '3px', backgroundColor: '#ccc', border: 'none'}} />
 
 						<Grid theme='sloginFont'>소셜 로그인하기</Grid>
-
-
                         <Grid theme='loginOption_'>
                             <Button theme='loginBtn' onClick={handleClick}>
                                 <Img theme='loginImage_'src={naver} />
