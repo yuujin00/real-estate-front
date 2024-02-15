@@ -4,7 +4,7 @@ import Onboarding from './pages/Onboarding.js';
 import Main from './pages/Main.js';
 import Login from './pages/Login.js';
 import Signup from './pages/Signup.js';
-import ROBOTO from './assets/font/Jua-Regular.ttf';
+import ROBOTO from './assets/font/Cafe24OhsquareAir-v2.0.otf';
 
 const GlobalStyle = createGlobalStyle`
 @font-face {

@@ -129,7 +129,7 @@ function Signup() {
                         <Grid theme='registerForm'>
                             <TextField 
                                 id='name' 
-                                label='이름' 
+                                label='아이디' 
                                 variant='outlined' 
                                 size='small' 
                                 onChange={handleNameChange} 
@@ -153,8 +153,8 @@ function Signup() {
                                     size='small' 
                                     style={{ 
                                         fontSize: '12px',
-                                        padding: '2px 2px',
-                                        lineHeight: '1.2'
+                                        padding: '0px 5px 0px 10px',
+                                        lineHeight: '1.6'
                                     }}
                                 >
                                     {emailAlertMessage}
@@ -180,7 +180,7 @@ function Signup() {
                                     size='small' 
                                     style={{ 
                                         fontSize: '12px',
-                                        padding: '2px 2px',
+                                        padding: '0px 5px 0px 10px',
                                         lineHeight: '1.2'
                                     }}
                                 >

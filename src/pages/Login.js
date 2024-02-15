@@ -6,8 +6,8 @@ import { Grid, Button, Img } from '../components';
 import arrow from '../assets/images/arrow.png';
 import email1 from '../assets/images/email.png';
 import password1 from '../assets/images/password.png';
-import apple from '../assets/images/apple.png';
-import facebook from '../assets/images/facebook.png';
+import naver from '../assets/images/naver.png';
+import kakao from '../assets/images/kakao.png';
 import google from '../assets/images/google.png';
 
 
@@ -103,7 +103,7 @@ function Login(){
 						    <TextField 
 								id='name' 
 								type='name' 
-								label='아이디(이름)' 
+								label='아이디' 
 								variant='outlined' 
 								size='small' 
 								onChange={handleNameChange} />
@@ -120,44 +120,54 @@ function Login(){
                                 onChange={handlePasswordChange}
                             />
                         </Grid>
-						{successLogin ? null : (
-							<Alert severity='error' style={{ 
-								fontSize: '12px',
-								padding: '2px 2px',
-								lineHeight: '1.2'
-							}}>
-								<AlertTitle>로그인 실패</AlertTitle>
-								<strong>아이디</strong>와 <strong>비밀번호</strong>를 확인해보세요.
-							</Alert>
-						)}
+
 					</Grid>
 
 					<Grid theme='startGrid'>
 						<Button theme='startBtn' children='로그인' type='submit' />
 					</Grid>
 
-                    
-                    <Grid theme='loginForm_'>
+                    {successLogin ? null : (
+							<div style={{
+								width: '70%', // 너비를 내용에 맞게 조절
+								margin: 'auto',       // 가운데 정렬
+								padding:'0px 0px 10px',
+							}}>
+								<Alert 
+									severity='error' 
+									style={{ 
+										fontSize: '12px',
+										padding: '0px 5px 0px 10px',
+										lineHeight: '1.2'
+									}}
+								>
+									<AlertTitle>로그인 실패</AlertTitle>
+									<strong>아이디</strong>와 <strong>비밀번호</strong>를 확인해보세요.
+								</Alert>
+							</div>
+						)}
+
+                    <Grid theme='loginForm'>
 
 						<hr style={{ width: '50%', height: '3px', backgroundColor: '#ccc', border: 'none'}} />
 
 						<Grid theme='sloginFont'>소셜 로그인하기</Grid>
 
 
-                        <Grid theme='loginOption'>
+                        <Grid theme='loginOption_'>
                             <Button theme='loginBtn' onClick={handleClick}>
-                                <Img theme='loginImage_'src={facebook} />
+                                <Img theme='loginImage_'src={naver} />
                             </Button>
                             <Button theme='loginBtn' onClick={handleClick}>
                                 <Img theme='loginImage_'src={google} />
                             </Button>
                             <Button theme='loginBtn' onClick={handleClick}>
-                                <Img theme='loginImage_'src={apple} />
+                                <Img theme='loginImage__'src={kakao} />
                             </Button>
                         </Grid>
 
                         <Grid theme='loginOption'>
-                            <div style={{ marginTop: '2px', color: '#757575' }}>계정이 없으신가요?
+                            <div style={{ marginTop: '5px', color: '#757575' }}>계정이 없으신가요?
                             <Button theme='signupBtn' children='회원가입' onClick={onClickSignup} />
 							</div>
                         </Grid>

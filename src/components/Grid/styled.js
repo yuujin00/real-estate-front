@@ -92,7 +92,7 @@ const styles = {
 		textAlign: 'center',
 	},
 
-	loginForm_: {
+	loginForm: {
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
@@ -111,6 +111,13 @@ const styles = {
 		flexDirection: 'row',
 		justifyContent: 'center',
 		gap: 5,
+		fontSize: '14px',
+	},
+	loginOption_: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		gap: 12,
 		fontSize: '14px',
 	},
 	startGrid: {
