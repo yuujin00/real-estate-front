@@ -19,6 +19,11 @@ const styles = {
 		width: '20px', 
         height: '20px', 
 	},
+
+	loginImage__ : {
+		width: '28px', 
+        height: '28px', 
+	},
 };
 
 export const StyledImg = styled('img')(({ theme }) => ({

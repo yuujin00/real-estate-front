@@ -113,7 +113,7 @@ const styles = {
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'center',
-		gap: 18,
+		gap: 12,
 		fontSize: '14px',
 	},
 	startGrid: {

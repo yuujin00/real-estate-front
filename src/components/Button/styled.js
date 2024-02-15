@@ -37,8 +37,7 @@ const styles = {
 		textDecorationLine: 'underline',
 		background: '#fff',
 		border: 'none',
-		paddingTop: '0',
-		paddingBottom: '0',
+		padding: '3px 5px 1px',
 	},
 
 	signupBtn_: {
