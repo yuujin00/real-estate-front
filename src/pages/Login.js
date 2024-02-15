@@ -136,11 +136,14 @@ function Login(){
 						<Button theme='startBtn' children='로그인' type='submit' />
 					</Grid>
 
-                    <div style={{ height: '30px' }}></div>
-                    <hr style={{ width: '30%', height: '3px', backgroundColor: '#ccc', border: 'none'}} />
-                    <Grid theme='sloginFont'>소셜 로그인하기</Grid>
                     
-                    <Grid theme='loginForm'>
+                    <Grid theme='loginForm_'>
+
+						<hr style={{ width: '50%', height: '3px', backgroundColor: '#ccc', border: 'none'}} />
+
+						<Grid theme='sloginFont'>소셜 로그인하기</Grid>
+
+
                         <Grid theme='loginOption'>
                             <Button theme='loginBtn' onClick={handleClick}>
                                 <Img theme='loginImage_'src={facebook} />
@@ -164,9 +167,8 @@ function Login(){
                             <div style={{ marginTop: '10px', color: '#757575' }}>|</div>
                             <Button theme='signupBtn_' children='비밀번호 찾기' onClick={handleClick} />
                         </Grid>
-                        {showMessage && <div style={{fontSize:'10px'}}><center>현재 개발 진행 중에 있습니다.<br></br>빠른 시일 내에 제공하도록 하겠습니다.</center></div>}
+                        {showMessage && <div style={{fontSize:'14px'}}><center>현재 개발 진행 중에 있습니다.<br></br>빠른 시일 내에 제공하도록 하겠습니다.</center></div>}
                     </Grid>  
-
 				</form>
 			</Grid>
             </div>

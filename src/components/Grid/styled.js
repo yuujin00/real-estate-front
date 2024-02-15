@@ -92,7 +92,7 @@ const styles = {
 		textAlign: 'center',
 	},
 
-	loginForm: {
+	loginForm_: {
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
