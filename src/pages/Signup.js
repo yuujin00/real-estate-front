@@ -3,9 +3,10 @@ import instance from '../api/axios';
 import { Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import arrow from '../assets/images/arrow.png';
-import { TextField, Select, MenuItem } from '@mui/material';
+import { TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { Grid, Button, Img } from '../components';
 import JoinConsentModal from '../components/Join/JoinConsentModal';
+
 
 function Signup() {
     const navigate = useNavigate();
@@ -141,7 +142,11 @@ function Signup() {
                                 size='small' 
                                 onChange={handleEmailChange} 
                                 />
-                            <Button theme='signupBtn' onClick={handleEmailCheck} disabled={!signupData.email || !signupData.email.includes('@')}>사용 가능 여부 확인</Button>
+                            <Grid container alignItems="center" spacing={1} theme='signupBtnContainer' >
+                                <Grid item>
+                                    <Button theme='signupBtn' onClick={handleEmailCheck} disabled={!signupData.email || !signupData.email.includes('@')}>사용 가능 여부 확인</Button>
+                                </Grid>
+                            </Grid>
                             <div style={{ display: emailAlertMessage ? 'block' : 'none' }}>
                                 <Alert 
                                     severity={emailAlertSeverity} 
@@ -164,7 +169,11 @@ function Signup() {
                                 type='password'
                                 onChange={handlePasswordChange}
                             />
-                            <Button theme='signupBtn' onClick={handlePasswordCheck}>사용 가능 여부 확인</Button>
+                            <Grid container alignItems="center" spacing={1} theme='signupBtnContainer'>
+                                <Grid item>
+                                    <Button theme='signupBtn' onClick={handlePasswordCheck}>사용 가능 여부 확인</Button>
+                                </Grid>
+                            </Grid>
                             <div style={{ display: passwordAlertMessage ? 'block' : 'none' }}>
                                 <Alert 
                                     severity={passwordAlertSeverity} 
@@ -178,15 +187,19 @@ function Signup() {
                                     {passwordAlertMessage}
                                 </Alert>
                             </div>
-                            <Select 
-                                id='gender' 
-                                size='small' 
-                                value="man"
-                                onChange={handleGenderChange}
+                            <FormControl variant="outlined" size="small">
+                                <InputLabel id="gender-label">성별</InputLabel>
+                                <Select 
+                                    id='gender' 
+                                    label="성별"
+                                    labelId="gender-label"
+                                    value={signupData.gender} 
+                                    onChange={handleGenderChange}
                                 >
-                                <MenuItem value='man'>남성</MenuItem>
-                                <MenuItem value='woman'>여성</MenuItem>
-                            </Select>
+                                    <MenuItem value='man'>남성</MenuItem>
+                                    <MenuItem value='woman'>여성</MenuItem>
+                                </Select>
+                            </FormControl>
                             <TextField
                                 id='age'
                                 label='나이'

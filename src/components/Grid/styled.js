@@ -67,13 +67,9 @@ const styles = {
 	},
 	
 	loginFont: {
-		width: '100%',
-		margin: '0 auto',
-		display: 'center',
-		padding: '20px 130px',
-		fontWeight: 'bold',
-		fontSize: '30px',
-		textAlign: 'center',
+		margin: '10px',
+		paddingLeft: '60px',
+		fontSize: '18px',
 	},
 
 	JoinFont: {
@@ -96,7 +92,7 @@ const styles = {
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
-		padding: '0px 50px',
+		padding: '0px 30px',
 		gap: 15,
 	},
 	signForm: {
@@ -111,6 +107,13 @@ const styles = {
 		flexDirection: 'row',
 		justifyContent: 'center',
 		gap: 5,
+		fontSize: '14px',
+	},
+	loginOption_: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		gap: 18,
 		fontSize: '14px',
 	},
 	startGrid: {
