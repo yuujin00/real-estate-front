@@ -6,7 +6,7 @@ const styles = {
 		marginTop: 6,
 		color: '#D99E73',
 		textAlign: 'left',
-		fontSize: '28px',
+		fontSize: '20px',
 		fontWeight: 700,
 		width: '100px',
 	},
@@ -85,7 +85,31 @@ const styles = {
 		border: '1px solid rgba(0, 0, 0, 0.2)',
 	},
 
+
+	//메인
+	RegisStart : {
+		width: '100%',
+  		border: '2px solid #828282',
+ 		background: 'linear-gradient(to right, #ECCCB1, white)',/* 그라데이션 색상 설정 */
+ 		padding: '5px', /* 내부 여백 설정 */
+  		borderRadius: '5px', /* 버튼을 둥글게 만듦 */
+  		cursor: 'pointer', /* 커서 모양 설정 */
+	},
+
+	TransStart : {
+		width: '50%', /* 버튼의 너비 */
+ 		height: '100%',
+		border: '2px solid #828282',
+		borderRadius: '5px',
+		boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.5)',
+		color: '#fff',
+		'&:hover': {
+			background: 'rgba(236, 204, 177, 0.33);',
+		},
+	}
 };
+
+
 
 export const StyledButton = styled(MuiButton)(({ theme }) => ({
 	...(styles[theme] || {}),

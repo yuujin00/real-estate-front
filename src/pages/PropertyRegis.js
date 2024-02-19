@@ -1,3 +1,5 @@
 //매물 등록
 
-//ㅇㅇ
+function PropertyRegis(){}
+
+export default PropertyRegis;
