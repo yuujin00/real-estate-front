@@ -24,7 +24,8 @@ function OnboardingSlide({ handleButtonClick } ) {
 		},
 	];
 	return (
-		<>
+		<>	
+			<div style={{ height: '30px' }}></div>
 			<Carousel
 				autoPlay={false}
 				animation='slide'

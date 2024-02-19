@@ -11,13 +11,13 @@ function Onboarding() {
     };
 
     const onClickLogo = () => {
-        navigate('/');
+        navigate('/main');
     };
 
     return (
         <>
             <div style={onboardingWrap}>
-                <Grid theme='headerMain'>
+                <Grid theme='header_'>
                     <Button theme='headerTitle' onClick={onClickLogo} children='로고' />
                 </Grid>
 

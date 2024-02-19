@@ -12,20 +12,11 @@ const styles = {
 		alignItems: 'center',
 	},
 
-	headerMain: {
-		display: 'flex',
-		justifyContent: 'left',
-		margin: '10px 10px',
-	},
-
-	headerTitle: {
-		flex: 0.9,
-		marginTop: 6,
-		color: '#88BDE7',
-		textAlign: 'center',
-		fontSize: '28px',
-		fontWeight: 700,
-		marginRight: '18px',
+	header_: {
+  		top: 20,
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		padding: '20px 30px 0px 0px',
 	},
 	
 	onboardingSlide: {

@@ -24,6 +24,17 @@ const styles = {
 		width: '28px', 
         height: '28px', 
 	},
+
+	// 메인
+	checkmark : {
+		marginRight: '15px',
+	},
+
+	arrow_ : {
+		marginBottom: '5px',
+		marginLeft: '60px',
+		transform: 'rotate(180deg)',
+	},
 };
 
 export const StyledImg = styled('img')(({ theme }) => ({

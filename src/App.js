@@ -4,6 +4,10 @@ import Onboarding from './pages/Onboarding.js';
 import Main from './pages/Main.js';
 import Login from './pages/Login.js';
 import Signup from './pages/Signup.js';
+import PropertyRegis from './pages/PropertyRegis.js';
+import PropertyTrans from './pages/PropertyTrans.js';
+import Chat from './pages/Chat.js';
+import My from './pages/My.js';
 import ROBOTO from './assets/font/Cafe24OhsquareAir-v2.0.otf';
 
 const GlobalStyle = createGlobalStyle`
@@ -51,6 +55,10 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/main' element={<Main />} />
+          <Route path='/propertyRegis' element={<PropertyRegis />} />
+          <Route path='/propertyTrans' element={<PropertyTrans />} />
+          <Route path='/chat' element={<Chat />} />
+          <Route path='/my' element={<My />} />
 				</Routes>
 			</div>
 		</BrowserRouter>
