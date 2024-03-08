@@ -9,6 +9,9 @@ import PropertyTrans from './pages/PropertyTrans.js';
 import Chat from './pages/Chat.js';
 import My from './pages/My.js';
 import ROBOTO from './assets/font/Cafe24OhsquareAir-v2.0.otf';
+import DetailPage from './pages/DetailPage.js';
+import PropertyTransApart from './pages/PropertyTransApart.js';
+import DetailPageApart from './pages/DetailPageApart.js'
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -57,8 +60,11 @@ function App() {
           <Route path='/main' element={<Main />} />
           <Route path='/propertyRegis' element={<PropertyRegis />} />
           <Route path='/propertyTrans' element={<PropertyTrans />} />
+          <Route path='/propertyTransApart' element={<PropertyTransApart />} />
           <Route path='/chat' element={<Chat />} />
           <Route path='/my' element={<My />} />
+          <Route path="/detail/:id" element={<DetailPage />} />
+          <Route path="/detailapart/:id" element={<DetailPageApart />} />
 				</Routes>
 			</div>
 		</BrowserRouter>

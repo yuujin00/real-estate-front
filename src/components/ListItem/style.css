@@ -1,0 +1,40 @@
+.list {
+    border-radius: 10px;
+  overflow: hidden;
+ 
+}
+.list-item {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    text-decoration: none;
+    color: black;
+}
+
+.list-price {
+   display: flex;
+   flex-direction: column;
+   gap: 16px; 
+   font-size: 23px;
+}
+
+.placeholder-box {
+    width: 50px;
+    height: 50px;
+    background-color: #cccccc;
+    margin-right: 10px; 
+  }
+
+.list-location {
+  color: #585858;
+}
+
+.list-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-button-container {
+  margin-top: 10px; 
+}

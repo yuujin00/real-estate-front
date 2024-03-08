@@ -107,6 +107,8 @@ const styles = {
 			background: 'rgba(236, 204, 177, 0.33);',
 		},
 	}
+
+
 };
 
 
