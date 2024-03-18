@@ -25,20 +25,6 @@ pipeline {
             }
         }
 
-        stage('Build Gradle') {
-            steps {
-                echo 'Building Gradle'
-                dir('.'){
-                    sh './gradlew clean build'
-                }
-            }
-            post {
-                failure {
-                    error 'This pipeline stops here...'
-                }
-            }
-        }
-
         stage('Build Docker') {
             steps {
                 echo 'Building Docker'
@@ -69,13 +55,16 @@ pipeline {
             }
         }
 
-        stage('Docker Run') {
+        stage('Deploy Docker') {
             steps {
-                echo 'Pulling Docker Image & Running Docker Image'
-                sshagent(credentials: ['ssh']) {
-                    sh "ssh -o StrictHostKeyChecking=no front-server@3.34.49.3 'docker pull jenkins/jenkins:lts'"
-                    sh "ssh -o StrictHostKeyChecking=no front-server@3.34.49.3 'docker ps -q --filter name=jenkins | grep -q . && docker rm -f \$(docker ps -aq --filter name=jenkins)'"
-                    sh "ssh -o StrictHostKeyChecking=no front-server@3.34.49.3 'docker run -d --name jenkins -p 8080:8080 jenkins/jenkins:lts'"
+                echo 'Deploying Docker'
+                script {
+                    dockerImage.run('-d -p 8080:80 --name real-estate-app ' + imagename)
+                }
+            }
+            post {
+                failure {
+                    error 'This pipeline stops here...'
                 }
             }
         }
