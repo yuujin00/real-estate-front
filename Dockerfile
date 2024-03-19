@@ -20,7 +20,7 @@ FROM nginx:alpine
 COPY --from=0 /app/build /usr/share/nginx/html
 
 # 80 포트 열기
-EXPOSE 3000
+EXPOSE 80
 
 # Nginx 실행
 CMD ["nginx", "-g", "daemon off;"]
