@@ -37,6 +37,10 @@ function Main(){
         navigate('/propertyTrans');
     }
 
+    const onClickPropertyTransApart = () => {
+        navigate('/propertyTransApart');
+    }
+
     const onClickChat = () => {
         navigate('/chat');
     }
@@ -62,7 +66,7 @@ function Main(){
                 </Button>
 
                 <Grid theme='loginOption'>
-                    <Button theme='TransStart' onClick={onClickPropertyTrans} >
+                    <Button theme='TransStart' onClick={onClickPropertyTransApart} >
                         <div style={{fontSize:'20px', color:'Black',  textAlign: 'center'}}> 
                         <Img src={a} alt='a' />
                         <br></br>아파트</div>
