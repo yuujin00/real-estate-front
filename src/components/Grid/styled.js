@@ -49,6 +49,8 @@ const styles = {
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		padding: '20px 30px 0px 0px',
+		maxWidth:'390px',
+		backgroundColor : 'white',
 	},
 
 	signupFont: {
@@ -116,6 +118,28 @@ const styles = {
 		textAlign: 'center',
 		fontSize: '12px',
 		color: '#E7735A',
+	},
+
+	// 매물등록
+	RegisFont: {
+		position: 'fixed',
+		top:20,
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		padding: '24px 30px 0px 145px',
+		fontWeight: 'bold',
+		fontSize: '24px',
+		textAlign: 'center',
+	},
+
+	header__: {
+		position: 'fixed',
+  		top: 20,
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		padding: '20px 30px 0px 0px',
+		maxWidth:'390px',
+		backgroundColor : 'white',
 	},
 };
 

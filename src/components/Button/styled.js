@@ -106,10 +106,15 @@ const styles = {
 		'&:hover': {
 			background: 'rgba(236, 204, 177, 0.33);',
 		},
-	}
+	},
+	
+	// 매물등록
+	Upload : {
+		cursor: 'pointer',
+    	fontWeight: 'bold',
+    	marginLeft: '20px'
+	},
 };
-
-
 
 export const StyledButton = styled(MuiButton)(({ theme }) => ({
 	...(styles[theme] || {}),
