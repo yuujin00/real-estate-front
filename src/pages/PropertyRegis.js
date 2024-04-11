@@ -1,5 +1,113 @@
-//매물 등록
+import React, { useState, useEffect } from 'react';
+import MapPropertyRegis from '../components/Map/MapPropertyRegis.js';
+import PropertyOption from '../components/filter/PropertyOption.js';
+import PropertyAdd from '../components/filter/PropertyAdd.js';
+import PropertyImg from '../components/filter/PropertyImg.js';
+import { useNavigate } from 'react-router-dom';
+import { Grid, Img, Button } from '../components/index.js';
+import arrow from '../assets/images/arrow.png';
+import styled from "styled-components";
 
-function PropertyRegis(){}
+const PropertyRegis = () => {
+  const navigate = useNavigate();
+  const [address, setAddress] = useState('');
+  const [showArrow, setShowArrow] = useState(false);
+  const [btn, setBtn] = useState("매물옵션");
+
+  const handleButtonClick = (address) => {
+    setAddress(address);
+    setShowArrow(true);
+  };
+
+  const onClickArrow = () => {
+    navigate('/main');
+  };
+
+  const onClick = (event) => {
+    const {
+      currentTarget: { id },
+    } = event;
+    setBtn(id);
+  };
+
+  useEffect(() => {
+    const allBtnArr = ["매물옵션", "추가정보", "이미지업로드"];  
+    const nonTargetedBtnArr = allBtnArr.filter((item) => item !== btn);
+    const targetBtn = document.getElementById(btn);
+    if (targetBtn) {
+      targetBtn.style.color = "#D99E73";
+      targetBtn.style.borderBottomColor = "#D99E73"; // 선택된 버튼의 아래쪽 줄 색상 변경
+    }
+    nonTargetedBtnArr.forEach((item) => {
+      const nonTargetedBtn = document.getElementById(item);
+      if (nonTargetedBtn) {
+        nonTargetedBtn.style.color = "#979797";
+        nonTargetedBtn.style.borderBottomColor = "#979797"; // 선택되지 않은 버튼의 아래쪽 줄 색상 변경
+      }
+    });
+  }, [btn]);
+
+  return (
+    <>
+    <div style={PropertyRegisWrap}>
+      <MapPropertyRegis handleButtonClick={handleButtonClick} />
+      {showArrow && (
+        <>
+        <Grid theme='header__'>
+            <Button onClick={onClickArrow}>
+            <Img theme='arrow' src={arrow} alt='arrow' />
+          </Button>
+          <Grid theme='RegisFont'>매물등록</Grid>
+        <hr style={{ width: '390px', height: '3px', border: 'none', backgroundColor: '#979797' }} />
+        <ButtonContainer>
+          <StyledButton onClick={onClick} id="매물옵션">
+            매물옵션
+          </StyledButton>
+          <StyledButton onClick={onClick} id="추가정보">
+            추가정보
+          </StyledButton>
+          <StyledButton onClick={onClick} id="이미지업로드">
+            이미지업로드
+          </StyledButton>
+        </ButtonContainer>
+        </Grid>
+        <div style={{ height: '130px' }}></div>
+        </>
+      )}
+      
+        {/* 버튼에 따라 다른 컴포넌트를 렌더링 */}
+        {btn === "매물옵션" && <PropertyOption  address={address} />}
+        {btn === "추가정보" && <PropertyAdd  address={address}/>}
+        {btn === "이미지업로드" && <PropertyImg  address={address}/>}
+        
+    </div>
+    </>
+  );
+};
+
+const PropertyRegisWrap = {
+    height: '100%',
+};
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justifyContent: center,
+`;
+
+const StyledButton = styled.button`
+  color: black;
+  background-color: white;
+  border: none;
+  border-bottom: 3px solid transparent; /* 아래쪽에만 줄 보이도록 설정 */
+  padding: 5px;
+  width: 130px; /* 각 버튼의 너비 조절 */
+  cursor: pointer;
+  transition: border-color 0.3s ease, color 0.3s ease; /* 색상 변화에 대한 전환 효과 추가 */
+
+  &:hover {
+    border-bottom-color: #D99E73; /* 호버 시 아래쪽 줄 색상 변경 */
+    color: #D99E73; /* 호버 시 글자 색상 변경 */}
+`;
 
 export default PropertyRegis;
