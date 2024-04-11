@@ -15,7 +15,7 @@ RUN npm install
 # NODE_OPTIONS 환경 변수를 사용하여 메모리 제한을 늘립니다.
 # max_old_space_size 옵션은 Node.js에서 사용할 최대 힙 메모리 크기를 지정합니다.
 # 여기에서는 4GB로 설정했습니다. 필요에 따라 조정할 수 있습니다.
-RUN NODE_OPTIONS="--max_old_space_size=4096" npm run build
+RUN NODE_OPTIONS="--max_old_space_size=2048" npm run build
 
 # 런타임 이미지 선택
 FROM nginx:alpine
