@@ -46,8 +46,13 @@ function Signup() {
                 setEmailAlertMessage('사용 가능한 이메일입니다.');
             }
         } catch (error) {
+        if (error.response && error.response.status === 404) {
+            setEmailAlertSeverity('success');
+            setEmailAlertMessage('사용 가능한 이메일입니다.');
+        } else {
             setEmailAlertSeverity('error');
             setEmailAlertMessage('이미 존재하는 이메일입니다.');
+        }
         }
     };
 
