@@ -7,6 +7,7 @@ import Signup from './pages/Signup.js';
 import PropertyRegis from './pages/PropertyRegis.js';
 import PropertyTrans from './pages/PropertyTrans.js';
 import Chat from './pages/Chat.js';
+import Chatroom from './pages/Chatroom.js';
 import My from './pages/My.js';
 import ROBOTO from './assets/font/Cafe24OhsquareAir-v2.0.otf';
 import DetailPage from './pages/DetailPage.js';
@@ -62,6 +63,7 @@ function App() {
           <Route path='/propertyTrans' element={<PropertyTrans />} />
           <Route path='/propertyTransApart' element={<PropertyTransApart />} />
           <Route path='/chat' element={<Chat />} />
+          <Route path='/chatroom' element={<Chatroom />} />
           <Route path='/my' element={<My />} />
           <Route path="/detail/:id" element={<DetailPage />} />
           <Route path="/detailapart/:id" element={<DetailPageApart />} />
