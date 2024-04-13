@@ -5,6 +5,7 @@ import ComplaintIcon from "../components/Img/ComplaintIcon";
 import { FaHeart } from "react-icons/fa";
 import ListItem from "../components/ListItem/ListItem";
 
+
 const DetailPageApart = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -40,13 +41,14 @@ const DetailPageApart = () => {
     return <div>해당 상품이 존재하지 않습니다.</div>;
   }
   // 문의하기 버튼 클릭 처리 함수
-  const handleInquiry = (item) => {
-    navigate(`/inquiry/${item.id}`);
+const handleInquiry = () => {
+  navigate(`/chatroom?id=${selectedItem.id}`, { state: { createMember: selectedItem.id } });
   };
+
 
   // 계약하기 버튼 클릭 처리 함수
   const handleContract = (item) => {
-    navigate(`/contract/${item.id}`);
+    navigate(`/contract?id=${selectedItem.id}`);
   };
   return (
     <div>
@@ -184,7 +186,7 @@ const DetailPageApart = () => {
         />
 
         <InquiryButton style={{ marginRight: "10px" }}>
-          <StyledButton1 onClick={() => handleInquiry(selectedItem)}>
+          <StyledButton1 onClick={handleInquiry}>
             문의하기
           </StyledButton1>
         </InquiryButton>
