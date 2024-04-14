@@ -49,7 +49,7 @@ function Login(){
 
 		try {
 			const response = await instance.post(
-				'/user/login',
+				'/realEstate/user/login',
 				{
 					name: name,
 					password: password,

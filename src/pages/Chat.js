@@ -7,7 +7,7 @@ const Chat = () => {
   useEffect(() => {
     const fetchChatRooms = async () => {
       try {
-        const response = await axios.get('http://3.35.10.79:8080/chatroom');
+        const response = await axios.get('/chatroom');
         setChatRooms(response.data);
       } catch (error) {
         console.error('Error fetching chat rooms:', error);

@@ -20,7 +20,7 @@ function Signup() {
         password: '',
 		email: '',
 		gender : '',
-    	age : '',
+    	age : Number,
     });
 
     const handleNameChange = (event) => {
@@ -33,6 +33,7 @@ function Signup() {
     };
 
     const handleEmailCheck = async () => {
+        console.log('이메일 확인 데이터:', signupData);
         if (!signupData.email || !signupData.email.includes('@')) {
             setEmailAlertSeverity('error');
             setEmailAlertMessage('이메일을 입력해주세요.');
@@ -77,7 +78,7 @@ function Signup() {
     };
 
     const handleAgeChange = (event) => {
-        setSignupData({ ...signupData, age: event.target.value });
+        setSignupData({ ...signupData, age: parseInt(event.target.value) });
     };
 
     const handleCloseModal = () => {
@@ -89,7 +90,8 @@ function Signup() {
     const postSignupData = async (event) => {
         event.preventDefault();
         try {
-            const response = await instance.post('/user/join', signupData);
+            console.log('회원가입 데이터:', signupData); 
+            const response = await instance.post('realEstate/user/join', signupData);
 
             if (response.status === 200) {
                 alert('회원가입이 완료되었습니다.');
@@ -98,7 +100,7 @@ function Signup() {
 					password: '',
 					email: '',
 					gender : '',
-					age : '',
+					age : Number,
                 });
                 navigate('/login');
             } else if (response.data.message === '회원 가입을 실패했습니다. 이메일이 이미 존재합니다.') {
@@ -201,8 +203,8 @@ function Signup() {
                                     value={signupData.gender} 
                                     onChange={handleGenderChange}
                                 >
-                                    <MenuItem value='man'>남성</MenuItem>
-                                    <MenuItem value='woman'>여성</MenuItem>
+                                    <MenuItem value='MEN'>남성</MenuItem>
+                                    <MenuItem value='WOMEN'>여성</MenuItem>
                                 </Select>
                             </FormControl>
                             <TextField
