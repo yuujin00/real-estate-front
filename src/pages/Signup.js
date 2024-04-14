@@ -33,27 +33,19 @@ function Signup() {
     };
 
     const handleEmailCheck = async () => {
-        console.log('이메일 확인 데이터:', signupData);
-        if (!signupData.email || !signupData.email.includes('@')) {
-            setEmailAlertSeverity('error');
-            setEmailAlertMessage('이메일을 입력해주세요.');
-            return;
-        }
-
         try {
-            const response = await instance.post('/user/emailcheck', { email: signupData.email });
-            if (response.data) {
+            const response = await instance.post('realEstate/user/emailcheck', { email: signupData.email });
+            if (response.data.statusCode === 200) {
                 setEmailAlertSeverity('success');
                 setEmailAlertMessage('사용 가능한 이메일입니다.');
+            } else {
+                setEmailAlertSeverity('error');
+                setEmailAlertMessage('이미 존재하는 이메일입니다.');
             }
         } catch (error) {
-        if (error.response && error.response.status === 404) {
-            setEmailAlertSeverity('success');
-            setEmailAlertMessage('사용 가능한 이메일입니다.');
-        } else {
+            console.error('이메일 중복 체크 실패:', error);
             setEmailAlertSeverity('error');
             setEmailAlertMessage('이미 존재하는 이메일입니다.');
-        }
         }
     };
 
@@ -90,7 +82,6 @@ function Signup() {
     const postSignupData = async (event) => {
         event.preventDefault();
         try {
-            console.log('회원가입 데이터:', signupData); 
             const response = await instance.post('realEstate/user/join', signupData);
 
             if (response.status === 200) {
@@ -103,8 +94,8 @@ function Signup() {
 					age : Number,
                 });
                 navigate('/login');
-            } else if (response.data.message === '회원 가입을 실패했습니다. 이메일이 이미 존재합니다.') {
-                alert('회원 가입을 실패했습니다. 이메일이 이미 존재합니다.');
+            } else {
+                alert('회원가입에 실패했습니다.');
             }
         } catch (error) {
             console.log('회원가입 실패 ', error);
