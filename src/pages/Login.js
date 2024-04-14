@@ -13,7 +13,7 @@ import google from '../assets/images/google.png';
 
 function Login(){
     const navigate = useNavigate();
-	const [name, setName] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [successLogin, setSuccessLogin] = useState(true);
     const [showMessage, setShowMessage] = useState(false);
@@ -35,8 +35,8 @@ function Login(){
 
       
     // email input 값 변경 시 실행되는 함수
-	const handleNameChange = (event) => {
-		setName(event.target.value);
+	const handleEmailChange = (event) => {
+		setEmail(event.target.value);
 	};
 
 	// password input 값 변경 시 실행되는 함수
@@ -51,7 +51,7 @@ function Login(){
 			const response = await instance.post(
 				'/realEstate/user/login',
 				{
-					name: name,
+					email: email,
 					password: password,
 				},
 				{
@@ -62,11 +62,11 @@ function Login(){
 			console.log(response);
             // 토큰 값을 가져옴
 			const token = response.data.accessToken;
-			const userName = response.data.userName;
+			const userEmail = response.data.userEmail;
 			// 토큰을 LocalStorage에 저장
 			localStorage.setItem('token', token);
 			// 유저 이름을 LocalStorage에 저장
-			localStorage.setItem('userName', userName);
+			localStorage.setItem('userEmail', userEmail);
 
 			// 로그인 성공 처리
 			console.log('로그인 성공:');
@@ -78,7 +78,7 @@ function Login(){
 			setSuccessLogin(false);
 			console.error('로그인 실패:');
 		}
-		sessionStorage.setItem('name', name);
+		sessionStorage.setItem('email', email);
 	};
 
     return (
@@ -101,12 +101,12 @@ function Login(){
                         <Grid theme='loginOption'>
                             <Img theme='loginImage'src={email1} />
 						    <TextField 
-								id='name' 
-								type='name' 
-								label='아이디' 
+								id='email' 
+								type='email' 
+								label='이메일' 
 								variant='outlined' 
 								size='small' 
-								onChange={handleNameChange} />
+								onChange={handleEmailChange} />
                         </Grid>
                         
                         <Grid theme='loginOption'>
