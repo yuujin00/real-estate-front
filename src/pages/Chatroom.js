@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
-import axios from "axios";
+import axios from "../api/axios";
 
 import {
   MainContainer,
@@ -20,7 +20,7 @@ const Chatroom = ({ saleNo, createMember }) => {
     const fetchChatHistory = async () => {
       try {
         const response = await axios.get(
-          `http://3.35.10.79:8080/chatroom/${chatRoomId}`
+          `/chatroom/${chatRoomId}`
         );
         const chatList = response.data.chatList;
         // 이전 채팅 내역을 메시지로 변환하여 상태에 설정
@@ -75,7 +75,7 @@ const Chatroom = ({ saleNo, createMember }) => {
     const createChatRoom = async () => {
       try {
         const response = await axios.post(
-          "http://3.35.10.79:8080/chatroom",
+          "/chatroom",
           {
             saleNo,
             createMember,
@@ -92,7 +92,7 @@ const Chatroom = ({ saleNo, createMember }) => {
 
   const handleSend = async (input) => {
     try {
-      await axios.post(`http://3.35.10.79:8080/chatroom/message`, {
+      await axios.post(`/chatroom/message`, {
         chatNo: chatRoomId,
         contentType: "text",
         content: input,
@@ -113,7 +113,7 @@ const Chatroom = ({ saleNo, createMember }) => {
     }
   };
 
-  const handleSendd = async (input) => {
+  const handleSendd = (input) => {
     try {
       // 사용자가 보낸 메시지를 화면에 표시
       setMessages([
