@@ -23,6 +23,9 @@ FROM nginx:alpine
 # 빌드 파일을 Nginx 서버의 루트 디렉터리로 복사
 COPY --from=0 /app/build /usr/share/nginx/html
 
+# 사용자 정의 Nginx 설정 파일 복사
+COPY ./default.conf /etc/nginx/conf.d/default.conf
+
 # 80 포트 열기
 EXPOSE 80
 
