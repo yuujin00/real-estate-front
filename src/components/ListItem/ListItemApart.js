@@ -1,42 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import "./style.css";
 
 export default function ListItem() {
-  // 연동 전 데모 데이터
-  const demoData = [
-    {
-      title: "두호SK뷰푸르지오1단지 103동 2층",
-      price: "전세 3억 7천",
-      content: "영일대 15분, 학군 밀집지역",
-      id: 1,
-    },
-    {
-      title: "임페리얼",
-      price: "전세 1억",
-      content: "일이삼사오육칠팔구십일일일",
-      id: 2,
-    },
-    {
-      title: "임페리얼",
-      price: "전세 1억",
-      content: "일이삼사오육칠팔구십일일일",
-      id: 3,
-    },
-  ];
+  const [propertyData, setPropertyData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://3.35.10.79:8080/realEstate/property/list");
+      setPropertyData(response.data.result.content); 
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
     <div className="list">
-      {demoData.map((item) => (
-        <Link key={item.id} to={`/detailapart/${item.id}`} className="list-item">
+      {propertyData.map((item) => (
+        <Link key={item.propertyId} to={`/detailapart/${item.propertyId}`} className="list-item">
           <div className="list-image">
-            <div className="placeholder-box"></div>
+            {/* {item.imageUrls.length > 0 && <img src={item.imageUrls[0]} alt="Property" />} */}
           </div>
           <div className="list-details">
-            <div className="list-title">{item.title}</div>
+            <div className="list-title">{item.address.streetAddress}</div>
             <div className="list-price">{item.price}</div>
             <div className="list-deta">
-              <div className="list-location">{item.content}</div>
+              <div className="list-location">{item.address.city}</div>
               <div className="list-button-container">
                 <button
                   style={{
