@@ -20,7 +20,7 @@ function Signup() {
         password: '',
 		email: '',
 		gender : '',
-    	age : '',
+    	age : Number,
     });
 
     const handleNameChange = (event) => {
@@ -33,19 +33,17 @@ function Signup() {
     };
 
     const handleEmailCheck = async () => {
-        if (!signupData.email || !signupData.email.includes('@')) {
-            setEmailAlertSeverity('error');
-            setEmailAlertMessage('이메일을 입력해주세요.');
-            return;
-        }
-
         try {
-            const response = await instance.post('/user/emailcheck', { email: signupData.email });
-            if (response.data) {
+            const response = await instance.post('realEstate/user/emailcheck', { email: signupData.email });
+            if (response.data.statusCode === 200) {
                 setEmailAlertSeverity('success');
                 setEmailAlertMessage('사용 가능한 이메일입니다.');
+            } else {
+                setEmailAlertSeverity('error');
+                setEmailAlertMessage('이미 존재하는 이메일입니다.');
             }
         } catch (error) {
+            console.error('이메일 중복 체크 실패:', error);
             setEmailAlertSeverity('error');
             setEmailAlertMessage('이미 존재하는 이메일입니다.');
         }
@@ -72,7 +70,7 @@ function Signup() {
     };
 
     const handleAgeChange = (event) => {
-        setSignupData({ ...signupData, age: event.target.value });
+        setSignupData({ ...signupData, age: parseInt(event.target.value) });
     };
 
     const handleCloseModal = () => {
@@ -84,7 +82,7 @@ function Signup() {
     const postSignupData = async (event) => {
         event.preventDefault();
         try {
-            const response = await instance.post('/user/join', signupData);
+            const response = await instance.post('realEstate/user/join', signupData);
 
             if (response.status === 200) {
                 alert('회원가입이 완료되었습니다.');
@@ -93,11 +91,11 @@ function Signup() {
 					password: '',
 					email: '',
 					gender : '',
-					age : '',
+					age : Number,
                 });
                 navigate('/login');
-            } else if (response.data.message === '회원 가입을 실패했습니다. 이메일이 이미 존재합니다.') {
-                alert('회원 가입을 실패했습니다. 이메일이 이미 존재합니다.');
+            } else {
+                alert('회원가입에 실패했습니다.');
             }
         } catch (error) {
             console.log('회원가입 실패 ', error);
@@ -196,8 +194,8 @@ function Signup() {
                                     value={signupData.gender} 
                                     onChange={handleGenderChange}
                                 >
-                                    <MenuItem value='man'>남성</MenuItem>
-                                    <MenuItem value='woman'>여성</MenuItem>
+                                    <MenuItem value='MEN'>남성</MenuItem>
+                                    <MenuItem value='WOMEN'>여성</MenuItem>
                                 </Select>
                             </FormControl>
                             <TextField
