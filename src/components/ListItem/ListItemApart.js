@@ -13,7 +13,7 @@ export default function ListItem() {
   const fetchData = async () => {
     try {
       const response = await axios.get("http://3.35.10.79:8080/realEstate/property/list");
-      setPropertyData(response.data.result.content); // Update state with content array
+      setPropertyData(response.data.result.content); 
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -24,7 +24,6 @@ export default function ListItem() {
       {propertyData.map((item) => (
         <Link key={item.propertyId} to={`/detailapart/${item.propertyId}`} className="list-item">
           <div className="list-image">
-            {/* Assuming there's an image */}
             {/* {item.imageUrls.length > 0 && <img src={item.imageUrls[0]} alt="Property" />} */}
           </div>
           <div className="list-details">

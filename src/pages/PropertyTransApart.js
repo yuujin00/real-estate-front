@@ -15,8 +15,7 @@ export default function PropertyTransApart() {
   const [monthlyRent, setMonthlyRent] = useState([0, 100]);
   const [includeMaintenance, setIncludeMaintenance] = useState(false);
   const [salesPrice, setSalesPrice] = useState([0, 1000000]);
-  const [filtersApplied, setFiltersApplied] = useState(false); // 필터 적용 여부 상태
-
+  const [filtersApplied, setFiltersApplied] = useState(false); 
   const handleToggleFilters = () => {
     setShowFilters(!showFilters);
   };
