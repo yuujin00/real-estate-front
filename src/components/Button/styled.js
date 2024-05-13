@@ -106,7 +106,7 @@ const styles = {
 		'&:hover': {
 			background: 'rgba(236, 204, 177, 0.33);',
 		},
-<<<<<<< HEAD
+
 	},
 	
 	// 매물등록
@@ -115,12 +115,9 @@ const styles = {
     	fontWeight: 'bold',
     	marginLeft: '20px'
 	},
-=======
+
 	}
 
-
->>>>>>> fc310ab89dfd12eb623f983034cf25b5acd53d32
-};
 
 export const StyledButton = styled(MuiButton)(({ theme }) => ({
 	...(styles[theme] || {}),
