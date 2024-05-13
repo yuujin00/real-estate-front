@@ -103,7 +103,7 @@ const DetailPageApart = () => {
       {/* 상세 설명 */}
       <div className="description" style={{ marginLeft: "20px" }}>
         <h3>상세 설명</h3>
-       
+ 
       </div>
 
       <hr />
@@ -150,7 +150,7 @@ const DetailPageApart = () => {
       {/* 문의하기, 계약하기 버튼 */}
       <InquiryContractContainer style={{ marginBottom: "20px" }}>
         <div style={{ display: "flex", alignItems: "center" }}></div>
-        {/* 하트 버튼 */}
+        {/* 하트 버튼 !!!!!!!!!!!!!!*/}
         <FaHeart
           style={{
             fontSize: "24px",
