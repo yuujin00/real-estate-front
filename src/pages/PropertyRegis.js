@@ -12,6 +12,7 @@ const PropertyRegis = () => {
   const navigate = useNavigate();
   const [address, setAddress] = useState('');
   const [showArrow, setShowArrow] = useState(false);
+  const [showMap, setShowMap] = useState(true);
   const [btn, setBtn] = useState("매물옵션");
 
   const handleButtonClick = (address) => {
@@ -31,7 +32,7 @@ const PropertyRegis = () => {
   };
 
   useEffect(() => {
-    const allBtnArr = ["매물옵션", "추가정보", "이미지업로드"];  
+    const allBtnArr = ["매물옵션", "추가정보", "이미지업로드"];
     const nonTargetedBtnArr = allBtnArr.filter((item) => item !== btn);
     const targetBtn = document.getElementById(btn);
     if (targetBtn) {
@@ -49,50 +50,51 @@ const PropertyRegis = () => {
 
   return (
     <>
-    <div style={PropertyRegisWrap}>
-      <MapPropertyRegis handleButtonClick={handleButtonClick} />
-      {showArrow && (
+    <PropertyRegisWrap>
+      {showMap && (
         <>
-        <Grid theme='header__'>
-            <Button onClick={onClickArrow}>
-            <Img theme='arrow' src={arrow} alt='arrow' />
-          </Button>
-          <Grid theme='RegisFont'>매물등록</Grid>
-        <hr style={{ width: '390px', height: '3px', border: 'none', backgroundColor: '#979797' }} />
-        <ButtonContainer>
-          <StyledButton onClick={onClick} id="매물옵션">
-            매물옵션
-          </StyledButton>
-          <StyledButton onClick={onClick} id="추가정보">
-            추가정보
-          </StyledButton>
-          <StyledButton onClick={onClick} id="이미지업로드">
-            이미지업로드
-          </StyledButton>
-        </ButtonContainer>
-        </Grid>
-        <div style={{ height: '130px' }}></div>
+        <MapPropertyRegis handleButtonClick={handleButtonClick} />
         </>
       )}
       
-        {/* 버튼에 따라 다른 컴포넌트를 렌더링 */}
-        {btn === "매물옵션" && <PropertyOption  address={address} />}
-        {btn === "추가정보" && <PropertyAdd  address={address}/>}
-        {btn === "이미지업로드" && <PropertyImg  address={address}/>}
-        
-    </div>
+      {showArrow && (
+        <>
+          <ButtonContainer>
+              <StyledButton onClick={onClick} id="매물옵션">
+                매물옵션
+              </StyledButton>
+              <StyledButton onClick={onClick} id="추가정보">
+                추가정보
+              </StyledButton>
+              <StyledButton onClick={onClick} id="이미지업로드">
+                이미지업로드
+              </StyledButton>
+            </ButtonContainer>
+          {/* 버튼에 따라 다른 컴포넌트를 렌더링 */}
+          {btn === "매물옵션" && <PropertyOption  address={address} />}
+          {btn === "추가정보" && <PropertyAdd  address={address}/>}
+          {btn === "이미지업로드" && <PropertyImg  address={address}/>}
+        </>
+      )}
+    </PropertyRegisWrap>
     </>
   );
 };
 
-const PropertyRegisWrap = {
-    height: '100%',
-};
+
+
+const PropertyRegisWrap = styled.div`
+  margin-top : 80px;
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justifyContent: center,
+  justify-content: space-between;
+
+  margin-top: 100px;
+  margin-bottom: 50px;
+  padding: 10px;
 `;
 
 const StyledButton = styled.button`
@@ -101,7 +103,7 @@ const StyledButton = styled.button`
   border: none;
   border-bottom: 3px solid transparent; /* 아래쪽에만 줄 보이도록 설정 */
   padding: 5px;
-  width: 130px; /* 각 버튼의 너비 조절 */
+  width: 100px; /* 각 버튼의 너비 조절 */
   cursor: pointer;
   transition: border-color 0.3s ease, color 0.3s ease; /* 색상 변화에 대한 전환 효과 추가 */
 

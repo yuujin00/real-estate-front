@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import axios from "../api/axios";
+import UnderBar from '../components/Bar/MainUnderBar.js';
 
 import {
   MainContainer,
@@ -12,83 +14,47 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 
 
-const Chatroom = ({ saleNo, createMember }) => {
+const Chatroom = () => {
   const [messages, setMessages] = useState([]);
   const [chatRoomId, setChatRoomId] = useState(null);
+  const createMember = localStorage.getItem('userInfo');
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get("id");
 
-  useEffect(() => {
-    const fetchChatHistory = async () => {
-      try {
-        const response = await axios.get(
-          `/chatroom/${chatRoomId}`
-        );
-        const chatList = response.data.chatList;
-        // 이전 채팅 내역을 메시지로 변환하여 상태에 설정
-        const formattedMessages = chatList.map(chat => ({
-          model: {
-            message: chat.message,
-            direction: chat.direction === "outgoing" ? "outgoing" : "incoming",
-          },
-        }));
-        setMessages(formattedMessages);
-      } catch (error) {
-        console.error("Error fetching chat history:", error);
-      }
-    };
-
-    if (chatRoomId) {
-      fetchChatHistory();
+  const createChatRoom = async (saleNo, createMember) => {
+    console.log('Chatroom', id);
+    try {
+      const response = await axios.post(
+        "/chatroom",
+        {
+          saleNo: id,
+          createMember,
+        }
+      );
+      setChatRoomId(response.data.id);
+    } catch (error) {
+      console.error("Error creating chat room:", error);
     }
-  }, [chatRoomId]);
+  };
 
-  // 가짜 내역
-  useEffect(() => {
-    const fakeChatHistory = [
-      {
-        message: "안녕하세요!",
-        direction: "incoming"
-      },
-      {
-        message: "안녕하세요! 반갑습니다.",
-        direction: "outgoing"
-      },
-      {
-        message: "좋은 아침이에요.",
-        direction: "incoming"
-      },
-      {
-        message: "네, 맞아요. 좋은 아침입니다!",
-        direction: "outgoing"
-      }
-    ];
-
-    const formattedMessages = fakeChatHistory.map(chat => ({
-      model: {
-        message: chat.message,
-        direction: chat.direction === "outgoing" ? "outgoing" : "incoming",
-      },
-    }));
-    setMessages(formattedMessages);
-  }, []);
-
-  useEffect(() => {
-    const createChatRoom = async () => {
-      try {
-        const response = await axios.post(
-          "/chatroom",
-          {
-            saleNo,
-            createMember,
-          }
-        );
-        setChatRoomId(response.data.id);
-      } catch (error) {
-        console.error("Error creating chat room:", error);
-      }
-    };
-
-    createChatRoom();
-  }, [saleNo,createMember]);
+  const fetchChatHistory = async () => {
+    try {
+      const response = await axios.get(
+        `/chatroom/${chatRoomId}`
+      );
+      const chatList = response.data.chatList;
+      const formattedMessages = chatList.map(chat => ({
+        model: {
+          message: chat.message,
+          direction: chat.direction === "outgoing" ? "outgoing" : "incoming",
+        },
+      }));
+      setMessages(formattedMessages);
+    } catch (error) {
+      console.error("Error fetching chat history:", error);
+    }
+  };
 
   const handleSend = async (input) => {
     try {
@@ -96,7 +62,7 @@ const Chatroom = ({ saleNo, createMember }) => {
         chatNo: chatRoomId,
         contentType: "text",
         content: input,
-        saleNo
+        saleNo: id
       });
       // 사용자가 보낸 메시지를 화면에 표시
       setMessages([
@@ -130,12 +96,17 @@ const Chatroom = ({ saleNo, createMember }) => {
     }
   };
 
+  useEffect(() => {
+    createChatRoom();
+  }, []);
+
+
   return (
     <div>
       <div style={{ position: "relative", height: "500px" }}>
         <h2>채팅방 정보</h2>
-        <p>닉네임: {saleNo}</p>
-        <p>매물 번호: {createMember}</p>
+        <p>닉네임: {createMember}</p>
+        <p>매물 번호: {id}</p>
         <MainContainer>
           <ChatContainer>
             <MessageList>

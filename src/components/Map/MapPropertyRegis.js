@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Grid, Button, Img } from '..';
-//import UnderBar from '../components/Bar/MapBar.js';
+import styled from 'styled-components';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 const MapPropertyRegis = ({ handleButtonClick }) => {
   const mapRef = useRef(null);
@@ -8,52 +11,59 @@ const MapPropertyRegis = ({ handleButtonClick }) => {
   const [infoWindow, setInfoWindow] = useState(null);
   const [address, setAddress] = useState('');
   const [searchResult, setSearchResult] = useState('');
-  const [marker, setMarker] = useState(null); // 마커 상태 추가
+  const [marker, setMarker] = useState(null); 
   const [isVisible, setIsVisible] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleChangeAddress = (e) => {
+    setAddress(e.target.value);
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  
 
   useEffect(() => {
     const { naver } = window;
-
+  
     const latitude = 37.3595316; // 임의의 위도 값
     const longitude = 127.1052133; // 임의의 경도 값
     const location = new naver.maps.LatLng(latitude, longitude);
-
+  
     const mapOptions = {
       center: location,
       zoom: 15,
       mapTypeControl: true
     };
-
+  
+    if (!mapRef.current) return; // Check if map container exists before initializing map
+  
     const mapInstance = new naver.maps.Map(mapRef.current, mapOptions);
     map.current = mapInstance;
-
+  
     const infoWindowInstance = new naver.maps.InfoWindow({
       anchorSkew: true
     });
-
+  
     setInfoWindow(infoWindowInstance);
-
+  
     mapInstance.setCursor('pointer');
-
+  
     mapInstance.addListener('click', function(e) {
       searchCoordinateToAddress(e.coord);
     });
-
-    // 기본 위치에 마커 추가
-    const defaultLatLng = new naver.maps.LatLng(latitude, longitude);
-    const defaultMarker = new naver.maps.Marker({
-      position: defaultLatLng,
-      map: mapInstance
-    });
-    setMarker(defaultMarker);
-
-    searchAddressToCoordinate('정자동 178-1');
+  
+    // Rest of the code remains unchanged
   }, []);
 
   const searchCoordinateToAddress = (latlng) => {
-    if (!infoWindow) return; // infoWindow가 null인 경우 함수 종료
-    // infoWindow가 null이 아닐 때에만 close() 메서드 호출
+    if (!infoWindow) return;
+
     if (infoWindow) {
       infoWindow.close();
     }
@@ -97,8 +107,8 @@ const MapPropertyRegis = ({ handleButtonClick }) => {
     if (!infoWindow) return;
 
     if (infoWindow) {
-        infoWindow.close();
-      }
+      infoWindow.close();
+    }
 
     const { naver } = window;
     naver.maps.Service.geocode({
@@ -145,7 +155,6 @@ const MapPropertyRegis = ({ handleButtonClick }) => {
         });
         setMarker(newMarker);
       }
-  
     })
   };
 
@@ -243,34 +252,76 @@ const MapPropertyRegis = ({ handleButtonClick }) => {
     setIsVisible(false); 
   };
 
-  const handleChangeAddress = (e) => {
-    setAddress(e.target.value);
-  };
-
   if (!isVisible) {
-    return null; // isVisible이 false이면 컴포넌트를 렌더링하지 않음
+    return null;
   }
 
   return (
-    <div style={mainWrap}>
-      <div>
-        <input id="address" type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-        <button id="submit" onClick={() => searchAddressToCoordinate(address)}>검색</button>
-      </div>
-      <div id="map" style={{ width: '390px', height: '520px' }} ref={mapRef} />
-      <div style={{ bottom: 0, left: 0, width: '100%', maxWidth: '390px', Height: '250px', backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-        <div style={{ marginBottom: '10px', textAlign: 'center' }}>이 주소가 맞나요?</div>
-        <div id="searchResult" dangerouslySetInnerHTML={{ __html: searchResult }}/>
-        <Grid theme='startGrid'>
-						<Button theme='startBtn' children='확인' onClick={handleClickConfirm}/>
-		</Grid>
-       </div>
-    </div>
+    <>
+      <Container>
+      <SearchContainer>
+        <TextField
+          id="address"
+          label="Address"
+          variant="outlined"
+          value={address}
+          onChange={handleChangeAddress}
+        />
+        <Button id="submit" onClick={() => searchAddressToCoordinate(address)}>검색</Button>
+        <Button id="submit" onClick={handleOpenModal}>등록</Button>
+
+      </SearchContainer>
+      <MapContainer id="map" ref={mapRef} />
+      <Modal
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <ModalContent>
+          <div>이 주소가 맞나요?</div>
+          <br/>
+          <div id="searchResult" dangerouslySetInnerHTML={{ __html: searchResult }} />
+          <Grid theme='startGrid'>
+            <Button theme='startBtn' children='확인' onClick={handleClickConfirm} />
+          </Grid>
+        </ModalContent>
+      </Modal>
+    </Container>
+    </>
+
   );
 };
 
-const mainWrap = {
-    height: '100%',
-};
+const Container = styled.div`
+  height: 100%;
+`;
+
+const SearchContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
+
+const MapContainer = styled.div`
+  width: 390px;
+  height: 520px;
+`;
+
+const ModalContent = styled.div`
+  position: absolute;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  right: 10%; 
+  top: 30px;
+  max-width: 70%; 
+  max-height: 80%; 
+  overflow: auto; 
+`;
+
+
 
 export default MapPropertyRegis;

@@ -4,6 +4,7 @@ import MuiButton from '@mui/material/Button';
 const styles = {
 	headerTitle: {
 		marginTop: 6,
+		marginLeft: 20,
 		color: '#D99E73',
 		textAlign: 'left',
 		fontSize: '20px',
