@@ -31,7 +31,7 @@ const PropertyRegis = () => {
   };
 
   useEffect(() => {
-    const allBtnArr = ["매물옵션", "추가정보", "이미지업로드"];  
+    const allBtnArr = ["매물옵션", "추가정보", "이미지업로드"];
     const nonTargetedBtnArr = allBtnArr.filter((item) => item !== btn);
     const targetBtn = document.getElementById(btn);
     if (targetBtn) {

@@ -13,7 +13,7 @@ const styles = {
 	},
 
 	header_: {
-  		top: 20,
+		position: 'fixed',
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		padding: '20px 30px 0px 0px',

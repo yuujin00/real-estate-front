@@ -17,7 +17,9 @@ const DetailPageApart = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`http://3.35.10.79:8080/realEstate/property/list`);
+      console.log('선택한 아파트',response.data.result.content[0]);
       setSelectedItem(response.data.result.content[0]); // API에서 받아온 데이터의 첫 번째 항목으로 상태 업데이트
+      localStorage.setItem('userInfo', response.data.result.content[0].user.userId);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -25,7 +27,7 @@ const DetailPageApart = () => {
 
   // 문의하기 버튼 클릭 처리 함수
   const handleInquiry = () => {
-    navigate(`/chatroom?id=${selectedItem.id}`, { state: { createMember: selectedItem.id } });
+    navigate(`/chatroom?id=${selectedItem.address.addressId}`, { state: { createMember: selectedItem.id } });
   };
 
   // 계약하기 버튼 클릭 처리 함수

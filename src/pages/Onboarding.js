@@ -17,10 +17,6 @@ function Onboarding() {
     return (
         <>
             <div style={onboardingWrap}>
-                <Grid theme='header_'>
-                    <Button theme='headerTitle' onClick={onClickLogo} children='로고' />
-                </Grid>
-
                 <Grid theme='onboardingSlide'>
 					<OnboardingSlide handleButtonClick={handleButtonClick} />
                 </Grid>

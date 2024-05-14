@@ -25,10 +25,6 @@ export const theme = createTheme({
 function Main(){
     const navigate = useNavigate();
 
-    const onClickLogo = () => {
-        navigate('/main');
-    };
-
     const onClickPropertyRegis = () => {
         navigate('/propertyRegis');
     }
@@ -48,10 +44,6 @@ function Main(){
     return(
         <>  
             <div style={mainWrap}>
-            <Grid theme='header_'>
-                    <Button theme='headerTitle' onClick={onClickLogo} children='로고' />
-            </Grid>
-
             <div style={{ height: '30px' }}></div>
 
             <div style={{ fontSize: '24px', fontWeight: 'bold', marginLeft: '30px', color: 'black' }}>부동산 원스톱 전자계약</div>

@@ -253,7 +253,7 @@ const MapPropertyRegis = ({ handleButtonClick }) => {
 
   return (
     <div style={mainWrap}>
-      <div>
+      <div style={wrap}>
         <input id="address" type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
         <button id="submit" onClick={() => searchAddressToCoordinate(address)}>검색</button>
       </div>
@@ -272,5 +272,12 @@ const MapPropertyRegis = ({ handleButtonClick }) => {
 const mainWrap = {
     height: '100%',
 };
+
+const wrap = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '20px'
+}
 
 export default MapPropertyRegis;
