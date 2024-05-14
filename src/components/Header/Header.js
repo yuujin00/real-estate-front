@@ -8,7 +8,7 @@ function Header({ onBackButtonClick }) {
 	return (
 		<>
 			<Grid theme='header_'>
-                <Button theme='headerTitle' children='로고' />
+                <Button theme='headerTitle' children='부동맞춤' />
             </Grid>
 		</>
 	);

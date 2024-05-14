@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, Tabs, Tab } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
@@ -17,9 +17,9 @@ function MainUnderBar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (location.pathname === '/main') {
       setIndex(0);
     } else if (location.pathname === '/my') {
@@ -40,18 +40,15 @@ function MainUnderBar() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          bottom: 0,
-          left: 0,
+          marginTop: '73px',
           width: '100%',
-          maxHeight: '720px', // 바텀 네비게이션의 최대 높이 설정
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'center'
         }}
       >
         <Box
           sx={{
             width: '100%',
-            maxWidth: '390px', // 최대 너비 설정
             borderTop: '2px solid #DADADA',
             backgroundColor: '#FFFFFF',
           }}

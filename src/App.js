@@ -50,7 +50,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
 .wrap {
-  margin-top : 71px;
+  margin-top : 80px;
 }
 
 `;
