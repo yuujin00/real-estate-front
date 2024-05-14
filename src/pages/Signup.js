@@ -110,13 +110,6 @@ function Signup() {
     return (
         <>
             <div style={loginWrap}>
-                <Grid theme='header'>
-                    <Button onClick={onClickArrow}>
-                        <Img theme='arrow' src={arrow} alt='arrow' />
-                    </Button>
-                </Grid>
-
-                
                 <div style={{ height: '70px' }}></div>
 
                 <Grid theme='onboardingSlide'>
