@@ -84,7 +84,7 @@ function Main(){
                     </Grid>
                     
                     <ThemeProvider theme={theme}>
-                        <Fab color="primary" style={{ position: 'fixed', right: '35%', top: '60%'}} onClick={onClickChat}>
+                        <Fab color="primary" style={{ position: 'fixed', right: '10%', top: '60%'}} onClick={onClickChat}>
                             <div style={{ fontSize: '7px', color: 'Black', textAlign: 'center' }}>
                                 <Img src={message} alt='message' />
                             </div>
