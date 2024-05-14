@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import axios from "../api/axios";
+import UnderBar from '../components/Bar/MainUnderBar.js';
 
 import {
   MainContainer,
@@ -43,7 +44,6 @@ const Chatroom = () => {
         `/chatroom/${chatRoomId}`
       );
       const chatList = response.data.chatList;
-      // 이전 채팅 내역을 메시지로 변환하여 상태에 설정
       const formattedMessages = chatList.map(chat => ({
         model: {
           message: chat.message,
