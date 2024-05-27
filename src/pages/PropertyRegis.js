@@ -4,9 +4,7 @@ import PropertyOption from '../components/filter/PropertyOption.js';
 import PropertyAdd from '../components/filter/PropertyAdd.js';
 import PropertyImg from '../components/filter/PropertyImg.js';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Img, Button } from '../components/index.js';
-import arrow from '../assets/images/arrow.png';
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const PropertyRegis = () => {
   const navigate = useNavigate();
@@ -48,68 +46,82 @@ const PropertyRegis = () => {
     });
   }, [btn]);
 
+  // 페이지 초기 로드 시 기본 버튼 색상 설정
+  useEffect(() => {
+    const initialBtn = document.getElementById("매물옵션");
+    if (initialBtn) {
+      initialBtn.style.color = "#D99E73";
+      initialBtn.style.borderBottomColor = "#D99E73";
+    }
+  }, []);
+
   return (
     <>
-    <PropertyRegisWrap>
-      {showMap && (
-        <>
-        <MapPropertyRegis handleButtonClick={handleButtonClick} />
-        </>
-      )}
-      
-      {showArrow && (
-        <>
-          <ButtonContainer>
-              <StyledButton onClick={onClick} id="매물옵션">
+      <PropertyRegisWrap>
+        {showMap && (
+          <>
+            <MapPropertyRegis handleButtonClick={handleButtonClick} />
+          </>
+        )}
+
+        {showArrow && (
+          <>
+            <ButtonContainer>
+              <StyledButton onClick={onClick} id="매물옵션" active={btn === "매물옵션"}>
                 매물옵션
               </StyledButton>
-              <StyledButton onClick={onClick} id="추가정보">
+              <StyledButton onClick={onClick} id="추가정보" active={btn === "추가정보"}>
                 추가정보
               </StyledButton>
-              <StyledButton onClick={onClick} id="이미지업로드">
+              <StyledButton onClick={onClick} id="이미지업로드" active={btn === "이미지업로드"}>
                 이미지업로드
               </StyledButton>
             </ButtonContainer>
-          {/* 버튼에 따라 다른 컴포넌트를 렌더링 */}
-          {btn === "매물옵션" && <PropertyOption  address={address} />}
-          {btn === "추가정보" && <PropertyAdd  address={address}/>}
-          {btn === "이미지업로드" && <PropertyImg  address={address}/>}
-        </>
-      )}
-    </PropertyRegisWrap>
+            <ContentContainer>
+              {btn === "매물옵션" && <PropertyOption address={address} />}
+              {btn === "추가정보" && <PropertyAdd address={address} />}
+              {btn === "이미지업로드" && <PropertyImg address={address} />}
+            </ContentContainer>
+          </>
+        )}
+      </PropertyRegisWrap>
     </>
   );
 };
 
-
-
 const PropertyRegisWrap = styled.div`
-  margin-top : 80px;
+  margin-top: 80px;
 `;
 
 const ButtonContainer = styled.div`
+  position: fixed;
+  top: 80px; /* Adjust this value based on your header height */
+  width: 100%;
+  max-width: 390px; /* Ensure total width does not exceed 390px */
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  background-color: white;
+`;
 
-  margin-top: 100px;
-  margin-bottom: 50px;
-  padding: 10px;
+const ContentContainer = styled.div`
+  margin-top: 150px; /* Adjust this value based on ButtonContainer height */
+  background-color: white;
 `;
 
 const StyledButton = styled.button`
-  color: black;
+  color: ${props => props.active ? "#D99E73" : "#979797"};
   background-color: white;
   border: none;
-  border-bottom: 3px solid transparent; /* 아래쪽에만 줄 보이도록 설정 */
+  border-bottom: 3px solid ${props => props.active ? "#D99E73" : "#979797"};
   padding: 5px;
-  width: 100px; /* 각 버튼의 너비 조절 */
+  width: 130px; /* Ensure each button width does not exceed 130px */
   cursor: pointer;
-  transition: border-color 0.3s ease, color 0.3s ease; /* 색상 변화에 대한 전환 효과 추가 */
+  transition: border-color 0.3s ease, color 0.3s ease;
 
   &:hover {
-    border-bottom-color: #D99E73; /* 호버 시 아래쪽 줄 색상 변경 */
-    color: #D99E73; /* 호버 시 글자 색상 변경 */}
+    border-bottom-color: #D99E73;
+    color: #D99E73;
+  }
 `;
 
 export default PropertyRegis;

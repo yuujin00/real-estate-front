@@ -6,8 +6,6 @@ import checkmark from '../assets/images/checkmark.png';
 import arrow from '../assets/images/arrow.png';
 import a from '../assets/images/a.png';
 import b from '../assets/images/b.png';
-import c from '../assets/images/c.png';
-import d from '../assets/images/d.png';
 import message from '../assets/images/message.png';
 import UnderBar from '../components/Bar/MainUnderBar.js';
 
@@ -62,25 +60,15 @@ function Main(){
                         <Button theme='TransStart' onClick={onClickPropertyTransApart} >
                             <div style={{fontSize:'20px', color:'Black',  textAlign: 'center'}}> 
                             <Img src={a} alt='a' />
-                            <br></br>아파트</div>
+                            <br></br>외국인 단기 임대</div>
                         </Button>
                         <Button theme='TransStart' onClick={onClickPropertyTrans} >
                             <div style={{fontSize:'20px', color:'Black',  textAlign: 'center'}}> 
                             <Img src={b} alt='b' />
-                            <br></br>빌라/투룸+</div>
+                            <br></br>출시예정</div>
                         </Button>
                     </Grid>
                     <Grid theme='loginOption'>
-                    <Button theme='TransStart' onClick={onClickPropertyTrans} >
-                            <div style={{fontSize:'20px', color:'Black',  textAlign: 'center'}}> 
-                            <Img src={c} alt='c' />
-                            <br></br>원룸</div>
-                        </Button>
-                        <Button theme='TransStart' onClick={onClickPropertyTrans} >
-                            <div style={{fontSize:'20px', color:'Black',  textAlign: 'center'}}> 
-                            <Img src={d} alt='d' />
-                            <br></br>오피스텔</div>
-                        </Button>
                     </Grid>
                     
                     <ThemeProvider theme={theme}>
