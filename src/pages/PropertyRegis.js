@@ -3,11 +3,9 @@ import MapPropertyRegis from '../components/Map/MapPropertyRegis.js';
 import PropertyOption from '../components/filter/PropertyOption.js';
 import PropertyAdd from '../components/filter/PropertyAdd.js';
 import PropertyImg from '../components/filter/PropertyImg.js';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const PropertyRegis = () => {
-  const navigate = useNavigate();
   const [address, setAddress] = useState('');
   const [showArrow, setShowArrow] = useState(false);
   const [showMap, setShowMap] = useState(true);
@@ -16,17 +14,6 @@ const PropertyRegis = () => {
   const handleButtonClick = (address) => {
     setAddress(address);
     setShowArrow(true);
-  };
-
-  const onClickArrow = () => {
-    navigate('/main');
-  };
-
-  const onClick = (event) => {
-    const {
-      currentTarget: { id },
-    } = event;
-    setBtn(id);
   };
 
   useEffect(() => {
@@ -67,13 +54,13 @@ const PropertyRegis = () => {
         {showArrow && (
           <>
             <ButtonContainer>
-              <StyledButton onClick={onClick} id="매물옵션" active={btn === "매물옵션"}>
+              <StyledButton id="매물옵션" active={btn === "매물옵션"}>
                 매물옵션
               </StyledButton>
-              <StyledButton onClick={onClick} id="추가정보" active={btn === "추가정보"}>
+              <StyledButton  id="추가정보" active={btn === "추가정보"}>
                 추가정보
               </StyledButton>
-              <StyledButton onClick={onClick} id="이미지업로드" active={btn === "이미지업로드"}>
+              <StyledButton id="이미지업로드" active={btn === "이미지업로드"}>
                 이미지업로드
               </StyledButton>
             </ButtonContainer>

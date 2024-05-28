@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -6,8 +6,10 @@ import { FormControl, Select, MenuItem, InputLabel, TextField, InputAdornment, B
 import FormLabel from '@mui/material/FormLabel';
 import { Grid, Button } from '..';
 import { useNavigate } from 'react-router-dom';
+import PropertyAdd from './PropertyAdd.js';
 
 function PropertyOption({ address }) {
+    const [btn, setBtn] = useState("매물옵션");
     const navigate = useNavigate();
     const [managementCost, setManagementCost] = useState('있음');
     const [otherPropertyType, setOtherPropertyType] = useState('');
@@ -86,6 +88,15 @@ function PropertyOption({ address }) {
             }));
         }
     };
+
+      useEffect(() => {
+        const initialBtn = document.getElementById("매물옵션");
+        if (initialBtn) {
+          initialBtn.style.color = "#D99E73";
+          initialBtn.style.borderBottomColor = "#D99E73";
+        }
+      }, []);
+    
 
     return (
         <>
@@ -224,9 +235,8 @@ function PropertyOption({ address }) {
                                 >
                                     <FormControlLabel value="있음" control={<Radio />} label="있음" />
                                     <FormControlLabel value="없음" control={<Radio />} label="없음" />
-                                </RadioGroup>
-                                {managementCost === '있음' && (
-                                    <TextField
+                                    {formData.managementCost === '있음' && (
+                                        <TextField
                                         label="관리비"
                                         variant='outlined'
                                         size='small'
@@ -236,8 +246,9 @@ function PropertyOption({ address }) {
                                         InputProps={{
                                             endAdornment: <InputAdornment position="end">만원</InputAdornment>,
                                         }}
-                                    />
-                                )}
+                                        />
+                                    )}
+                                </RadioGroup>
                             </FormControl>
                             <FormControl>
                                 <FormLabel >
@@ -441,21 +452,16 @@ function PropertyOption({ address }) {
                         </div>
                         <Box display="flex" justifyContent="space-between" mt={2}>
                             <Button onClick={() => handleNextSection('거래정보')}>Previous: 거래 정보</Button>
-                            <Button onClick={() => handleNextSection('제출')}>Next: 제출</Button>
+                            <Button onClick={() => handleNextSection('추가정보')}>Next: 추가 정보</Button>
                         </Box>
                     </>
                 )}
 
-                {currentSection === '제출' && (
-                    <>
-                    <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
-                        <div style={{ fontWeight: 'bold', marginLeft: '20px' }}>매물옵션 제출이 완료되었습니다.
-                        <br></br>
-                        추가정보를 눌러주세요.
-                        </div>
-                        <div> </div>
-                    </div>
-                    </>
+                {currentSection === '추가정보' && (
+                    <PropertyAdd
+                        setCurrentSection={setCurrentSection}
+                        handleNextSection={handleNextSection}
+                    />
                 )}
                 
             </div>

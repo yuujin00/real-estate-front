@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 function PropertyImg({ address }) {
+    const [btn, setBtn] = useState("이미지업로드");
     const [images, setImages] = useState([]);
     const [confirmVisible, setConfirmVisible] = useState(true);
     const [canProceed, setCanProceed] = useState(false); // State to track whether it's possible to proceed
@@ -65,13 +66,21 @@ function PropertyImg({ address }) {
         setCanProceed(images.length > 0);
     }, [images]);
 
+    useEffect(() => {
+        const initialBtn = document.getElementById("이미지업로드");
+        if (initialBtn) {
+          initialBtn.style.color = "#D99E73";
+          initialBtn.style.borderBottomColor = "#D99E73";
+        }
+      }, []);
+
     return (
         <>
             <div style={PropertyOptionImg}>
                 {!confirmVisible && (
                     <>
                         <div>
-                            <h1>매물 생성 완료</h1>
+                            <center><h1>매물 생성 완료</h1></center>
                             <Box display="flex" justifyContent="flex-end" mt={2}>
                                 <Button>내 매물 확인하러가기</Button>
                             </Box>

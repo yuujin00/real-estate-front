@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import { Grid, Button } from '..';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import { FormControl, TextField, InputAdornment, Box } from '@mui/material';
+import PropertyImg from './PropertyImg.js';
 
 function PropertyAdd({ address }) {
+    const [btn, setBtn] = useState("추가정보");
     const [parkingType, setparkingType] = useState('그 외 주차시설');
     const [currentSection, setCurrentSection] = useState('추가정보');
     const [formData, setFormData] = useState({
@@ -59,6 +61,14 @@ function PropertyAdd({ address }) {
             [field]: value
         }));
     };
+
+      useEffect(() => {
+        const initialBtn = document.getElementById("추가정보");
+        if (initialBtn) {
+          initialBtn.style.color = "#D99E73";
+          initialBtn.style.borderBottomColor = "#D99E73";
+        }
+      }, []);
 
     return (
         <>
@@ -353,8 +363,7 @@ function PropertyAdd({ address }) {
                                     <FormControlLabel value="전용주차시설" control={<Radio />} label="전용주차시설" />
                                     <FormControlLabel value="공용주차시설" control={<Radio />} label="공용주차시설" />
                                     <FormControlLabel value="그 외 주차시설" control={<Radio />} label="그 외 주차시설" />
-                                </RadioGroup>
-                                {parkingType === '그 외 주차시설' && (
+                                    {formData.parkingType === '그 외 주차시설' && (
                                         <TextField
                                             label="그 외 주차시설 입력"
                                             variant="outlined"
@@ -362,27 +371,24 @@ function PropertyAdd({ address }) {
                                             value={formData.otherParking}
                                             onChange={(e) => handleInputChange('otherParking', e.target.value)}
                                         />
-                                )}
+                                    )}
+                                </RadioGroup>
+                                
                                </FormControl>
                             </Grid>
                         </div>
                         <Box display="flex" justifyContent="space-between" mt={2}>
                             <Button onClick={() => handleNextSection('추가정보')}>Previous: 추가 정보</Button>
-                            <Button onClick={() => handleNextSection('제출')}>Next: 제출</Button>
+                            <Button onClick={() => handleNextSection('이미지업로드')}>Next: 이미지업로드</Button>
                         </Box>
                     </>
                 )}
 
-                {currentSection === '제출' && (
-                    <>
-                        <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
-                            <div style={{ fontWeight: 'bold', marginLeft: '20px' }}>
-                                매물 옵션 제출이 완료되었습니다.
-                                <br />
-                                이미지업로드를 눌러주세요.
-                            </div>
-                        </div>
-                    </>
+                {currentSection === '이미지업로드' && (
+                    <PropertyImg
+                        setCurrentSection={setCurrentSection}
+                        handleNextSection={handleNextSection}
+                    />
                 )}
             </div>
         </>
