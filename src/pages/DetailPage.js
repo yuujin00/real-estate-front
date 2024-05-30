@@ -155,7 +155,7 @@ const DetailPage = () => {
       {/* 비슷한 매물 더보기 */}
       <div className="similar-listings" style={{ marginLeft: "20px" }}>
         <h3>비슷한 매물 더보기</h3>
-        
+
         {/* 비슷한 매물 목록 렌더링 아래는 임시*/}
         <ListItem></ListItem>
       </div>
