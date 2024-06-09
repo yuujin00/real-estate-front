@@ -4,15 +4,19 @@ import PropertyOption from '../components/filter/PropertyOption.js';
 import PropertyAdd from '../components/filter/PropertyAdd.js';
 import PropertyImg from '../components/filter/PropertyImg.js';
 import styled from 'styled-components';
+import instance from '../api/axios';
 
 const PropertyRegis = () => {
   const [address, setAddress] = useState('');
+  const [addressId, setAddressId] = useState(null); 
+  const [propertyId, setpropertyId] = useState(null); 
   const [showArrow, setShowArrow] = useState(false);
   const [showMap, setShowMap] = useState(true);
   const [btn, setBtn] = useState("매물옵션");
 
-  const handleButtonClick = (address) => {
+  const handleButtonClick = (address,addressId) => {
     setAddress(address);
+    setAddressId(addressId);
     setShowArrow(true);
   };
 
@@ -42,6 +46,19 @@ const PropertyRegis = () => {
     }
   }, []);
 
+  const handleNext = (propertyId) => {
+    if (btn === "매물옵션") {
+      setBtn("추가정보");
+      //console.log(`Property registered with ID: ${propertyId}`);
+      setpropertyId(propertyId);
+    } 
+    if (btn === "추가정보") {
+      setBtn("이미지업로드");
+      //console.log(`Property registered with ID: ${propertyId}`);
+      setpropertyId(propertyId);
+    }
+  };
+
   return (
     <>
       <PropertyRegisWrap>
@@ -64,11 +81,14 @@ const PropertyRegis = () => {
                 이미지업로드
               </StyledButton>
             </ButtonContainer>
+            <div style={{ fontSize: '25px', fontWeight: 'bold', margin: '10px 20px' }}>{address}</div>
             <ContentContainer>
-              {btn === "매물옵션" && <PropertyOption address={address} />}
-              {btn === "추가정보" && <PropertyAdd address={address} />}
-              {btn === "이미지업로드" && <PropertyImg address={address} />}
+              {btn === "매물옵션" && <PropertyOption addressId={addressId} handleNext={handleNext}/>}
+              {btn === "추가정보" && <PropertyAdd addressId={addressId} propertyId={propertyId} handleNext={handleNext} />}
+              {btn === "이미지업로드" && <PropertyImg addressId={addressId} propertyId={propertyId} />}
             </ContentContainer>
+
+            
           </>
         )}
       </PropertyRegisWrap>
@@ -77,11 +97,11 @@ const PropertyRegis = () => {
 };
 
 const PropertyRegisWrap = styled.div`
-  margin-top: 80px;
+  margin-top: 30px;
 `;
 
 const ButtonContainer = styled.div`
-  position: fixed;
+  position: flex;
   top: 80px; /* Adjust this value based on your header height */
   width: 100%;
   max-width: 390px; /* Ensure total width does not exceed 390px */
@@ -91,7 +111,7 @@ const ButtonContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  margin-top: 150px; /* Adjust this value based on ButtonContainer height */
+  margin-top: 10px; /* Adjust this value based on ButtonContainer height */
   background-color: white;
 `;
 

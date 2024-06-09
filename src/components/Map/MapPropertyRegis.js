@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Grid, Button, Img } from '..';
 import styled from 'styled-components';
 import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
+import instance from '../../api/axios';
 import TextField from '@mui/material/TextField';
 
 const MapPropertyRegis = ({ handleButtonClick }) => {
@@ -247,49 +247,64 @@ const MapPropertyRegis = ({ handleButtonClick }) => {
     return !!(addition && addition.value);
   };
 
-  const handleClickConfirm = () => {
-    handleButtonClick(address);
-    setIsVisible(false); 
-  };
+  const handleClickConfirm = async () => {
+    try {
+      const response = await instance.post('/realEstate/property/step1', { streetAddress: address });
+  
+      // Assuming the addressId is in response.data.addressId
+      const addressId = response.data.result.addressId;
+      
+      // Pass address and addressId to handleButtonClick
+      handleButtonClick(address, addressId);
+      setIsVisible(false);
+    } catch (error) {
+      console.error('에러 발생:', error);
+      alert('주소 제출 중 에러가 발생했습니다. 다시 시도해 주세요.');
+  
+      // Optionally, handle the error case to proceed without an addressId
+      handleButtonClick(address, 1);
+      setIsVisible(false);
+    }
+  };  
+  
 
   if (!isVisible) {
     return null;
   }
+  
 
   return (
     <>
       <Container>
-      <SearchContainer>
-        <TextField
-          id="address"
-          label="Address"
-          variant="outlined"
-          value={address}
-          onChange={handleChangeAddress}
-        />
-        <Button id="submit" onClick={() => searchAddressToCoordinate(address)}>검색</Button>
-        <Button id="submit" onClick={handleOpenModal}>등록</Button>
-
-      </SearchContainer>
-      <MapContainer id="map" ref={mapRef} />
-      <Modal
-        open={isModalOpen}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <ModalContent>
-          <div>이 주소가 맞나요?</div>
-          <br/>
-          <div id="searchResult" dangerouslySetInnerHTML={{ __html: searchResult }} />
-          <Grid theme='startGrid'>
-            <Button theme='startBtn' children='확인' onClick={handleClickConfirm} />
-          </Grid>
-        </ModalContent>
-      </Modal>
-    </Container>
+        <SearchContainer>
+          <TextField
+            id="address"
+            label="Address"
+            variant="outlined"
+            value={address}
+            onChange={handleChangeAddress}
+          />
+          <Button id="submit" onClick={() => searchAddressToCoordinate(address)}>검색</Button>
+          <Button id="submit" onClick={handleOpenModal}>등록</Button>
+        </SearchContainer>
+        <MapContainer id="map" ref={mapRef} />
+        <Modal
+          open={isModalOpen}
+          onClose={handleCloseModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <ModalContent>
+            <div>이 주소가 맞나요?</div>
+            <br/>
+            <div id="searchResult" dangerouslySetInnerHTML={{ __html: searchResult }} />
+            <Grid theme='startGrid'>
+              <Button theme='startBtn' children='확인' onClick={handleClickConfirm} />
+            </Grid>
+          </ModalContent>
+        </Modal>
+      </Container>
     </>
-
   );
 };
 
@@ -321,7 +336,5 @@ const ModalContent = styled.div`
   max-height: 80%; 
   overflow: auto; 
 `;
-
-
 
 export default MapPropertyRegis;

@@ -14,6 +14,7 @@ import DetailPage from './pages/DetailPage.js';
 import PropertyTransApart from './pages/PropertyTransApart.js';
 import DetailPageApart from './pages/DetailPageApart.js';
 import Header from './components/Header/Header';
+import PropertyPayment from './pages/PropertyPayment.js';
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -69,11 +70,13 @@ function App() {
             <Route path='/propertyRegis' element={<PropertyRegis />} />
             <Route path='/propertyTrans' element={<PropertyTrans />} />
             <Route path='/propertyTransApart' element={<PropertyTransApart />} />
+            <Route path='/PropertyPayment' element={<PropertyPayment />} />
             <Route path='/chat' element={<Chat />} />
             <Route path="/chatroom/:id" component={<Chatroom />} />
             <Route path='/my' element={<My />} />
             <Route path="/detail/:id" element={<DetailPage />} />
             <Route path="/detailapart/:id" element={<DetailPageApart />} />
+            
           </Routes>
         </div>
 			</div>

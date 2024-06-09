@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '..';
+import { Button, Img } from '..';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import structure from '../../assets/images/image 39.png';
+import instance from '../../api/axios';
 
-function PropertyImg({ address }) {
-    const [btn, setBtn] = useState("이미지업로드");
+function PropertyImg({ propertyId }) {
     const [images, setImages] = useState([]);
     const [confirmVisible, setConfirmVisible] = useState(true);
-    const [canProceed, setCanProceed] = useState(false); // State to track whether it's possible to proceed
+    const [canProceed, setCanProceed] = useState(false); // 진행 가능 여부를 추적하는 상태
 
     useEffect(() => {
         setConfirmVisible(true);
@@ -27,9 +28,36 @@ function PropertyImg({ address }) {
         setImages(prevImages => prevImages.filter((_, i) => i !== index));
     };
 
-    const handleConfirmClick = () => {
+    const handleConfirmClick = async () => { // 이 함수를 async로 변경
         if (images.length > 0) {
-            setConfirmVisible(false);
+            try {
+                const formData = new FormData();
+                images.forEach((image, index) => {
+                    formData.append('images', image, image.name);
+                });
+
+                // 디버깅용: FormData의 내용을 출력
+                /*for (const pair of formData.entries()) {
+                    console.log(`${pair[0]}, ${pair[1]}`);
+                }*/
+
+                const response = await instance.post(`/realEstate/property/step4/${propertyId}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+
+                if (response.data.resultCode === 'Success') {
+                    setConfirmVisible(false);
+                    console.log('Images uploaded successfully');
+                } else {
+                    console.log(response.data); // 서버 응답 내용을 출력
+                    alert('이미지 업로드 실패');
+                }
+            } catch (error) {
+                console.error('Error uploading images:', error);
+                alert('이미지 업로드 중 오류가 발생했습니다.');
+            }
         } else {
             alert('사진을 업로드해야 합니다.');
         }
@@ -62,17 +90,9 @@ function PropertyImg({ address }) {
     });
 
     useEffect(() => {
-        // Enable or disable the "Next: 제출" button based on whether images are uploaded
+        // 이미지가 업로드되었는지 여부에 따라 "Next: 제출" 버튼을 활성화 또는 비활성화
         setCanProceed(images.length > 0);
     }, [images]);
-
-    useEffect(() => {
-        const initialBtn = document.getElementById("이미지업로드");
-        if (initialBtn) {
-          initialBtn.style.color = "#D99E73";
-          initialBtn.style.borderBottomColor = "#D99E73";
-        }
-      }, []);
 
     return (
         <>
@@ -80,8 +100,9 @@ function PropertyImg({ address }) {
                 {!confirmVisible && (
                     <>
                         <div>
-                            <center><h1>매물 생성 완료</h1></center>
-                            <Box display="flex" justifyContent="flex-end" mt={2}>
+                            <center><Img  src={structure} />
+                            <h1>매물 생성 완료</h1></center>
+                            <Box display="flex" justifyContent="center" mt={2}>
                                 <Button>내 매물 확인하러가기</Button>
                             </Box>
                         </div>
@@ -98,7 +119,6 @@ function PropertyImg({ address }) {
 
                         <hr style={{ width: '100%', height: '1px', border: 'none', backgroundColor: '#D9D9D9' }} />
                         <div style={{ fontWeight: 'bold', marginLeft: '20px', marginTop: '20px', marginBottom: '20px', fontSize: '18px' }}>
-                            <div style={{ fontSize: '25px', fontWeight: 'bold', margin: '10px 0' }}>{address}</div>
                             1. 3장 이상의 사진을 업로드 해 주세요.<br />
                             2. 최대 15장까지 등록 가능하며,
                             <br /> &nbsp; &nbsp;한 장 당 6MB를 초과할 수 없습니다. <br />

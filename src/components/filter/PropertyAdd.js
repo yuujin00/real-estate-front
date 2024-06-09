@@ -5,40 +5,36 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import { FormControl, TextField, InputAdornment, Box } from '@mui/material';
-import PropertyImg from './PropertyImg.js';
+import instance from '../../api/axios';
 
-function PropertyAdd({ address }) {
-    const [btn, setBtn] = useState("추가정보");
-    const [parkingType, setparkingType] = useState('그 외 주차시설');
+function PropertyAdd({handleNext, propertyId}) {
     const [currentSection, setCurrentSection] = useState('추가정보');
     const [formData, setFormData] = useState({
-        summary: '',
-        description: '',
-        roadRelationX: '',
-        roadRelationY: '',
-        roadType: '',
-        busStopDistance: '',
-        busTravelTime: '',
-        subwayStationDistance: '',
-        subwayTravelTime: '',
-        otherParking:'',
-        mallDistance: '',
-        mallTravelTime: '',
-        medicalFacilityDistance: '',
-        medicalTravelTime: '',
+        lineMemo: '',
+        memo: '',
+        street: '',
+        streetR: '',
+        streetPaving: true,
+        busStation: '',
+        busWalk: true,
+        busTime: '',
+        subwayStation: '',
+        subwayWalk:true,
+        subwayTime: '',
+        parkingOption: '',
     });
 
-    const requiredFields = {
-        추가정보: ['summary', 'description'],
-        상세정보: [
-            'roadRelationX', 'roadRelationY', 'roadType', 'busStopDistance', 'busTravelTime', 
-            'subwayStationDistance', 'subwayTravelTime', 'parkingType',
-            'mallDistance', 'mallTravelTime', 'medicalFacilityDistance', 'medicalTravelTime'
-        ],
-    };
-
     const validateSection = () => {
+        const requiredFields = {
+            추가정보: ['lineMemo', 'memo', 'street', 'streetR', 'streetPaving', 'busStation', 'busWalk', 'busTime', 'subwayStation', 'subwayWalk', 'subwayTime', 'parkingOption'],
+        };
+
         const currentFields = requiredFields[currentSection];
+
+        if (!Array.isArray(currentFields)) {
+            console.warn(`유효하지 않은 currentSection: ${currentSection}`);
+            return true; // 또는 false, 필요에 따라 다릅니다.
+        }
         for (let field of currentFields) {
             if (!formData[field]) {
                 return false;
@@ -47,11 +43,27 @@ function PropertyAdd({ address }) {
         return true;
     };
 
-    const handleNextSection = (nextSection) => {
-        if (validateSection()) {
-            setCurrentSection(nextSection);
-        } else {
+    const handleNextSection = async (nextSection) => {
+        if (!validateSection()) {
             alert("모든 필수 입력란을 입력해주세요.");
+            return;
+        }
+        try {
+            const dataToSend = {
+                ...formData,
+                street: parseInt(formData.street, 10),
+                streetR: parseInt(formData.streetR, 10),
+                busTime: parseInt(formData.busTime, 10),
+                subwayTime: parseInt(formData.subwayTime, 10),
+            };
+            
+            //console.log('Sending formData:', dataToSend); // formData 확인
+            const response = await instance.post(`/realEstate/property/step3/${propertyId}`, dataToSend);
+
+            handleNext(propertyId);
+        } catch (error) {
+            console.error('에러 발생:', error);
+            alert('서버와의 통신 중 에러가 발생했습니다. 입력한 정보를 확인해주세요.');
         }
     };
 
@@ -62,29 +74,20 @@ function PropertyAdd({ address }) {
         }));
     };
 
-      useEffect(() => {
-        const initialBtn = document.getElementById("추가정보");
-        if (initialBtn) {
-          initialBtn.style.color = "#D99E73";
-          initialBtn.style.borderBottomColor = "#D99E73";
-        }
-      }, []);
-
     return (
         <>
             <div style={PropertyOptionAdd}>
-                {currentSection === '추가정보' && (
                     <>
-                        <div style={{ display: 'flex', margin: '10px 0' }}>
+                        <div style={{ display: 'flex' }}>
                             <div style={{ fontWeight: 'bold', marginLeft: '20px' }}>추가 정보</div>
                             <div style={{ color: 'red', marginLeft: '220px' }}>*</div>
                             <div> 필수입력</div>
                         </div>
                         <hr style={sectionLineStyle} />
-                        <div style={{ fontSize: '25px', fontWeight: 'bold', margin: '10px 0' }}>{address}</div>
 
                         <div style={scrollableContentStyle}>
                             <Grid theme="registerForm">
+
                                 <FormLabel>
                                     <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
                                         <div> 한 문장으로 정리 </div>
@@ -93,13 +96,12 @@ function PropertyAdd({ address }) {
                                 </FormLabel>
                                 <FormControl variant="outlined" size="small">
                                     <TextField
-                                        id="summary"
                                         label="한 마디로 정리해 주세요."
                                         variant="outlined"
                                         size="large"
                                         style={{ marginLeft: '10px' }}
-                                        value={formData.summary}
-                                        onChange={(e) => handleInputChange('summary', e.target.value)}
+                                        value={formData.lineMemo}
+                                        onChange={(e) => handleInputChange('lineMemo', e.target.value)}
                                     />
                                 </FormControl>
 
@@ -111,35 +113,14 @@ function PropertyAdd({ address }) {
                                 </FormLabel>
                                 <FormControl variant="outlined" size="small">
                                     <TextField
-                                        id="description"
                                         label="상세 설명을 입력해 주세요."
                                         variant="outlined"
                                         size="large"
                                         style={{ marginLeft: '10px' }}
-                                        value={formData.description}
-                                        onChange={(e) => handleInputChange('description', e.target.value)}
+                                        value={formData.memo}
+                                        onChange={(e) => handleInputChange('memo', e.target.value)}
                                     />
                                 </FormControl>
-                            </Grid>
-                        </div>
-                        <Box display="flex" justifyContent="flex-end" mt={2}>
-                            <Button onClick={() => handleNextSection('상세정보')}>Next: 상세 정보</Button>
-                        </Box>
-                    </>
-                )}
-
-                {currentSection === '상세정보' && (
-                    <>
-                        <div style={{ display: 'flex', margin: '10px 0' }}>
-                            <div style={{ fontWeight: 'bold', marginLeft: '20px' }}>상세 정보</div>
-                            <div style={{ color: 'red', marginLeft: '220px' }}>*</div>
-                            <div> 필수입력</div>
-                        </div>
-                        <hr style={sectionLineStyle} />
-                        <div style={{ fontSize: '25px', fontWeight: 'bold', margin: '10px 0' }}>{address}</div>
-
-                        <div style={scrollableContentStyle}>
-                            <Grid theme="registerForm">
                                 <FormLabel>
                                     <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
                                         <div> 도로와의 관계 </div>
@@ -153,8 +134,8 @@ function PropertyAdd({ address }) {
                                         variant="outlined"
                                         size="small"
                                         type="number"
-                                        value={formData.roadRelationX}
-                                        onChange={(e) => handleInputChange('roadRelationX', e.target.value)}
+                                        value={formData.street}
+                                        onChange={(e) => handleInputChange('street', e.target.value)}
                                         InputProps={{ endAdornment: <InputAdornment position="end">m</InputAdornment> }}
                                     />
                                     <div style={{ fontWeight: 'bold', marginLeft: '10px', marginRight: '10px' }}>X</div>
@@ -164,19 +145,19 @@ function PropertyAdd({ address }) {
                                         variant="outlined"
                                         size="small"
                                         type="number"
-                                        value={formData.roadRelationY}
-                                        onChange={(e) => handleInputChange('roadRelationY', e.target.value)}
+                                        value={formData.streetR}
+                                        onChange={(e) => handleInputChange('streetR', e.target.value)}
                                         InputProps={{ endAdornment: <InputAdornment position="end">m</InputAdornment> }}
                                     />
                                 </FormControl>
                                 <RadioGroup
-                                    name="roadType"
-                                    value={formData.roadType}
-                                    onChange={(e) => handleInputChange('roadType', e.target.value)}
+                                    name="streetPaving"
+                                    value={formData.streetPaving}
+                                    onChange={(e) => handleInputChange('streetPaving', e.target.value)}
                                     style={{ flexDirection: 'row', display: 'flex' }}
                                 >
-                                    <FormControlLabel value="포장" control={<Radio />} label="포장" />
-                                    <FormControlLabel value="비포장" control={<Radio />} label="비포장" />
+                                    <FormControlLabel value="true" control={<Radio />} label="포장" />
+                                    <FormControlLabel value="false" control={<Radio />} label="비포장" />
                                 </RadioGroup>
                                 
 
@@ -189,13 +170,12 @@ function PropertyAdd({ address }) {
                                 <FormControl variant="outlined" size="small">
                                     <FormLabel>버스</FormLabel>
                                     <TextField
-                                        id="busStopDistance"
                                         label="버스"
                                         variant="outlined"
                                         size="small"
                                         style={{ marginLeft: '10px' }}
-                                        value={formData.busStopDistance}
-                                        onChange={(e) => handleInputChange('busStopDistance', e.target.value)}
+                                        value={formData.busStation}
+                                        onChange={(e) => handleInputChange('busStation', e.target.value)}
                                         InputProps={{ endAdornment: <InputAdornment position="end">정류장</InputAdornment> }}
                                     />
                                 </FormControl>
@@ -203,22 +183,21 @@ function PropertyAdd({ address }) {
                                     <FormLabel>소요시간</FormLabel>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <RadioGroup
-                                        name="busTravelMode"
-                                        value={formData.busTravelMode}
-                                        onChange={(e) => handleInputChange('busTravelMode', e.target.value)}
+                                        name="busWalk"
+                                        value={formData.busWalk}
+                                        onChange={(e) => handleInputChange('busWalk', e.target.value)}
                                         style={{ flexDirection: 'row', display: 'flex' }}
                                     >
-                                        <FormControlLabel value="도보" control={<Radio />} label="도보" />
-                                        <FormControlLabel value="차량" control={<Radio />} label="차량" />
+                                        <FormControlLabel value="true" control={<Radio />} label="도보" />
+                                        <FormControlLabel value="false" control={<Radio />} label="차량" />
                                     </RadioGroup>
                                         <TextField
-                                            label=""
                                             variant="outlined"
                                             inputProps={{ min: 0 }}
                                             size="small"
                                             type="number"
-                                            value={formData.busTravelTime}
-                                            onChange={(e) => handleInputChange('busTravelTime', e.target.value)}
+                                            value={formData.busTime}
+                                            onChange={(e) => handleInputChange('busTime', e.target.value)}
                                             InputProps={{ endAdornment: <InputAdornment position="end">분</InputAdornment> }}
                                         />
                                     </div>
@@ -227,13 +206,12 @@ function PropertyAdd({ address }) {
                                 <FormControl variant="outlined" size="small">
                                     <FormLabel>지하철</FormLabel>
                                     <TextField
-                                        id="subwayStationDistance"
                                         label="지하철"
                                         variant="outlined"
                                         size="small"
                                         style={{ marginLeft: '10px' }}
-                                        value={formData.subwayStationDistance}
-                                        onChange={(e) => handleInputChange('subwayStationDistance', e.target.value)}
+                                        value={formData.subwayStation}
+                                        onChange={(e) => handleInputChange('subwayStation', e.target.value)}
                                         InputProps={{ endAdornment: <InputAdornment position="end">역</InputAdornment> }}
                                     />
                                 </FormControl>
@@ -241,106 +219,23 @@ function PropertyAdd({ address }) {
                                     <FormLabel>소요시간</FormLabel>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <RadioGroup
-                                        name="subwayTravelMode"
-                                        value={formData.subwayTravelMode}
-                                        onChange={(e) => handleInputChange('subwayTravelMode', e.target.value)}
+                                        name="subwayWalk"
+                                        value={formData.subwayWalk}
+                                        onChange={(e) => handleInputChange('subwayWalk', e.target.value)}
                                         style={{ flexDirection: 'row', display: 'flex' }}
                                     >
-                                        <FormControlLabel value="도보" control={<Radio />} label="도보" />
-                                        <FormControlLabel value="차량" control={<Radio />} label="차량" />
+                                        <FormControlLabel value="true" control={<Radio />} label="도보" />
+                                        <FormControlLabel value="false" control={<Radio />} label="차량" />
                                     </RadioGroup>
 
                                         <TextField
-                                            label=""
                                             variant="outlined"
                                             inputProps={{ min: 0 }}
                                             size="small"
                                             type="number"
-                                            value={formData.subwayTravelTime}
-                                            onChange={(e) => handleInputChange('subwayTravelTime', e.target.value)}
+                                            value={formData.subwayTime}
+                                            onChange={(e) => handleInputChange('subwayTime', e.target.value)}
                                             InputProps={{ endAdornment: <InputAdornment position="end">분</InputAdornment> }}
-                                        />
-                                    </div>
-                                </FormControl>
-
-                                <FormLabel>
-                                    <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
-                                        <div> 판매 및 의료시설 </div>
-                                        <div style={{ color: 'red' }}>*</div>
-                                    </div>
-                                </FormLabel>
-                                <FormControl variant="outlined" size="small">
-                                    <FormLabel>백화점 및 할인매장</FormLabel>
-                                    <TextField
-                                        id="mallDistance"
-                                        label="백화점 및 할인매장"
-                                        variant="outlined"
-                                        size="small"
-                                        style={{ marginLeft: '10px' }}
-                                        value={formData.mallDistance}
-                                        onChange={(e) => handleInputChange('mallDistance', e.target.value)}
-                                    />
-                                </FormControl>
-                                <FormControl variant="outlined" size="small">
-                                    <FormLabel>소요시간</FormLabel>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <RadioGroup
-                                        name="mallTravelMode"
-                                        value={formData.mallTravelMode}
-                                        onChange={(e) => handleInputChange('mallTravelMode', e.target.value)}
-                                        style={{ flexDirection: 'row', display: 'flex' }}
-                                    >
-                                        <FormControlLabel value="도보" control={<Radio />} label="도보" />
-                                        <FormControlLabel value="차량" control={<Radio />} label="차량" />
-                                        
-                                    </RadioGroup>
-                                        <TextField
-                                            label=""
-                                            variant="outlined"
-                                            inputProps={{ min: 0 }}
-                                            size="small"
-                                            type="number"
-                                            value={formData.mallTravelTime}
-                                            onChange={(e) => handleInputChange('mallTravelTime', e.target.value)}
-                                            InputProps={{ endAdornment: <InputAdornment position="end">분</InputAdornment> }}
-                                        />
-                                        </div>
-                                </FormControl>
-
-                                <FormControl variant="outlined" size="small">
-                                    <FormLabel>종합의료시설</FormLabel>
-                                    <TextField
-                                        id="medicalFacilityDistance"
-                                        label="종합의료시설"
-                                        variant="outlined"
-                                        size="small"
-                                        style={{ marginLeft: '10px' }}
-                                        value={formData.medicalFacilityDistance}
-                                        onChange={(e) => handleInputChange('medicalFacilityDistance', e.target.value)}
-                                    />
-                                </FormControl>
-                                <FormControl variant="outlined" size="small">
-                                    <FormLabel>소요시간</FormLabel>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <RadioGroup
-                                        name="medicalTravelMode"
-                                        value={formData.medicalTravelMode}
-                                        onChange={(e) => handleInputChange('medicalTravelMode', e.target.value)}
-                                        style={{ flexDirection: 'row', display: 'flex' }}
-                                    >
-                                        <FormControlLabel value="도보" control={<Radio />} label="도보" />
-                                        <FormControlLabel value="차량" control={<Radio />} label="차량" />
-                                        </RadioGroup>
-                                        <TextField
-                                            label=""
-                                            variant="outlined"
-                                            inputProps={{ min: 0 }}
-                                            size="small"
-                                            type="number"
-                                            value={formData.medicalTravelTime}
-                                            onChange={(e) => handleInputChange('medicalTravelTime', e.target.value)}
-                                            InputProps={{ endAdornment: <InputAdornment position="end">분</InputAdornment> }}
-                                            
                                         />
                                     </div>
                                 </FormControl>
@@ -351,19 +246,19 @@ function PropertyAdd({ address }) {
                                         <div style={{ color: 'red' }}>*</div>
                                     </div>
                                 </FormLabel>
+                                {/* 주차시설 value 이름 영어로 수정필요 */}
                                 <RadioGroup
-                                    name="parkingType"
-                                    value={formData.parkingType}
+                                    name="parkingOption"
+                                    value={formData.parkingOption}
                                     onChange={(e) =>{ 
-                                        setparkingType(e.target.value);
-                                        handleInputChange('parkingType', e.target.value)}}
+                                        handleInputChange('parkingOption', e.target.value)}}
                                     style={{ flexDirection: 'row' }}
                                 >
                                     <FormControlLabel value="없음" control={<Radio />} label="없음" />
                                     <FormControlLabel value="전용주차시설" control={<Radio />} label="전용주차시설" />
-                                    <FormControlLabel value="공용주차시설" control={<Radio />} label="공용주차시설" />
+                                    <FormControlLabel value="SHARED" control={<Radio />} label="공용주차시설" />
                                     <FormControlLabel value="그 외 주차시설" control={<Radio />} label="그 외 주차시설" />
-                                    {formData.parkingType === '그 외 주차시설' && (
+                                    {formData.parkingOption === '그 외 주차시설' && (
                                         <TextField
                                             label="그 외 주차시설 입력"
                                             variant="outlined"
@@ -377,19 +272,11 @@ function PropertyAdd({ address }) {
                                </FormControl>
                             </Grid>
                         </div>
-                        <Box display="flex" justifyContent="space-between" mt={2}>
-                            <Button onClick={() => handleNextSection('추가정보')}>Previous: 추가 정보</Button>
+                        <Box display="flex" justifyContent="flex-end" mt={2}>
                             <Button onClick={() => handleNextSection('이미지업로드')}>Next: 이미지업로드</Button>
                         </Box>
                     </>
-                )}
 
-                {currentSection === '이미지업로드' && (
-                    <PropertyImg
-                        setCurrentSection={setCurrentSection}
-                        handleNextSection={handleNextSection}
-                    />
-                )}
             </div>
         </>
     );

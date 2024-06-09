@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import instance from '../api/axios';
 import { Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import arrow from '../assets/images/arrow.png';
 import { TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { Grid, Button, Img } from '../components';
 import JoinConsentModal from '../components/Join/JoinConsentModal';
