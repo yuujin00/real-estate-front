@@ -73,15 +73,15 @@ function App() {
             <Route path='/PropertyPayment' element={<PropertyPayment />} />
             <Route path='/chat' element={<Chat />} />
             <Route path="/chatroom/:id" component={<Chatroom />} />
-            <Route path='/my' element={<My />} />
+            <Route path="/my" element={<My />} />
             <Route path="/detail/:id" element={<DetailPage />} />
             <Route path="/detailapart/:id" element={<DetailPageApart />} />
             
           </Routes>
         </div>
-			</div>
-		</BrowserRouter>
-	);
+      </div>
+    </BrowserRouter>
+  );
 }
 
 export default App;

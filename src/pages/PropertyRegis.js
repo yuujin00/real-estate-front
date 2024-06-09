@@ -64,7 +64,7 @@ const PropertyRegis = () => {
       <PropertyRegisWrap>
         {showMap && (
           <>
-            <MapPropertyRegis handleButtonClick={handleButtonClick} />
+            <MapPropertyRegis ertyRegis handleButtonClick={handleButtonClick} />
           </>
         )}
 
@@ -74,7 +74,7 @@ const PropertyRegis = () => {
               <StyledButton id="매물옵션" active={btn === "매물옵션"}>
                 매물옵션
               </StyledButton>
-              <StyledButton  id="추가정보" active={btn === "추가정보"}>
+              <StyledButton id="추가정보" active={btn === "추가정보"}>
                 추가정보
               </StyledButton>
               <StyledButton id="이미지업로드" active={btn === "이미지업로드"}>
@@ -116,18 +116,18 @@ const ContentContainer = styled.div`
 `;
 
 const StyledButton = styled.button`
-  color: ${props => props.active ? "#D99E73" : "#979797"};
+  color: ${(props) => (props.active ? "#D99E73" : "#979797")};
   background-color: white;
   border: none;
-  border-bottom: 3px solid ${props => props.active ? "#D99E73" : "#979797"};
+  border-bottom: 3px solid ${(props) => (props.active ? "#D99E73" : "#979797")};
   padding: 5px;
   width: 130px; /* Ensure each button width does not exceed 130px */
   cursor: pointer;
   transition: border-color 0.3s ease, color 0.3s ease;
 
   &:hover {
-    border-bottom-color: #D99E73;
-    color: #D99E73;
+    border-bottom-color: #d99e73;
+    color: #d99e73;
   }
 `;
 

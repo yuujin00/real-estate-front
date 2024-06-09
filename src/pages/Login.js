@@ -164,7 +164,7 @@ function Login(){
 };
 
 const loginWrap = {
-    height: '100%',
+  height: "100%",
 };
 
 export default Login;
