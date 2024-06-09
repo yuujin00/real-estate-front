@@ -1,19 +1,20 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { createGlobalStyle } from "styled-components";
-import Onboarding from "./pages/Onboarding.js";
-import Main from "./pages/Main.js";
-import Login from "./pages/Login.js";
-import Signup from "./pages/Signup.js";
-import PropertyRegis from "./pages/PropertyRegis.js";
-import PropertyTrans from "./pages/PropertyTrans.js";
-import Chat from "./pages/Chat.js";
-import Chatroom from "./pages/Chatroom.js";
-import My from "./pages/My.js";
-import ROBOTO from "./assets/font/Cafe24OhsquareAir-v2.0.otf";
-import DetailPage from "./pages/DetailPage.js";
-import PropertyTransApart from "./pages/PropertyTransApart.js";
-import DetailPageApart from "./pages/DetailPageApart.js";
-import Header from "./components/Header/Header";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
+import Onboarding from './pages/Onboarding.js';
+import Main from './pages/Main.js';
+import Login from './pages/Login.js';
+import Signup from './pages/Signup.js';
+import PropertyRegis from './pages/PropertyRegis.js';
+import PropertyTrans from './pages/PropertyTrans.js';
+import Chat from './pages/Chat.js';
+import Chatroom from './pages/Chatroom.js';
+import My from './pages/My.js';
+import ROBOTO from './assets/font/Cafe24OhsquareAir-v2.0.otf';
+import DetailPage from './pages/DetailPage.js';
+import PropertyTransApart from './pages/PropertyTransApart.js';
+import DetailPageApart from './pages/DetailPageApart.js';
+import Header from './components/Header/Header';
+import PropertyPayment from './pages/PropertyPayment.js';
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -55,28 +56,27 @@ const GlobalStyle = createGlobalStyle`
 
 `;
 function App() {
-  return (
-    <BrowserRouter>
-      <GlobalStyle />
-      <div className="layout">
-        <Header />
-        <div className="wrap">
-          <Routes>
-            <Route path="/" element={<Onboarding />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/main" element={<Main />} />
-            <Route path="/propertyRegis" element={<PropertyRegis />} />
-            <Route path="/propertyTrans" element={<PropertyTrans />} />
-            <Route
-              path="/propertyTransApart"
-              element={<PropertyTransApart />}
-            />
-            <Route path="/chat" element={<Chat />} />
+	return (
+		<BrowserRouter>
+			<GlobalStyle />
+			<div className='layout'>
+      <Header />
+        <div className='wrap'>
+        <Routes>
+            <Route path='/' element={<Onboarding />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/main' element={<Main />} />
+            <Route path='/propertyRegis' element={<PropertyRegis />} />
+            <Route path='/propertyTrans' element={<PropertyTrans />} />
+            <Route path='/propertyTransApart' element={<PropertyTransApart />} />
+            <Route path='/PropertyPayment' element={<PropertyPayment />} />
+            <Route path='/chat' element={<Chat />} />
             <Route path="/chatroom/:id" component={<Chatroom />} />
             <Route path="/my" element={<My />} />
             <Route path="/detail/:id" element={<DetailPage />} />
             <Route path="/detailapart/:id" element={<DetailPageApart />} />
+            
           </Routes>
         </div>
       </div>
