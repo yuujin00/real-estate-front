@@ -135,10 +135,10 @@ function PropertyOption({ handleNext, addressId }) {
                     >
                         {/* 매물유형 value 이름 영어로 수정필요 */}
                         <FormControlLabel value="APART" control={<Radio />} label="아파트" />
-                        <FormControlLabel value="빌라/투룸+" control={<Radio />} label="빌라/투룸+" />
-                        <FormControlLabel value="오피스텔" control={<Radio />} label="오피스텔" />
-                        <FormControlLabel value="원룸" control={<Radio />} label="원룸" />
-                        <FormControlLabel value="기타" control={<Radio />} label="기타" />
+                        <FormControlLabel value="VILLA" control={<Radio />} label="빌라/투룸+" />
+                        <FormControlLabel value="OFFICETEL" control={<Radio />} label="오피스텔" />
+                        <FormControlLabel value="ONE_ROOM" control={<Radio />} label="원룸" />
+                        <FormControlLabel value="ETC" control={<Radio />} label="기타" />
                     </RadioGroup>
                 </FormControl>
 
@@ -536,7 +536,7 @@ function PropertyOption({ handleNext, addressId }) {
                 </div>
                 {/* Next 버튼 */}
                 <Box display="flex" justifyContent="flex-end" mt={2}>
-                    <Button onClick={() => handleNextSection('추가정보')}>Next: 추가 정보</Button>
+                    <Button theme='nextB' onClick={() => handleNextSection('추가정보')}>Next: 추가 정보</Button>
                 </Box>
                 </>
             </div>
@@ -556,7 +556,7 @@ const sectionLineStyle = {
 };
 
 const scrollableContentStyle = {
-    maxHeight: '400px', // Adjust height as needed
+    maxHeight: '450px', // Adjust height as needed
     overflowY: 'auto',
 };
 

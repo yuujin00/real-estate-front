@@ -50,7 +50,8 @@ const DetailPageApart = () => {
 
   const handleContract = () => {
     if (!selectedItem) return;
-    navigate(`/contract?id=${selectedItem.id}`);
+    console.log("selectedItem",selectedItem);
+    navigate(`/contract?id=${selectedItem.propertyId}`);
   };
 
   const handleToggleLike = async () => {

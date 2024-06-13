@@ -254,10 +254,10 @@ function PropertyAdd({handleNext, propertyId}) {
                                         handleInputChange('parkingOption', e.target.value)}}
                                     style={{ flexDirection: 'row' }}
                                 >
-                                    <FormControlLabel value="없음" control={<Radio />} label="없음" />
-                                    <FormControlLabel value="전용주차시설" control={<Radio />} label="전용주차시설" />
-                                    <FormControlLabel value="SHARED" control={<Radio />} label="공용주차시설" />
-                                    <FormControlLabel value="그 외 주차시설" control={<Radio />} label="그 외 주차시설" />
+                                    <FormControlLabel value="NOPE" control={<Radio />} label="없음" />
+                                    <FormControlLabel value="DEDICATED" control={<Radio />} label="전용주차시설" />
+                                    <FormControlLabel value="SHARED" control={<Radio />} label="공동주차시설" />
+                                    <FormControlLabel value="OTHER" control={<Radio />} label="그 밖의 주차시설" />
                                     {formData.parkingOption === '그 외 주차시설' && (
                                         <TextField
                                             label="그 외 주차시설 입력"
@@ -273,7 +273,7 @@ function PropertyAdd({handleNext, propertyId}) {
                             </Grid>
                         </div>
                         <Box display="flex" justifyContent="flex-end" mt={2}>
-                            <Button onClick={() => handleNextSection('이미지업로드')}>Next: 이미지업로드</Button>
+                            <Button theme='nextB_' onClick={() => handleNextSection('이미지업로드')}>Next: 이미지업로드</Button>
                         </Box>
                     </>
 
@@ -294,7 +294,7 @@ const sectionLineStyle = {
 };
 
 const scrollableContentStyle = {
-    maxHeight: '400px', // Adjust height as needed
+    maxHeight: '450px', // Adjust height as needed
     overflowY: 'auto',
 };
 
