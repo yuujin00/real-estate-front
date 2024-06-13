@@ -1,10 +1,13 @@
-//DetailPageApart
+// DetailPageApart.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FaHeart } from "react-icons/fa";
 import ListItem from "../components/ListItem/ListItemApart";
+import SubwayIcon from "../assets/images/SubwayIcon.svg";
+import BusIcon from "../assets/images/BusIcon.svg";
+import Map from "../components/Map/Map1";
 
 const DetailPageApart = () => {
   const { id } = useParams();
@@ -34,7 +37,7 @@ const DetailPageApart = () => {
       localStorage.setItem("userInfo", item.user.userId);
       setIsLiked(item.isLiked);
     } catch (error) {
-      console.error("데이터를 가져오는 중x 오류 발생:", error);
+      console.error("데이터를 가져오는 중 오류 발생:", error);
     }
   };
 
@@ -84,22 +87,36 @@ const DetailPageApart = () => {
 
   return (
     <div>
-      <img src={selectedItem.imageUrls} alt="Property" />
+      <StyledImage src={selectedItem.imageUrls} alt="Property" />
 
       <div
         style={{ display: "flex", alignItems: "center", marginLeft: "20px" }}
       >
-        <div className="info" style={{ marginRight: "10px" }}>
-          <p style={{ margin: 0 }}>{selectedItem.title}</p>
+        <div
+          className="info"
+          style={{ display: "flex", alignItems: "center", marginRight: "10px" }}
+        >
           <h1 style={{ margin: 0 }}>{selectedItem.price}</h1>
-          <p style={{ margin: 0 }}>{selectedItem.content}</p>
+          <p style={{ margin: 0, marginLeft: "5px" }}> /1주 </p>
         </div>
       </div>
 
+      <p style={{ margin: 0, marginLeft: "25px" }}>
+        최소 1주 이상부터 계약가능
+      </p>
       <hr />
 
       <div className="property-info" style={{ marginLeft: "20px" }}>
         <h3>매물 정보</h3>
+      </div>
+      <div
+        className="info"
+        style={{
+          alignItems: "center",
+          color: "grey",
+          marginLeft: "30px",
+        }}
+      >
         <p>평수: {selectedItem.area1}평</p>
         <p>
           방/욕실: {selectedItem.roomCount}개/{selectedItem.bathroomCount}개
@@ -112,42 +129,91 @@ const DetailPageApart = () => {
 
       <hr />
 
+      <div className="manage" style={{ marginLeft: "20px" }}>
+        <h3>관리비</h3>
+        <p
+          style={{
+            alignItems: "center",
+            color: "grey",
+            marginLeft: "15px",
+          }}
+        >
+          {selectedItem.managementFee}원{" "}
+        </p>
+      </div>
+      <hr />
+
       <div className="description" style={{ marginLeft: "20px" }}>
         <h3>상세 설명</h3>
+        <p
+          style={{
+            alignItems: "center",
+            color: "grey",
+            marginLeft: "17px",
+          }}
+        >
+          {selectedItem.propertyCondition.parkingMemo}
+        </p>
       </div>
 
       <hr />
 
       <div className="nearby-facilities" style={{ marginLeft: "20px" }}>
         <h3>주변 생활 시설</h3>
-        <svg
-          width="37"
-          height="50"
-          viewBox="0 0 37 50"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "80px",
+            marginLeft: "18px",
+          }}
         >
-          <circle cx="18.5" cy="16.5" r="16.5" fill="#ECCCB1" />
-          <path
-            d="M2.73156 40.09H3.79156V41.13C3.79156 43.27 2.92156 45.36 1.18156 46.15L0.431562 45.1C1.98156 44.41 2.73156 42.7 2.73156 41.13V40.09ZM3.03156 40.09H4.08156V41.13C4.08156 42.63 4.82156 44.23 6.37156 44.87L5.65156 45.92C3.89156 45.16 3.03156 43.19 3.03156 41.13V40.09ZM0.801563 39.52H5.99156V40.61H0.801563V39.52ZM6.85156 38.63H8.19156V47.89H6.85156V38.63ZM15.6408 38.63H16.9608V47.89H15.6408V38.63ZM16.6608 42.24H18.3008V43.35H16.6608V42.24ZM9.66078 40H15.0508V41.06H9.66078V40ZM12.3708 41.58C13.7208 41.58 14.7208 42.5 14.7208 43.79C14.7208 45.08 13.7208 46 12.3708 46C11.0208 46 10.0208 45.08 10.0208 43.79C10.0208 42.5 11.0208 41.58 12.3708 41.58ZM12.3708 42.66C11.7408 42.66 11.2908 43.08 11.2908 43.79C11.2908 44.5 11.7408 44.92 12.3708 44.92C13.0008 44.92 13.4508 44.5 13.4508 43.79C13.4508 43.08 13.0008 42.66 12.3708 42.66ZM11.7008 38.78H13.0308V40.4H11.7008V38.78ZM20.98 40.13H22.05V40.46C22.05 41.92 21.19 43.17 19.39 43.58L18.82 42.56C20.32 42.22 20.98 41.35 20.98 40.46V40.13ZM21.24 40.13H22.31V40.46C22.31 41.28 22.99 42.11 24.47 42.41L23.91 43.42C22.12 43.04 21.24 41.85 21.24 40.46V40.13ZM19.16 39.39H24.13V40.44H19.16V39.39ZM20.98 38.6H22.31V39.98H20.98V38.6ZM23.9 40.78H26.19V41.84H23.9V40.78ZM25.32 38.63H26.65V43.42H25.32V38.63ZM20.53 43.77H26.65V46.26H21.86V47.41H20.54V45.31H25.33V44.78H20.53V43.77ZM20.54 46.82H26.91V47.83H20.54V46.82ZM32.1992 39.87H34.9392V40.94H32.1992V39.87ZM32.1992 41.88H34.9392V42.95H32.1992V41.88ZM29.5392 44.53H35.8492V47.89H34.5192V45.58H29.5392V44.53ZM34.5192 38.63H35.8492V44.11H34.5192V38.63ZM30.6592 39.11C32.0392 39.11 33.0992 40.07 33.0992 41.4C33.0992 42.74 32.0392 43.7 30.6592 43.7C29.2692 43.7 28.2092 42.74 28.2092 41.4C28.2092 40.07 29.2692 39.11 30.6592 39.11ZM30.6592 40.24C29.9792 40.24 29.4792 40.67 29.4792 41.4C29.4792 42.14 29.9792 42.57 30.6592 42.57C31.3292 42.57 31.8392 42.14 31.8392 41.4C31.8392 40.67 31.3292 40.24 30.6592 40.24Z"
-            fill="#ECCCB1"
-          />
-        </svg>
+          <div style={{ textAlign: "center", marginRight: "10px" }}>
+            <img
+              src={SubwayIcon}
+              alt="Subway Icon"
+              style={{ width: "37px", height: "50px" }}
+            />
+            <p
+              style={{
+                marginTop: "1px",
+                fontSize: "12px",
+                color: "#ECCCB1",
+              }}
+            >
+              {selectedItem.propertyCondition.subwayTime}km
+            </p>
+          </div>
+          <div style={{ textAlign: "center", marginRight: "10px" }}>
+            <img
+              src={BusIcon}
+              alt="Bus Icon"
+              style={{ width: "46px", height: "50px", marginLeft: "10px" }}
+            />
+            <p
+              style={{
+                marginTop: "1px",
+                fontSize: "12px",
+                color: "#ECCCB1",
+                marginLeft: "10px",
+              }}
+            >
+              {selectedItem.propertyCondition.busTime}km
+            </p>
+          </div>
+        </div>
       </div>
 
       <hr />
 
-      <div className="location-map" style={{ marginLeft: "20px" }}>
+      <div
+        className="location-map"
+        style={{ marginLeft: "20px", marginBottom: "200px" }}
+      >
         <h3>위치</h3>
-        <div
-          style={{
-            width: "300px",
-            height: "150px",
-            backgroundColor: "grey",
-            marginLeft: "25px",
-            marginBottom: "15px",
-          }}
-        ></div>
+        <MapContainer>
+          <Map />
+        </MapContainer>
       </div>
 
       <hr />
@@ -185,6 +251,11 @@ const DetailPageApart = () => {
 
 export default DetailPageApart;
 
+const MapContainer = styled.div`
+  width: 100%; /* 가로 전체 길이를 사용하거나 원하는 크기로 설정하세요 */
+  height: 20px; /* 세로 높이를 지정하세요 */
+`;
+
 const InquiryContractContainer = styled.div`
   display: flex;
   align-items: center;
@@ -217,4 +288,17 @@ const StyledButton2 = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
+`;
+
+const StyledImage = styled.img`
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+`;
+
+const SmallGrayText = styled.p`
+  font-size: 12px;
+  color: gray;
+  margin: 0;
+  padding: 2px 0;
 `;

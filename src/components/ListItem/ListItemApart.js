@@ -35,27 +35,54 @@ export default function ListItem() {
           key={item.propertyId}
           to={`/detailapart/${item.propertyId}`}
           className="list-item"
+          style={{ position: "relative" }} // Added relative positioning
         >
           <div className="list-image">
-            {/* {item.imageUrls.length > 0 && <img src={item.imageUrls[0]} alt="Property" />} */}
+            <img
+              src={item.imageUrls}
+              alt="Property"
+              style={{ width: "80px", height: "auto" }}
+            />
           </div>
-          <div className="list-details">
+          <div
+            className="list-details"
+            style={{ display: "flex", flexDirection: "column" }}
+          >
             <div className="list-title">{item.address.streetAddress}</div>
-            <div className="list-price">{item.price}</div>
-            <div className="list-deta">
+            <div
+              className="info"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginRight: "10px",
+              }}
+            >
+              <div className="list-price">{item.price}</div>
+              <p style={{ margin: 0, marginLeft: "5px" }}> /1주 </p>
+            </div>
+            <div
+              className="list-deta"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <div className="list-location">{item.address.city}</div>
-              <div className="list-button-container">
-                <button
-                  style={{
-                    borderRadius: "10px",
-                    backgroundColor: "#D99E73",
-                    color: "white",
-                    border: "none",
-                  }}
-                >
-                  상세보기
-                </button>{" "}
-              </div>
+              <button
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  borderRadius: "10px",
+                  backgroundColor: "#D99E73",
+                  color: "white",
+                  border: "none",
+                  padding: "5px 10px",
+                  cursor: "pointer",
+                }}
+              >
+                상세보기
+              </button>
             </div>
           </div>
         </Link>
