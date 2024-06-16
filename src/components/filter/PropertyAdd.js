@@ -56,7 +56,6 @@ function PropertyAdd({handleNext, propertyId}) {
                 busTime: parseInt(formData.busTime, 10),
                 subwayTime: parseInt(formData.subwayTime, 10),
             };
-            
             //console.log('Sending formData:', dataToSend); // formData 확인
             const response = await instance.post(`/realEstate/property/step3/${propertyId}`, dataToSend);
 

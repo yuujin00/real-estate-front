@@ -91,7 +91,6 @@ function PropertyOption({ handleNext, addressId }) {
                 startDate: formData.startDate,
                 endDate: formData.endDate
             };
-            
             //console.log('Sending formData:', dataToSend); // formData 확인
             const response = await instance.post(`/realEstate/property/step2/${addressId}`, dataToSend);
 

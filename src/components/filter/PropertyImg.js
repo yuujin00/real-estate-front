@@ -40,7 +40,7 @@ function PropertyImg({ propertyId }) {
                 /*for (const pair of formData.entries()) {
                     console.log(`${pair[0]}, ${pair[1]}`);
                 }*/
-
+                    
                 const response = await instance.post(`/realEstate/property/step4/${propertyId}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',

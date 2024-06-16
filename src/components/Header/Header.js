@@ -8,7 +8,7 @@ function Header({ onBackButtonClick }) {
 	const navigate = useNavigate();
 
     const handleButtonClick = () => {
-        navigate('/PropertyPayment');
+        navigate('/main');
     };
 
 	return (
