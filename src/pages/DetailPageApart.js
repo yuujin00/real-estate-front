@@ -55,7 +55,7 @@ const DetailPageApart = () => {
 
   const handleContract = () => {
     if (!selectedItem) return;
-    navigate(`/contract?id=${selectedItem.propertyId}`);
+    navigate(`/contract/${selectedItem.propertyId}`);
   };
 
   const handleToggleLike = async () => {
