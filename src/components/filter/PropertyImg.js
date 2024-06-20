@@ -40,7 +40,7 @@ function PropertyImg({ propertyId }) {
                 /*for (const pair of formData.entries()) {
                     console.log(`${pair[0]}, ${pair[1]}`);
                 }*/
-
+                    
                 const response = await instance.post(`/realEstate/property/step4/${propertyId}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -118,12 +118,14 @@ function PropertyImg({ propertyId }) {
                         </div>
 
                         <hr style={{ width: '100%', height: '1px', border: 'none', backgroundColor: '#D9D9D9' }} />
-                        <div style={{ fontWeight: 'bold', marginLeft: '20px', marginTop: '20px', marginBottom: '20px', fontSize: '18px' }}>
-                            1. 3장 이상의 사진을 업로드 해 주세요.<br />
-                            2. 최대 15장까지 등록 가능하며,
-                            <br /> &nbsp; &nbsp;한 장 당 6MB를 초과할 수 없습니다. <br />
-                            3. 첫번째 사진이 대표 이미지로 결정됩니다.<br />
-                            4. 매물과 관련 없는 이미지, 홍보성 이미지, <br /> &nbsp; &nbsp;워터마크 이미지는 등록이 불가능합니다. <br />
+                        <div style={{ marginLeft: '20px', marginRight: '20px', marginTop: '20px', marginBottom: '20px', fontSize: '18px' }}>
+                            1. 3장 이상의 사진을 업로드 해 주세요.
+                            <div style={{ margin: '4px' }}></div>
+                            2. 최대 15장까지 등록 가능하며,한 장 당 6MB를 초과할 수 없습니다.
+                            <div style={{ margin: '4px' }}></div>
+                            3. 첫번째 사진이 대표 이미지로 결정됩니다.
+                            <div style={{ margin: '4px' }}></div>
+                            4. 매물과 관련 없는 이미지, 홍보성 이미지, 워터마크 이미지는 등록이 불가능합니다. 
                         </div>
 
                         <hr style={sectionLineStyle} />
@@ -147,7 +149,7 @@ function PropertyImg({ propertyId }) {
                         </CenteredContainer>
 
                         <Box display="flex" justifyContent="flex-end" mt={2}>
-                            <Button variant="contained" onClick={handleConfirmClick} disabled={!canProceed}>Next: 제출</Button>
+                            <Button theme='nextB' variant="contained" onClick={handleConfirmClick} disabled={!canProceed}>Next: 제출</Button>
                         </Box>
                     </>
                 )}

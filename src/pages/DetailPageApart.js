@@ -10,6 +10,10 @@ import Map from "../components/Map/Map1";
 
 const DetailPageApart = () => {
   const { id } = useParams();
+  const url = window.location.href;
+  const parts = url.split('/');
+  const lastPart = parts[parts.length - 1];
+  const index = parseInt(lastPart, 10);
   const navigate = useNavigate();
   const [selectedItem, setSelectedItem] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
@@ -31,8 +35,9 @@ const DetailPageApart = () => {
           headers: headers,
         }
       );
-      console.log("API 응답 데이터:", response.data);
-      const item = response.data.result;
+      console.log('index',index);
+      console.log("선택한 아파트", response.data.result.content[index-1]);
+      const item = response.data.result.content[index-1];
       setSelectedItem(item);
       localStorage.setItem("userInfo", item.user.userId);
       setIsLiked(item.isLiked);
@@ -71,7 +76,7 @@ const DetailPageApart = () => {
 
   const handleContract = () => {
     if (!selectedItem) return;
-    navigate(`/contract?id=${selectedItem.id}`);
+    navigate(`/contract/${selectedItem.propertyId}`);
   };
 
   const handleToggleLike = async () => {
@@ -167,8 +172,7 @@ const DetailPageApart = () => {
             marginLeft: "15px",
           }}
         >
-          {selectedItem.managementFee}원
-          {selectedItem.depositFee}원
+          {selectedItem.managementFee}만원{" "}
         </p>
       </div>
       <hr />
@@ -182,7 +186,7 @@ const DetailPageApart = () => {
             marginLeft: "17px",
           }}
         >
-          {selectedItem.propertyCondition.parkingMemo}
+          {selectedItem.propertyCondition.memo}
         </p>
       </div>
 
@@ -248,10 +252,10 @@ const DetailPageApart = () => {
 
       <hr />
 
-      <div className="similar-listings" style={{ marginLeft: "20px" }}>
+      {/* <div className="similar-listings" style={{ marginLeft: "20px" }}>
         <h3>비슷한 매물 더보기</h3>
         <ListItem />
-      </div>
+      </div> */}
 
       <hr />
 

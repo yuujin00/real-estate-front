@@ -117,8 +117,38 @@ const styles = {
     	marginLeft: '20px'
 	},
 
-	}
+	nextB : {
+		display: 'flex',
+		width: '120px',
+		margin: '0px 20px 5px',
+		justifyContent: 'center',
+		textAlign: 'center',
+		fontWeight: 'bold',
+		borderRadius: '8px',
+		background: '#5E4017', 
+		fontSize: '14px',
+		color: '#fff',
+		'&:hover': {
+			background: '#D99E73',
+		},
+	},
 
+	nextB_ : {
+		display: 'flex',
+		width: '160px',
+		margin: '0px 20px 5px',
+		justifyContent: 'center',
+		textAlign: 'center',
+		fontWeight: 'bold',
+		borderRadius: '8px',
+		background: '#5E4017', 
+		fontSize: '14px',
+		color: '#fff',
+		'&:hover': {
+			background: '#D99E73',
+		},
+	}
+}
 
 export const StyledButton = styled(MuiButton)(({ theme }) => ({
 	...(styles[theme] || {}),

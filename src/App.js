@@ -15,6 +15,8 @@ import PropertyTransApart from './pages/PropertyTransApart.js';
 import DetailPageApart from './pages/DetailPageApart.js';
 import Header from './components/Header/Header';
 import PropertyPayment from './pages/PropertyPayment.js';
+import Contract from './pages/Contract.js';
+import CreateContract from "./pages/CreateContract.js";
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -55,6 +57,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
 `;
+
 function App() {
 	return (
 		<BrowserRouter>
@@ -70,12 +73,15 @@ function App() {
             <Route path='/propertyRegis' element={<PropertyRegis />} />
             <Route path='/propertyTrans' element={<PropertyTrans />} />
             <Route path='/propertyTransApart' element={<PropertyTransApart />} />
-            <Route path='/PropertyPayment' element={<PropertyPayment />} />
+            <Route path='/PropertyPayment/:id' element={<PropertyPayment />} />
             <Route path='/chat' element={<Chat />} />
             <Route path="/chatroom/:id" element={<Chatroom />} />
             <Route path="/my" element={<My />} />
             <Route path="/detail/:id" element={<DetailPage />} />
             <Route path="/detailapart/:id" element={<DetailPageApart />} />
+            <Route path='/contract/:id' element={<Contract />} /> 
+            <Route path="/create-contract/:id" element={<CreateContract />} />
+            
           </Routes>
         </div>
       </div>

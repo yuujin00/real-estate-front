@@ -56,7 +56,7 @@ function Login(){
 
             console.log(response);
             // Extracting token from the new response structure
-            const token = response.data.result.token;
+            const token = response.data.result.token;                                                                                                                                   
             const userEmail = response.data.userEmail;
             // Store the token in LocalStorage
             localStorage.setItem('token', token);

@@ -23,6 +23,7 @@ export default function ListItem() {
         }
       );
       setPropertyData(response.data.result.content);
+      console.log(response.data.result.content)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
