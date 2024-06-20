@@ -75,7 +75,7 @@ function App() {
             <Route path='/propertyTransApart' element={<PropertyTransApart />} />
             <Route path='/PropertyPayment/:id' element={<PropertyPayment />} />
             <Route path='/chat' element={<Chat />} />
-            <Route path="/chatroom/:id" component={<Chatroom />} />
+            <Route path="/chatroom/:id" element={<Chatroom />} />
             <Route path="/my" element={<My />} />
             <Route path="/detail/:id" element={<DetailPage />} />
             <Route path="/detailapart/:id" element={<DetailPageApart />} />
