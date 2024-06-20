@@ -35,7 +35,7 @@ export default function ListItem() {
           key={item.propertyId}
           to={`/detailapart/${item.propertyId}`}
           className="list-item"
-          style={{ position: "relative" }} // Added relative positioning
+          style={{ position: "relative" }} 
         >
           <div className="list-image">
             <img
@@ -57,7 +57,7 @@ export default function ListItem() {
                 marginRight: "10px",
               }}
             >
-              <div className="list-price">{item.price}</div>
+              <div className="list-price">{item.weeklyFee}</div>
               <p style={{ margin: 0, marginLeft: "5px" }}> /1주 </p>
             </div>
             <div

@@ -1,4 +1,3 @@
-// DetailPageApart.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
@@ -14,10 +13,11 @@ const DetailPageApart = () => {
   const navigate = useNavigate();
   const [selectedItem, setSelectedItem] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [id]);
 
   const fetchData = async () => {
     try {
@@ -26,26 +26,47 @@ const DetailPageApart = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://3.35.10.79:8080/realEstate/property/list`,
+        `http://3.35.10.79:8080/realEstate/property/${id}`,
         {
           headers: headers,
         }
       );
-      console.log("선택한 아파트", response.data.result.content[0]);
-      const item = response.data.result.content[0];
+      console.log("API 응답 데이터:", response.data);
+      const item = response.data.result;
       setSelectedItem(item);
       localStorage.setItem("userInfo", item.user.userId);
       setIsLiked(item.isLiked);
+      setLoading(false);
     } catch (error) {
       console.error("데이터를 가져오는 중 오류 발생:", error);
+      setLoading(false);
     }
   };
 
-  const handleInquiry = () => {
+  const handleInquiry = async () => {
     if (!selectedItem) return;
-    navigate(`/chatroom?id=${selectedItem.address.addressId}`, {
-      state: { createMember: selectedItem.id },
-    });
+
+    try {
+      const token = localStorage.getItem("token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const data = {
+        saleNo: selectedItem.propertyId,
+        createMember: selectedItem.user.userId,
+      };
+      const response = await axios.post("http://3.35.10.79:8080/chatroom", data, {
+        headers: headers,
+      });
+      
+      console.log("문의 요청 응답 데이터:", response.data);
+    // 채팅방 생성 후 채팅방 페이지로 이동
+      navigate(`/chatroom/${selectedItem.propertyId}`, {
+        state: { createMember: selectedItem.userId },
+      });
+    } catch (error) {
+      console.error("문의 요청 중 오류 발생:", error);
+    }
   };
 
   const handleContract = () => {
@@ -81,8 +102,16 @@ const DetailPageApart = () => {
     }
   };
 
-  if (!selectedItem) {
+  const handleCenterChanged = (center) => {
+    console.log("지도 중심이 변경되었습니다:", center);
+  };
+
+  if (loading) {
     return <div>Loading...</div>;
+  }
+
+  if (!selectedItem) {
+    return <div>데이터를 가져오는 중 오류가 발생했습니다.</div>;
   }
 
   return (
@@ -96,7 +125,7 @@ const DetailPageApart = () => {
           className="info"
           style={{ display: "flex", alignItems: "center", marginRight: "10px" }}
         >
-          <h1 style={{ margin: 0 }}>{selectedItem.price}</h1>
+          <h1 style={{ margin: 0 }}>{selectedItem.weeklyFee}</h1>
           <p style={{ margin: 0, marginLeft: "5px" }}> /1주 </p>
         </div>
       </div>
@@ -138,7 +167,8 @@ const DetailPageApart = () => {
             marginLeft: "15px",
           }}
         >
-          {selectedItem.managementFee}원{" "}
+          {selectedItem.managementFee}원
+          {selectedItem.depositFee}원
         </p>
       </div>
       <hr />
@@ -252,9 +282,10 @@ const DetailPageApart = () => {
 export default DetailPageApart;
 
 const MapContainer = styled.div`
-  width: 100%; /* 가로 전체 길이를 사용하거나 원하는 크기로 설정하세요 */
-  height: 20px; /* 세로 높이를 지정하세요 */
+  width: 100%;
+  height: 300px;
 `;
+
 
 const InquiryContractContainer = styled.div`
   display: flex;

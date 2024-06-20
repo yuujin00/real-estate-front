@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
-const Map = () => {
+const Map = ({ onCenterChanged }) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
     const { naver } = window;
 
-    const latitude = 37.3595316; // 임의의 위도 값
-    const longitude = 127.1052133; // 임의의 경도 값
+    const latitude = 37.3595316;
+    const longitude = 127.1052133;
     const location = new naver.maps.LatLng(latitude, longitude);
 
     const mapOptions = {
@@ -17,18 +17,22 @@ const Map = () => {
       mapTypeControl: true,
     };
 
-    if (!mapRef.current) return; // Check if map container exists before initializing map
+    if (!mapRef.current) return;
 
     const mapInstance = new naver.maps.Map(mapRef.current, mapOptions);
 
     mapInstance.setCursor("pointer");
 
-    mapInstance.addListener("click", function (e) {
-      // Handle click event...
+    naver.maps.Event.addListener(mapInstance, "dragend", () => {
+      const center = mapInstance.getCenter();
+      onCenterChanged(center);
     });
 
-    // Rest of the code remains unchanged
-  }, []);
+    naver.maps.Event.addListener(mapInstance, "zoom_changed", () => {
+      const center = mapInstance.getCenter();
+      onCenterChanged(center);
+    });
+  }, [onCenterChanged]);
 
   return <MapContainer id="map" ref={mapRef} />;
 };

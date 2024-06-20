@@ -1,9 +1,110 @@
 import React, { useState, useEffect } from 'react';
-import instance from '../api/axios';
-import styled from 'styled-components'; // Import styled-components
-import { Grid, Button } from '../components';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { Stomp } from "@stomp/stompjs";
 
-// Styled components
+
+const Chat = () => {
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [chatRooms, setChatRooms] = useState([]);
+  const navigate = useNavigate();
+
+  
+  useEffect(() => {
+    fetchChatRooms();
+  }, []);
+
+  const fetchChatRooms = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(
+        "http://3.35.10.79:8080/chatroom",
+        {
+          headers: headers,
+        }
+      );
+      setChatRooms(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleRoomSelect = (room) => {
+    setSelectedRoom(room);
+    setMessages(room.messages);
+    navigate(`/chatroom/${room.propertyId}`);
+  };
+
+  const handleSendMessage = () => {
+    if (newMessage.trim() === '') {
+      return;
+    }
+
+    const newMsg = { sender: 'User1', text: newMessage, timestamp: new Date().toLocaleString() };
+    setMessages([...messages, newMsg]);
+    setNewMessage('');
+  };
+
+  // const chatRooms = [
+  //   {
+  //     id: 1,
+  //     name: 'Room 1',
+  //     messages: [
+  //       { sender: 'User1', text: 'Hello!', timestamp: '9:00 AM' },
+  //       { sender: 'User2', text: 'Hi there!', timestamp: '9:02 AM' },
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Room 2',
+  //     messages: [
+  //       { sender: 'User1', text: 'How are you?', timestamp: '10:00 AM' },
+  //       { sender: 'User2', text: 'I\'m good, thank you!', timestamp: '10:05 AM' },
+  //     ],
+  //   },
+  // ];
+
+  return (
+    <Container>
+      <ChatRoomList>
+        {chatRooms.map((room) => (
+          <ChatRoomItem key={room.chatNo} onClick={() => handleRoomSelect(room)}>
+            {room.chatNo}
+          </ChatRoomItem>
+        ))}
+      </ChatRoomList>
+      {selectedRoom && (
+        <div>
+          {messages.map((msg, index) => (
+            <ChatBubble key={index}>
+              <strong>{msg.sender}:</strong> {msg.text} <span style={{ fontSize: '0.8em', color: '#666' }}> ({msg.timestamp})</span>
+            </ChatBubble>
+          ))}
+          <InputContainer>
+            <Input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Type a message..."
+            />
+            <button onClick={handleSendMessage}>Send</button>
+          </InputContainer>
+        </div>
+      )}
+    </Container>
+  );
+};
+
+export default Chat;
+
+
+
 const Container = styled.div`
   max-width: 960px;
   margin: 0 auto;
@@ -11,80 +112,31 @@ const Container = styled.div`
   font-family: 'Arial', sans-serif;
 `;
 
-const Title = styled.h1`
-  color: #333;
-  font-size: 24px;
-  text-align: center;
+const ChatRoomList = styled.div`
   margin-bottom: 20px;
 `;
 
-const List = styled.ul`
-  list-style: none;
-  padding: 0;
+const ChatRoomItem = styled.div`
+  background-color: #f0f0f0;
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: pointer;
 `;
 
-const ListItem = styled.li`
+const ChatBubble = styled.div`
   background-color: #f9f9f9;
   border: 1px solid #ddd;
-  margin-top: 10px;
+  margin: 10px;
   padding: 10px 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 `;
 
-const NoRooms = styled.p`
-  text-align: center;
-  color: #999;
+const InputContainer = styled.div`
+  margin-top: 20px;
 `;
 
-const Chat = () => {
-  const [chatRooms, setChatRooms] = useState([]);
-
-  const fetchChatRooms = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error("No token found");
-        return;
-      }
-      const headers = {
-        Authorization: `Bearer ${token}`
-      };
-
-      const response = await instance.get(
-        '/chatroom', 
-        { headers }
-      );
-      
-      console.log('Chat information API:', response.data);
-      setChatRooms(response.data);
-    } catch (error) {
-      console.error('Error fetching data from API:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchChatRooms();
-  }, []);
-
-  return (
-    <Container>
-      <Title>채팅방 목록</Title>
-      <Grid>
-        {chatRooms.length > 0 ? (
-          <List>
-            {chatRooms.map(chatRoom => (
-              <ListItem key={chatRoom.chatNo}>
-                채팅방 ID: {chatRoom.chatNo}, 매물 번호: {chatRoom.saleNo}, 매물 제목: {chatRoom.saleTitle}, 최근 메시지: {chatRoom.latestMessage?.context || "No messages"}
-              </ListItem>
-            ))}
-          </List>
-        ) : (
-          <NoRooms>No chat rooms available.</NoRooms>
-        )}
-      </Grid>
-    </Container>
-  );
-};
-
-export default Chat;
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+`;
