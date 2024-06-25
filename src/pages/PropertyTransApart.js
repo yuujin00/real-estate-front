@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListItem from '../components/ListItem/ListItem';
 import Map from '../components/Map/Map';
 import ListItemApart from '../components/ListItem/ListItemApart';
@@ -91,10 +91,34 @@ export default function PropertyTransApart() {
         refrigerator: false,
         washingMachine: false,
     });
-    const [filteredData, setFilteredData] = useState(null);
-    const [isFilterApplied, setIsFilterApplied] = useState(false);
 
-    
+    const [propertyList, setPropertyList] = useState([]);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await instance.get(
+                "http://3.35.10.79:8080/realEstate/property/list",
+            );
+
+            setPropertyList(response.data.result.content);
+            console.log(response.data.result.content)
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+
+    function formatDateString(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줌
+        const day = String(date.getDate()).padStart(2, '0'); // 일자를 2자리로 맞춤
+        return `${year}-${month}-${day}`;
+    }
+
     const handleChangeSearch = (e) => {
         setSearch(e.target.value);
     };
@@ -157,60 +181,52 @@ export default function PropertyTransApart() {
         setShowFilters(false);
     };
 
-    function formatDateString(dateStr) {
-        const date = new Date(dateStr);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줌
-        const day = String(date.getDate()).padStart(2, '0'); // 일자를 2자리로 맞춤
-        return `${year}-${month}-${day}`;
-    }
     const handleSearch = async () => {
-      let url = '/realEstate/property/search';
+        let url = '/realEstate/property/search';
+        let newPropertyList = [];
 
-      if (filtersApplied) {
-          const searchParams = {
-              dealType,
-              deposit,
-              weeklyRent,
-              includeMaintenance,
-              salesPrice,
-              selectedArea,
-              parkingAvailable,
-              options,
-              startDate,
-              endDate
-          };
+        if (filtersApplied) {
+            const searchParams = {
+                dealType,
+                deposit,
+                weeklyRent,
+                includeMaintenance,
+                salesPrice,
+                selectedArea,
+                parkingAvailable,
+                options,
+                startDate,
+                endDate
+            };
+            const params = new URLSearchParams({
+                minPrice: searchParams.deposit[0],
+                maxPrice: searchParams.deposit[1],
+                minWeeklyFee: searchParams.weeklyRent[0],
+                maxWeeklyFee: searchParams.weeklyRent[1],
+                includeManagementFee: searchParams.includeMaintenance,
+                parkingAvailable: searchParams.parkingAvailable,
+                areaOptions: searchParams.selectedArea,
+                contractStartDate: formatDateString(searchParams.startDate),
+                contractEndDate: formatDateString(searchParams.endDate),
+                airConditioner: searchParams.options.airConditioner,
+                washingMachine: searchParams.options.washingMachine,
+                refrigerator: searchParams.options.refrigerator,
+            }).toString();
 
-          const params = new URLSearchParams({
-              minPrice: searchParams.deposit[0],
-              maxPrice: searchParams.deposit[1],
-              minWeeklyFee: searchParams.weeklyRent[0],
-              maxWeeklyFee: searchParams.weeklyRent[1],
-              includeManagementFee: searchParams.includeMaintenance,
-              parkingAvailable: searchParams.parkingAvailable,
-              areaOptions: searchParams.selectedArea,
-              contractStartDate : searchParams.StartDate,
-              contractEndDate : searchParams.EndDate,
-              airConditioner: searchParams.options.airConditioner,
-              washingMachine: searchParams.options.washingMachine,
-              refrigerator: searchParams.options.refrigerator,
-          }).toString();
-
-          url += `?${params}`;
-      }
-
-      setIsFilterApplied(false);
-
-      try {
-            const { data } = await instance.get(url);
-            setFilteredData(data);
-            setIsFilterApplied(true);
-            console.log(data);
-        } catch (error) {
-            console.error('데이터 가져오는 중 오류 발생:', error);
-            setFilteredData(null);
-            setIsFilterApplied(false);
+            url += `?${params}`;
         }
+
+        try {
+            const { data } = await instance.get(url);
+            newPropertyList = data.result.content;
+
+        } catch (error) {
+            newPropertyList = [];
+
+            console.error('데이터 가져오는 중 오류 발생:', error);
+        }
+
+        setPropertyList(newPropertyList);
     };
     const filterButtonStyle = {
         backgroundColor: '#5E4017',
@@ -344,8 +360,8 @@ export default function PropertyTransApart() {
                                     <DatePickerContainer>
                                         <DateLabel style={{ fontSize: '14px' }}>시작일</DateLabel>
                                         <TextField
-                                            type="datetime-local"
-                                            value={startDate.toISOString().slice(0, 16)}
+                                            type="date"
+                                            value={startDate.toISOString().split('T')[0]}
                                             onChange={(e) => setStartDate(new Date(e.target.value))}
                                             inputProps={{ style: { fontSize: 14 } }}
                                         />
@@ -354,8 +370,8 @@ export default function PropertyTransApart() {
                                     <DatePickerContainer>
                                         <DateLabel style={{ fontSize: '14px' }}>종료일</DateLabel>
                                         <TextField
-                                            type="datetime-local"
-                                            value={endDate.toISOString().slice(0, 16)}
+                                            type="date"
+                                            value={endDate.toISOString().split('T')[0]}
                                             onChange={(e) => setEndDate(new Date(e.target.value))}
                                             inputProps={{ style: { fontSize: 14 } }}
                                         />
@@ -372,7 +388,7 @@ export default function PropertyTransApart() {
                                         step={10}
                                         marks={[
                                             { value: 0, label: '0' },
-                                            { value: 500, label: '500' },
+                                            { value: 25000, label: '25000' },
                                             { value: 50000, label: '50000' },
                                         ]}
                                     />
@@ -388,7 +404,7 @@ export default function PropertyTransApart() {
                                         step={10}
                                         marks={[
                                             { value: 0, label: '0' },
-                                            { value: 500, label: '500' },
+                                            { value: 2500, label: '2500' },
                                             { value: 5000, label: '5000' },
                                         ]}
                                     />
@@ -408,10 +424,10 @@ export default function PropertyTransApart() {
                                         style={
                                             selectedArea === '전체'
                                                 ? {
-                                                      ...areaButtonStyle,
-                                                      backgroundColor: '#5E4017',
-                                                      color: 'white',
-                                                  }
+                                                    ...areaButtonStyle,
+                                                    backgroundColor: '#5E4017',
+                                                    color: 'white',
+                                                }
                                                 : areaButtonStyle
                                         }
                                         onClick={() => handleAreaButtonClick('전체')}
@@ -423,10 +439,10 @@ export default function PropertyTransApart() {
                                         style={
                                             selectedArea === '10평이하'
                                                 ? {
-                                                      ...areaButtonStyle,
-                                                      backgroundColor: '#5E4017',
-                                                      color: 'white',
-                                                  }
+                                                    ...areaButtonStyle,
+                                                    backgroundColor: '#5E4017',
+                                                    color: 'white',
+                                                }
                                                 : areaButtonStyle
                                         }
                                         onClick={() => handleAreaButtonClick('10평이하')}
@@ -438,10 +454,10 @@ export default function PropertyTransApart() {
                                         style={
                                             selectedArea === '10평대'
                                                 ? {
-                                                      ...areaButtonStyle,
-                                                      backgroundColor: '#5E4017',
-                                                      color: 'white',
-                                                  }
+                                                    ...areaButtonStyle,
+                                                    backgroundColor: '#5E4017',
+                                                    color: 'white',
+                                                }
                                                 : areaButtonStyle
                                         }
                                         onClick={() => handleAreaButtonClick('10평대')}
@@ -453,10 +469,10 @@ export default function PropertyTransApart() {
                                         style={
                                             selectedArea === '20평대'
                                                 ? {
-                                                      ...areaButtonStyle,
-                                                      backgroundColor: '#5E4017',
-                                                      color: 'white',
-                                                  }
+                                                    ...areaButtonStyle,
+                                                    backgroundColor: '#5E4017',
+                                                    color: 'white',
+                                                }
                                                 : areaButtonStyle
                                         }
                                         onClick={() => handleAreaButtonClick('20평대')}
@@ -468,10 +484,10 @@ export default function PropertyTransApart() {
                                         style={
                                             selectedArea === '30평대'
                                                 ? {
-                                                      ...areaButtonStyle,
-                                                      backgroundColor: '#5E4017',
-                                                      color: 'white',
-                                                  }
+                                                    ...areaButtonStyle,
+                                                    backgroundColor: '#5E4017',
+                                                    color: 'white',
+                                                }
                                                 : areaButtonStyle
                                         }
                                         onClick={() => handleAreaButtonClick('30평대')}
@@ -483,10 +499,10 @@ export default function PropertyTransApart() {
                                         style={
                                             selectedArea === '40평대'
                                                 ? {
-                                                      ...areaButtonStyle,
-                                                      backgroundColor: '#5E4017',
-                                                      color: 'white',
-                                                  }
+                                                    ...areaButtonStyle,
+                                                    backgroundColor: '#5E4017',
+                                                    color: 'white',
+                                                }
                                                 : areaButtonStyle
                                         }
                                         onClick={() => handleAreaButtonClick('40평대')}
@@ -498,10 +514,10 @@ export default function PropertyTransApart() {
                                         style={
                                             selectedArea === '50평대'
                                                 ? {
-                                                      ...areaButtonStyle,
-                                                      backgroundColor: '#5E4017',
-                                                      color: 'white',
-                                                  }
+                                                    ...areaButtonStyle,
+                                                    backgroundColor: '#5E4017',
+                                                    color: 'white',
+                                                }
                                                 : areaButtonStyle
                                         }
                                         onClick={() => handleAreaButtonClick('50평대')}
@@ -513,10 +529,10 @@ export default function PropertyTransApart() {
                                         style={
                                             selectedArea === '60평이상'
                                                 ? {
-                                                      ...areaButtonStyle,
-                                                      backgroundColor: '#5E4017',
-                                                      color: 'white',
-                                                  }
+                                                    ...areaButtonStyle,
+                                                    backgroundColor: '#5E4017',
+                                                    color: 'white',
+                                                }
                                                 : areaButtonStyle
                                         }
                                         onClick={() => handleAreaButtonClick('60평이상')}
@@ -539,10 +555,10 @@ export default function PropertyTransApart() {
                                         style={
                                             options.airConditioner
                                                 ? {
-                                                      ...optionButtonStyle,
-                                                      backgroundColor: '#5E4017',
-                                                      color: 'white',
-                                                  }
+                                                    ...optionButtonStyle,
+                                                    backgroundColor: '#5E4017',
+                                                    color: 'white',
+                                                }
                                                 : optionButtonStyle
                                         }
                                         onClick={() => handleOptionToggle('airConditioner')}
@@ -554,10 +570,10 @@ export default function PropertyTransApart() {
                                         style={
                                             options.refrigerator
                                                 ? {
-                                                      ...optionButtonStyle,
-                                                      backgroundColor: '#5E4017',
-                                                      color: 'white',
-                                                  }
+                                                    ...optionButtonStyle,
+                                                    backgroundColor: '#5E4017',
+                                                    color: 'white',
+                                                }
                                                 : optionButtonStyle
                                         }
                                         onClick={() => handleOptionToggle('refrigerator')}
@@ -569,10 +585,10 @@ export default function PropertyTransApart() {
                                         style={
                                             options.washingMachine
                                                 ? {
-                                                      ...optionButtonStyle,
-                                                      backgroundColor: '#5E4017',
-                                                      color: 'white',
-                                                  }
+                                                    ...optionButtonStyle,
+                                                    backgroundColor: '#5E4017',
+                                                    color: 'white',
+                                                }
                                                 : optionButtonStyle
                                         }
                                         onClick={() => handleOptionToggle('washingMachine')}
@@ -592,27 +608,19 @@ export default function PropertyTransApart() {
                         </div>
                     </div>
                 )}
-                {/* 조건부 렌더링 */}
-                {isFilterApplied ? (
-                    filteredData && filteredData.length > 0 ? (
-                        // 필터링된 데이터 렌더링
+                <div>
+                    <Map />
+                    {propertyList && propertyList.length > 0 ? (
                         <div>
-                            {filteredData.map((item, index) => (
-                                <ListItemApart key={index} item={item} />
+                            {propertyList.map((item) => (
+                                <ListItemApart key={item.propertyId} item={item} />
                             ))}
                         </div>
                     ) : (
-                        <div>검색 결과가 없습니다</div>
-                    )
-                ) : (
-                    // 기존 데이터 렌더링 (Map과 ListItemApart 컴포넌트)
-                    <div>
-                        
-                <Map />
-                <ListItemApart />
+                        <div style={{ textAlign: 'center', paddingTop: '24px' }}>검색 결과가 없습니다</div>
+                    )}
+                </div>
             </div>
-            )}
-        </div>
         </ThemeProvider>
     );
 }

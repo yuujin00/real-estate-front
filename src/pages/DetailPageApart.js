@@ -35,9 +35,8 @@ const DetailPageApart = () => {
           headers: headers,
         }
       );
-      console.log('index',index);
-      console.log("선택한 아파트", response.data.result.content[index-1]);
-      const item = response.data.result.content[index-1];
+      console.log("API 응답 데이터:", response.data);
+      const item = response.data.result;
       setSelectedItem(item);
       localStorage.setItem("userInfo", item.user.userId);
       setIsLiked(item.isLiked);
