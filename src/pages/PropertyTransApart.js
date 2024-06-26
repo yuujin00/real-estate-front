@@ -642,8 +642,7 @@ export default function PropertyTransApart() {
                         </div>
                     </div>
                 )}
-                <div>
-                    {/* 중복코드 제거 및 렌더링 데이터 변수 통일 */}
+                <div> 
                     <Map lat={location.lat} long={location.long} />
                     {propertyList && propertyList.length > 0 ? (
                         <div>
