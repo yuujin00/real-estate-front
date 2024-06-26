@@ -54,7 +54,7 @@ function PropertyPayment() {
         console.log('결제 ')
         // 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
         window.jQuery.ajax({
-          url: `http://3.35.10.79:8080/realEstate/verify/${rsp.imp_uid}`, //cross-domain error가 발생하지 않도록 주의해주세요
+          url: `http://15.164.30.195:8080/realEstate/verify/${rsp.imp_uid}`, //cross-domain error가 발생하지 않도록 주의해주세요
           type: 'POST',
           dataType: 'json',
           headers: {

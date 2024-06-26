@@ -1,14 +1,24 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
-const Map = () => {
+const Map = ({lat = 37.3595316, long = 127.1052133}) => {
   const mapRef = useRef(null);
+  const instanceRef = useRef(null);
+
+  useEffect(() => {
+    if (!instanceRef.current) return;
+
+    const { naver } = window;
+
+    instanceRef.current.setCenter(new naver.maps.LatLng(lat, long));
+
+  }, [lat, long]);
 
   useEffect(() => {
     const { naver } = window;
 
-    const latitude = 37.3595316; // 임의의 위도 값
-    const longitude = 127.1052133; // 임의의 경도 값
+    const latitude = lat; // 임의의 위도 값
+    const longitude = long; // 임의의 경도 값
     const location = new naver.maps.LatLng(latitude, longitude);
 
     const mapOptions = {
@@ -26,6 +36,8 @@ const Map = () => {
     mapInstance.addListener("click", function (e) {
       // Handle click event...
     });
+
+    instanceRef.current = mapInstance;
 
     // Rest of the code remains unchanged
   }, []);

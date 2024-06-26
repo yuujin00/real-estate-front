@@ -36,7 +36,7 @@ function CreateContract() {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://3.35.10.79:8080/realEstate/property/list`,
+        `http://15.164.30.195:8080/realEstate/property/list`,
         {
           headers: headers,
         }
@@ -80,7 +80,7 @@ function CreateContract() {
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-      const response = await axios.post(`http://3.35.10.79:8080/realEstate/contract/create/${id}`, formData, {
+      const response = await axios.post(`http://15.164.30.195:8080/realEstate/contract/create/${id}`, formData, {
         headers: headers,
       });
       alert("계약서가 성공적으로 생성되었습니다.");

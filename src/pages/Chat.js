@@ -24,7 +24,7 @@ const Chat = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        "http://3.35.10.79:8080/chatroom",
+        "http://15.164.30.195:8080/chatroom",
         {
           headers: headers,
         }
