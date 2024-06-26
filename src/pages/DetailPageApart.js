@@ -30,7 +30,7 @@ const DetailPageApart = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://3.35.10.79:8080/realEstate/property/${id}`,
+        `http://15.164.30.195:8080/realEstate/property/${id}`,
         {
           headers: headers,
         }
@@ -59,7 +59,7 @@ const DetailPageApart = () => {
         saleNo: selectedItem.propertyId,
         createMember: selectedItem.user.userId,
       };
-      const response = await axios.post("http://3.35.10.79:8080/chatroom", data, {
+      const response = await axios.post("http://15.164.30.195:8080/chatroom", data, {
         headers: headers,
       });
       
@@ -86,7 +86,7 @@ const DetailPageApart = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const url = `http://3.35.10.79:8080/realEstate/property/wish/${selectedItem.propertyId}`;
+      const url = `http://15.164.30.195:8080/realEstate/property/wish/${selectedItem.propertyId}`;
       console.log("좋아요 상태 토글을 위한 URL:", url);
 
       if (!isLiked) {

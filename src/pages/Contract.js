@@ -27,7 +27,7 @@ function Contract() {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://3.35.10.79:8080/realEstate/property/list`,
+        `http://15.164.30.195:8080/realEstate/property/list`,
         {
           headers: headers,
         }
@@ -39,7 +39,7 @@ function Contract() {
       // 계약이 이미 생성되었는지 확인
       if (contractIdFromQuery) {
         const contractResponse = await axios.get(
-          `http://3.35.10.79:8080/realEstate/contract/item/${contractIdFromQuery}`,
+          `http://15.164.30.195:8080/realEstate/contract/item/${contractIdFromQuery}`,
           {
             headers: headers,
           }

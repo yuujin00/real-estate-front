@@ -94,17 +94,47 @@ export default function PropertyTransApart() {
 
     const [propertyList, setPropertyList] = useState([]);
 
+    const [location, setLocation] = useState({
+        lat: undefined,
+        long: undefined,
+    });
+
+
+    // 최초 렌더링 시 데이터 불러오기 ( 데이터 불러오는 위치 변경 )
     useEffect(() => {
         fetchData();
     }, []);
 
+    const setLocations = (address) => {
+        const { naver } = window;
+
+        naver.maps.Service.geocode({
+            query: address, 
+        }, (status, response) => {
+            if (status === naver.maps.Service.Status.ERROR) {
+                return;
+            }
+
+            const result = response.v2.addresses[0];
+            if (!result) return;
+            
+            setLocation({
+                lat: result.y,
+                long: result.x,
+            });
+        })
+    };
+
     const fetchData = async () => {
         try {
             const response = await instance.get(
-                "http://3.35.10.79:8080/realEstate/property/list",
+                "http://15.164.30.195:8080/realEstate/property/list",
             );
 
             setPropertyList(response.data.result.content);
+
+            setLocations(response.data.result.content[0].address.streetAddress);
+
             console.log(response.data.result.content)
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -199,8 +229,8 @@ export default function PropertyTransApart() {
                 endDate
             };
             const params = new URLSearchParams({
-                minPrice: searchParams.deposit[0],
-                maxPrice: searchParams.deposit[1],
+                // minPrice: searchParams.deposit[0],
+                // maxPrice: searchParams.deposit[1],
                 minWeeklyFee: searchParams.weeklyRent[0],
                 maxWeeklyFee: searchParams.weeklyRent[1],
                 includeManagementFee: searchParams.includeMaintenance,
@@ -219,6 +249,10 @@ export default function PropertyTransApart() {
         try {
             const { data } = await instance.get(url);
             newPropertyList = data.result.content;
+
+            if (data.result.content.length > 0){
+                setLocations(data.result.content[0].address.streetAddress);
+            }
 
         } catch (error) {
             newPropertyList = [];
@@ -377,7 +411,7 @@ export default function PropertyTransApart() {
                                         />
                                     </DatePickerContainer>
                                 </div>
-                                <div>보증금</div>
+                                {/* <div>보증금</div>
                                 <div style={{ width: '200px' }}>
                                     <Slider
                                         value={deposit}
@@ -388,11 +422,11 @@ export default function PropertyTransApart() {
                                         step={10}
                                         marks={[
                                             { value: 0, label: '0' },
-                                            { value: 25000, label: '25000' },
+                                            { value: 500, label: '500' },
                                             { value: 50000, label: '50000' },
                                         ]}
                                     />
-                                </div>
+                                </div> */}
                                 <div>금액(1주)</div>
                                 <div style={{ width: '200px' }}>
                                     <Slider
@@ -609,7 +643,8 @@ export default function PropertyTransApart() {
                     </div>
                 )}
                 <div>
-                    <Map />
+                    {/* 중복코드 제거 및 렌더링 데이터 변수 통일 */}
+                    <Map lat={location.lat} long={location.long} />
                     {propertyList && propertyList.length > 0 ? (
                         <div>
                             {propertyList.map((item) => (
