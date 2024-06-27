@@ -411,7 +411,7 @@ export default function PropertyTransApart() {
                                         />
                                     </DatePickerContainer>
                                 </div>
-                                {/* <div>보증금</div>
+                                <div>보증금</div>
                                 <div style={{ width: '200px' }}>
                                     <Slider
                                         value={deposit}
@@ -426,7 +426,7 @@ export default function PropertyTransApart() {
                                             { value: 50000, label: '50000' },
                                         ]}
                                     />
-                                </div> */}
+                                </div>
                                 <div>금액(1주)</div>
                                 <div style={{ width: '200px' }}>
                                     <Slider

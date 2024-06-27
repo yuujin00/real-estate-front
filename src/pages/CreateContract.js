@@ -358,7 +358,7 @@ function CreateContract() {
               <div style={{ margin: '4px' }}></div>
               14. 본 계약에 대하여 계약 당사자는 (1) 부동산 단기 월세 계약서 와  (2) 부동산 특약사항에 대해 이의 없음을 확인하고 동의한다.
             </div>
-            <div>
+            <div style={{ margin: '15px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <input
                 type="checkbox"
                 id="agreement"
@@ -367,8 +367,8 @@ function CreateContract() {
                 onChange={handleChange}
               />
               <label htmlFor="agreement">상기 내용에 모두 동의합니다.</label>
+              <button type="submit" style={styles.button}>Save</button>
             </div>
-            <button type="submit" style={styles.button}>Save</button>
           </form>
         </div>
       )}
