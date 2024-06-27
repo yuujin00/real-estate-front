@@ -65,6 +65,18 @@ function Contract() {
     }
   }, [contractId, location.pathname]);
 
+  useEffect(() => {
+    const state = location.state || {};
+    if (state.paymentCompleted) {
+      setShowReceiveButton(true);
+      setShowSignButton(false);
+      setShowProceedButton(false);
+    }
+
+    // 기존 fetchData 로직 유지...
+  }, [location, id]);
+
+
   const handleBack = () => {
     navigate(-1); // 뒤로 가기
   };
@@ -99,7 +111,7 @@ function Contract() {
 
   const handlePaymentContract = () => {
     console.log("Payment contract with ID:", contractId);
-    navigate(`/PropertyPayment/${contractId}`);
+    navigate(`/PropertyPayment/${id}?contractId=${contractId}`);
   };
 
   const handleReceiveContract = () => {
@@ -201,7 +213,7 @@ function Contract() {
             >계약서 작성</button>
           </div>
         )}
-        {showSignButton && (
+        {(showSignButton || showReceiveButton) && (
           <div>
           <p style={{ margin: '0 30px',color:'#979797' }}>거래 당사자간 입력/수정이 가능합니다.</p>
           <button 
@@ -233,7 +245,7 @@ function Contract() {
             <p style={{ margin: '0 30px',color:'#979797' }}>서명 후에는 계약서 수정이 불가능합니다.</p>
             <button 
               style={{ margin: '15px 30px', borderRadius: '10px', padding: "5px 10px", backgroundColor: '#D99E73', color: 'white', border: 'none' }}
-              onClick={handleOpenModal}
+              onClick={handleSignContract}
             >서명하기</button>
             <SignContractModal open={modalOpen} handleClose={handleCloseModal} setIsSigned={setIsSigned} />
             <button 
@@ -241,6 +253,16 @@ function Contract() {
               onClick={handlePaymentContract} disabled={!isSigned}
             >결제하기</button>
           </div>
+        )}
+        {showReceiveButton && (
+          <div>
+          <button 
+            style={{ margin:'15px 30px', borderRadius: '10px', padding: "5px 10px", backgroundColor: '#D99E73', color: 'white', border: 'none' }}
+          >서명완료</button>
+          <button 
+            style={{  margin: '15px 30px', borderRadius: '10px', padding: "5px 10px", backgroundColor: '#D99E73', color: 'white', border: 'none' }}
+          >결제완료</button>
+        </div>
         )}
         <h2>계약서 수령</h2>
           {showProceedButton && (
