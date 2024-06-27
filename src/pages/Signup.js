@@ -33,8 +33,8 @@ function Signup() {
 
     const handleEmailCheck = async () => {
         try {
-            const response = await instance.post('realEstate/user/emailcheck', { email: signupData.email });
-            if (response.data.statusCode === 200) {
+            const response = await instance.post('/realEstate/user/emailcheck', { email: signupData.email });
+            if (response.data.resultCode === 'SUCCESS') {
                 setEmailAlertSeverity('success');
                 setEmailAlertMessage('사용 가능한 이메일입니다.');
             } else {

@@ -14,8 +14,8 @@ function CreateContract() {
     contractDateTo: "",
     contractPrice: "",
     contractPriceDate: "",
-    Installment: "",
-    InstallmentDate: "",
+    installment: "",
+    installmentDate: "",
     balance: "",
     balanceDate: "",
     parkFeeDate: "",
@@ -66,8 +66,24 @@ function CreateContract() {
   };
 
   const handleNext = () => {
-    setStep(2);
+    const requiredFields = [
+      'section', 'propertyType', 'contractDateFrom', 'contractDateTo', 'contractPrice', 'contractPriceDate',
+      'installment', 'installmentDate', 'balance', 'balanceDate', 'parkFeeDate', 'loanAmountDate'
+    ];
+  
+    const isAllFieldsFilled = requiredFields.every(field => {
+      const value = formData[field];
+      return value !== "" && value !== null && value !== undefined;
+    });
+  
+    if (isAllFieldsFilled) {
+      setStep(2);
+    } else {
+      alert("모두 입력해주세요.");
+    }
   };
+  
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,6 +100,7 @@ function CreateContract() {
         headers: headers,
       });
       alert("계약서가 성공적으로 생성되었습니다.");
+      console.log(formData);
       const contractId = response.data.result.id;
       navigate(`/contract/${id}?contractId=${contractId}`);
     } catch (error) {
@@ -189,8 +206,8 @@ function CreateContract() {
               <label style={styles.label}>중도금</label>
               <input
                 type='number'
-                name="Installment"
-                value={formData.Installment}
+                name="installment"
+                value={formData.installment}
                 onChange={handleChange}
                 style={styles.input}
                 placeholder="중도금"
@@ -200,8 +217,8 @@ function CreateContract() {
               <label style={styles.label}>중도금 지불일</label>
               <input
                 type="date"
-                name="InstallmentDate"
-                value={formData.InstallmentDate}
+                name="installmentDate"
+                value={formData.installmentDate}
                 onChange={handleChange}
                 style={styles.input}
               />
@@ -341,7 +358,7 @@ function CreateContract() {
               <div style={{ margin: '4px' }}></div>
               14. 본 계약에 대하여 계약 당사자는 (1) 부동산 단기 월세 계약서 와  (2) 부동산 특약사항에 대해 이의 없음을 확인하고 동의한다.
             </div>
-            <div>
+            <div style={{ margin: '15px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <input
                 type="checkbox"
                 id="agreement"
@@ -350,8 +367,8 @@ function CreateContract() {
                 onChange={handleChange}
               />
               <label htmlFor="agreement">상기 내용에 모두 동의합니다.</label>
+              <button type="submit" style={styles.button}>Save</button>
             </div>
-            <button type="submit" style={styles.button}>Save</button>
           </form>
         </div>
       )}
