@@ -1,8 +1,15 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 function PropertyPayment() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { id } = useParams();
+  const [contractId, setContractId] = useState(null);
+  const [contractDetails, setContractDetails] = useState({});
+  const [totalAmount, setTotalAmount] = useState(0);
+
 
   useEffect(() => {
     const jquery = document.createElement("script");
@@ -29,6 +36,39 @@ function PropertyPayment() {
     };
   }, []);
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const contractIdFromQuery = queryParams.get('contractId');
+    setContractId(contractIdFromQuery);
+    fetchContractDetails(contractIdFromQuery);
+  }, [id, location.search]);
+
+  const fetchContractDetails = async (contractIdFromQuery) => {
+      try {
+        if (contractIdFromQuery) {
+          const token = localStorage.getItem('token');
+          const response = await axios.get(`http://15.164.30.195:8080/realEstate/contract/item/${contractIdFromQuery}`,{
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (response.data.resultCode === "SUCCESS") {
+            setContractDetails(response.data.result);
+
+            const installment = Number(response.data.result.installment) || 0;
+            const contractPrice = Number(response.data.result.contractPrice) || 0;
+            const balance = Number(response.data.result.balance) || 0;
+            const total = installment + contractPrice + balance;
+            setTotalAmount(total);
+          } else {
+            alert('Failed to fetch contract details');
+          }
+        } else {
+          console.error("Contract ID is undefined");
+        }
+      } catch (error) {
+        console.error("Error fetching contract details:", error);
+      }
+    };
+
   const requestPay = () => {
     const { IMP } = window;
     if (!IMP) {
@@ -40,9 +80,9 @@ function PropertyPayment() {
     IMP.request_pay({
       pg: 'html5_inicis.INIpayTest',
       pay_method: 'card',
-      merchant_uid: new Date().getTime().toString(),
+      merchant_uid: `merchant_${new Date().getTime()}`,
       name: '테스트 상품',
-      amount: 1,
+      amount: totalAmount,
       buyer_email: 'test@naver.com',
       buyer_name: '코드쿡',
       buyer_tel: '010-1234-5678',
@@ -66,7 +106,7 @@ function PropertyPayment() {
           }
         }).done(function(data) {
           // 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-          if (data && data.response && rsp.paid_amount === data.response.amount) {
+          if ( data.response && rsp.paid_amount === data.response.amount) {
             var msg = '결제가 완료되었습니다.';
             msg += '\n고유ID : ' + rsp.imp_uid;
             msg += '\n상점 거래ID : ' + rsp.merchant_uid;
@@ -74,7 +114,8 @@ function PropertyPayment() {
             msg += '카드 승인번호 : ' + rsp.apply_num;
             
             alert(msg);
-            navigate(`/contract/${rsp.merchant_uid}`); // 결제 완료 후 contract 페이지로 이동
+            // 성공적인 결제 및 서버 측 검증 후:
+            navigate(`/contract/${id}?contractId=${contractId}?${rsp.merchant_uid}`, { state: { paymentCompleted: true } });
           } else {
             alert('결제 실패: 금액 불일치');
           }
@@ -92,6 +133,15 @@ function PropertyPayment() {
 
   return (
     <div>
+      {contractDetails && (
+        <div>
+          <h2>Contract Details</h2>
+          <p>installment: ${contractDetails.installment}</p>
+          <p>Contract Price: ${contractDetails.contractPrice}</p>
+          <p>Balance: ${contractDetails.balance}</p>
+          <h3>Total Amount: ${totalAmount}</h3>
+        </div>
+      )}
       <button onClick={requestPay}>결제하기</button>
     </div>
   );
