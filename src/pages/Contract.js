@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
+import axios from '../api/axios';
 import '../components/ListItem/style.css';
 import SignContractModal from '../components/Bar/SignContractModal.js';
 
@@ -30,7 +30,7 @@ function Contract() {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://15.164.30.195:8080/realEstate/property/list`,
+        `/realEstate/property/list`,
         {
           headers: headers,
         }
@@ -42,7 +42,7 @@ function Contract() {
       // 계약이 이미 생성되었는지 확인
       if (contractIdFromQuery) {
         const contractResponse = await axios.get(
-          `http://15.164.30.195:8080/realEstate/contract/item/${contractIdFromQuery}`,
+          `/realEstate/contract/item/${contractIdFromQuery}`,
           {
             headers: headers,
           }

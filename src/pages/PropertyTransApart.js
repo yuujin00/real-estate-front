@@ -128,7 +128,7 @@ export default function PropertyTransApart() {
     const fetchData = async () => {
         try {
             const response = await instance.get(
-                "http://15.164.30.195:8080/realEstate/property/list",
+                "/realEstate/property/list",
             );
 
             setPropertyList(response.data.result.content);

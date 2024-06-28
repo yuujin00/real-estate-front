@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axios from '../api/axios';
 
 function CreateContract() {
   const { id } = useParams();
@@ -36,7 +36,7 @@ function CreateContract() {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://15.164.30.195:8080/realEstate/property/list`,
+        `/realEstate/property/list`,
         {
           headers: headers,
         }
@@ -96,7 +96,7 @@ function CreateContract() {
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-      const response = await axios.post(`http://15.164.30.195:8080/realEstate/contract/create/${id}`, formData, {
+      const response = await axios.post(`/realEstate/contract/create/${id}`, formData, {
         headers: headers,
       });
       alert("계약서가 성공적으로 생성되었습니다.");

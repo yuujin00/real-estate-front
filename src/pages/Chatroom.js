@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../api/axios";
 import { Stomp, Client } from "@stomp/stompjs";
-import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
   ChatContainer,
@@ -107,7 +106,7 @@ const Chatroom = () => {
 
   const fetchChatHistory = async () => {
     try {
-      const response = await axios.get(`http://3.35.10.79:8080/chatroom/${chatRoomId}`);
+      const response = await axios.get(`ㄴ/chatroom/${chatRoomId}`);
       const chatList = response.data.chatList;
       const formattedMessages = chatList.map(chat => ({
         model: {

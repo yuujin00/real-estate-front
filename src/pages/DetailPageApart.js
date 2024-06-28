@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../api/axios";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FaHeart } from "react-icons/fa";
@@ -30,7 +30,7 @@ const DetailPageApart = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://15.164.30.195:8080/realEstate/property/${id}`,
+        `/realEstate/property/${id}`,
         {
           headers: headers,
         }
@@ -59,7 +59,7 @@ const DetailPageApart = () => {
         saleNo: selectedItem.propertyId,
         createMember: selectedItem.user.userId,
       };
-      const response = await axios.post("http://15.164.30.195:8080/chatroom", data, {
+      const response = await axios.post("/chatroom", data, {
         headers: headers,
       });
       
@@ -86,7 +86,7 @@ const DetailPageApart = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const url = `http://15.164.30.195:8080/realEstate/property/wish/${selectedItem.propertyId}`;
+      const url = `/realEstate/property/wish/${selectedItem.propertyId}`;
       console.log("좋아요 상태 토글을 위한 URL:", url);
 
       if (!isLiked) {
