@@ -120,9 +120,6 @@ function PropertyPayment() {
         const { data } = await axios.post(`/realEstate/verify/${rsp.imp_uid}`);
         if (rsp.paid_amount === data.response.amount) {
           alert('결제 성공');
-          const url = `/contract/${id}`;
-          const searchParams = new URLSearchParams({ contractId: contractId, merchantUid: rsp.merchant_uid });
-          navigate(`${url}?${searchParams.toString()}`, { state: { paymentCompleted: true } });
         } else {
           alert('결제 실패');
         }
