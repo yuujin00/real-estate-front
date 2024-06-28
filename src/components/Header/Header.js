@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled, Modal, Box, Dialog } from '@mui/material';
 import { Grid, Button, Img } from '..';
-import instance from '../../api/axios';
+import budong from '../../assets/images/bg.png';
 
 function Header({ onBackButtonClick }) {
 	const navigate = useNavigate();
@@ -16,7 +16,7 @@ function Header({ onBackButtonClick }) {
 			<Grid theme='header_'>
                 <Button 
                     theme='headerTitle' 
-                    children='부동맞춤' 
+                    children='budong' 
                     onClick={handleButtonClick}
                     style={buttonStyle} 
                 />

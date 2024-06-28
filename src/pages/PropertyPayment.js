@@ -10,20 +10,23 @@ function PropertyPayment() {
   const [selectedItem, setSelectedItem] = useState({});
   const [contractDetails, setContractDetails] = useState({});
   const [totalAmount, setTotalAmount] = useState(0);
-
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
 
   useEffect(() => {
-    const jquery = document.createElement("script");
-    jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
-    jquery.onload = () => {
-      const iamport = document.createElement("script");
-      iamport.src = "https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
-      iamport.onload = () => {
-        console.log('Iamport script loaded');
+    const loadExternalScripts = () => {
+      const jqueryScript = document.createElement("script");
+      jqueryScript.src = "https://code.jquery.com/jquery-1.12.4.min.js";
+      jqueryScript.onload = () => {
+        const iamportScript = document.createElement("script");
+        iamportScript.src = "https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
+        iamportScript.onload = () => console.log('Iamport script loaded');
+        document.head.appendChild(iamportScript);
       };
-      document.head.appendChild(iamport);
+      document.head.appendChild(jqueryScript);
     };
-    document.head.appendChild(jquery);
+
+    loadExternalScripts();
 
     return () => {
       const loadedJquery = document.head.querySelector('script[src="https://code.jquery.com/jquery-1.12.4.min.js"]');
@@ -34,9 +37,11 @@ function PropertyPayment() {
       if (loadedIamport) {
         document.head.removeChild(loadedIamport);
       }
+      
+      /*setPaymentSuccess(true);*/
     };
   }, []);
-
+  
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const contractIdFromQuery = queryParams.get('contractId');
@@ -45,92 +50,90 @@ function PropertyPayment() {
   }, [id, location.search]);
 
   useEffect(() => {
-    const fetchPropertyDetails = async () => {
-      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
-      const response = await axios.get(`/realEstate/property/list`, { headers });
-      const item = response.data.result.content[id - 1];
-      setSelectedItem(item);
-      localStorage.setItem("userInfo", item.user.userId);
-    };
-    fetchPropertyDetails();
-  }, [id]);
-
-  useEffect(() => {
     if (selectedItem.weeklyFee !== undefined && selectedItem.depositFee !== undefined) {
       const installment = Number(contractDetails.installment) || 0;
       const contractPrice = Number(contractDetails.contractPrice) || 0;
       const balance = Number(contractDetails.balance) || 0;
       const weeklyFee = Number(selectedItem.weeklyFee) || 0;
       const depositFee = Number(selectedItem.depositFee) || 0;
-      const total = installment + contractPrice + balance + weeklyFee + depositFee;
+      const total = installment + contractPrice + balance /*+ weeklyFee*/ + depositFee;
       setTotalAmount(total);
     }
   }, [contractDetails, selectedItem]);
-  
+
+  const fetchPropertyDetails = async () => {
+    try {
+      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+      const response = await axios.get(`/realEstate/property/list`, { headers });
+      const item = response.data.result.content[id - 1];
+      setSelectedItem(item);
+      localStorage.setItem("userInfo", item.user.userId);
+    } catch (error) {
+      console.error("Error fetching property details:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPropertyDetails();
+  }, [id]);
 
   const fetchContractDetails = async (contractIdFromQuery) => {
-      try {
-        if (contractIdFromQuery) {
-          const token = localStorage.getItem('token');
-          const response = await axios.get(`/realEstate/contract/item/${contractIdFromQuery}`,{
-            headers: { Authorization: `Bearer ${token}` }
-          });
-          if (response.data.resultCode === "SUCCESS") {
-            setContractDetails(response.data.result);
-
-            const installment = Number(response.data.result.installment) || 0;
-            const contractPrice = Number(response.data.result.contractPrice) || 0;
-            const balance = Number(response.data.result.balance) || 0;
-            const weeklyFee = Number(selectedItem.weeklyFee) || 0;
-            const depositFee = Number(selectedItem.depositFee) || 0;
-            const total = installment + contractPrice + balance + weeklyFee + depositFee;
-            setTotalAmount(total);
-          } else {
-            alert('Failed to fetch contract details');
-          }
+    try {
+      if (contractIdFromQuery) {
+        const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+        const response = await axios.get(`/realEstate/contract/item/${contractIdFromQuery}`, { headers });
+        if (response.data.resultCode === "SUCCESS") {
+          setContractDetails(response.data.result);
         } else {
-          console.error("Contract ID is undefined");
+          alert('Failed to fetch contract details');
         }
-      } catch (error) {
-        console.error("Error fetching contract details:", error);
+      } else {
+        console.error("Contract ID is undefined");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching contract details:", error);
+    }
+  };
+
+  const handleButtonClick = () => {
+    navigate(`/contract/${id}?contractId=${contractId}/SUCCESS`, { state: { paymentCompleted: true } });
+    console.log(paymentCompleted);
+  };
 
   const requestPay = () => {
     const { IMP } = window;
     if (!IMP) {
-      alert('Iamport 라이브러리가 로드되지 않았습니다.');
+      alert('Iamport library is not loaded.');
       return;
     }
-    IMP.init('imp65221673'); // 테스트용 imp_key
+    IMP.init('imp65221673'); // Replace this with your actual IMP key
 
     IMP.request_pay({
       pg: 'html5_inicis.INIpayTest',
       pay_method: 'card',
       merchant_uid: `merchant_${new Date().getTime()}`,
-      name: '테스트 상품',
+      name: 'Test Product',
       amount: totalAmount,
       buyer_email: 'test@naver.com',
-      buyer_name: '코드쿡',
+      buyer_name: 'CodeCook',
       buyer_tel: '010-1234-5678',
-      buyer_addr: '서울특별시',
+      buyer_addr: 'Seoul',
       buyer_postcode: '123-456',
     }, async (rsp) => {
       try {
-        const { data } = await axios.post(`/realEstate/verify/${rsp.imp_uid}`);
-        if (rsp.paid_amount === data.response.amount) {
-          alert('결제 성공');
+        if (rsp.success) {
+          const data = await axios.post(`/realEstate/verify/${rsp.imp_uid}`);
+          alert('Payment successful');
+          setPaymentSuccess(true);
         } else {
-          alert('결제 실패');
+          alert(`Payment failed: ${rsp.error_msg}`);
         }
       } catch (error) {
         console.error('Error while verifying payment:', error);
-        alert('결제 실패');
+        alert('Payment verification failed');
       }
     });
   };
-
-  
 
   return (
     <div style={{
@@ -208,6 +211,21 @@ function PropertyPayment() {
           </div>
         </div>
       )}
+      {paymentSuccess ? (
+      <button style={{
+        width: '100%',
+        backgroundColor: '#4CAF50', // 성공 시 녹색 버튼
+        color: 'white',
+        padding: '15px',
+        fontSize: '16px',
+        border: 'none',
+        borderRadius: '5px',
+        marginTop: '20px',
+        cursor: 'pointer'
+      }} onClick={handleButtonClick}> 
+        결제 완료되었습니다
+      </button>
+    ) : (
       <button style={{
         width: '100%',
         backgroundColor: '#5E4017',
@@ -218,7 +236,10 @@ function PropertyPayment() {
         borderRadius: '5px',
         marginTop: '20px',
         cursor: 'pointer'
-      }} onClick={requestPay}>결제하기</button>
+      }} onClick={requestPay}>
+        결제하기
+      </button>
+    )}
     </div>
   );
   

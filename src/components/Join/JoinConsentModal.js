@@ -30,7 +30,7 @@ const JoinConsentModal = ({ open, handleClose }) => {
         if (isAllChecked()) {
             handleClose();
         } else {
-            alert('모든 동의서에 동의해야 합니다.');
+            alert('You must agree to all the consent forms.');
         }
     };
 
@@ -63,7 +63,7 @@ const JoinConsentModal = ({ open, handleClose }) => {
                             color="primary"
                             sx={{ '& .MuiSvgIcon-root': { color: '#5E4017' } }} // 체크박스 색상 변경
                         />
-                        <label style={{ fontSize: '14px', color: '#666' }}>[필수] 이용약관 동의</label>
+                        <label style={{ fontSize: '13px', color: '#666' }}>[Required] Agree to Terms of Service</label>
                     </div>
                     <div style={{ marginBottom: '3px' }}>
                         <Checkbox
@@ -72,7 +72,7 @@ const JoinConsentModal = ({ open, handleClose }) => {
                             color="primary"
                             sx={{ '& .MuiSvgIcon-root': { color: '#5E4017' } }} // 체크박스 색상 변경
                         />
-                        <label style={{ fontSize: '14px', color: '#666' }}>[필수] 개인정보 수집 및 이용 동의 </label>
+                        <label style={{ fontSize: '14px', color: '#666' }}>[Required] Agree to Use of Personal Information</label>
                     </div>
                     <div style={{ marginBottom: '3px' }}>
                         <Checkbox
@@ -81,7 +81,7 @@ const JoinConsentModal = ({ open, handleClose }) => {
                             color="primary"
                             sx={{ '& .MuiSvgIcon-root': { color: '#5E4017' } }} // 체크박스 색상 변경
                         />
-                        <label style={{ fontSize: '14px', color: '#666' }}>[필수] 개인정보 제 3자 제공동의</label>
+                        <label style={{ fontSize: '14px', color: '#666' }}>[Required] Agree to the Provision of Personal Information</label>
                     </div>
                     <div style={{ marginBottom: '3px' }}>
                         <Checkbox
@@ -90,9 +90,9 @@ const JoinConsentModal = ({ open, handleClose }) => {
                             color="primary"
                             sx={{ '& .MuiSvgIcon-root': { color: '#5E4017' } }} // 체크박스 색상 변경
                         />
-                        <label style={{ fontSize: '14px', color: '#666' }}>[필수] 만 14세 이상입니다.</label>
+                        <label style={{ fontSize: '14px', color: '#666' }}>[Required] I am over 14 years old.</label>
                     </div>
-                    <Button theme='startBtn' children='다음'type='submit' onClick={handleNext} disabled={!isAllChecked()}/>
+                    <Button theme='startBtn' children='NEXT'type='submit' onClick={handleNext} disabled={!isAllChecked()}/>
                 </div>
             </Modal>
         </div>
