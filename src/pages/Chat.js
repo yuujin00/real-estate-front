@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 import { Stomp } from "@stomp/stompjs";
 
 
@@ -24,7 +24,7 @@ const Chat = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        "http://15.164.30.195:8080/chatroom",
+        "/chatroom",
         {
           headers: headers,
         }

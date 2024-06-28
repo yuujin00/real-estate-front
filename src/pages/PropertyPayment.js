@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 
 function PropertyPayment() {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
   const [contractId, setContractId] = useState(null);
+  const [selectedItem, setSelectedItem] = useState({});
   const [contractDetails, setContractDetails] = useState({});
   const [totalAmount, setTotalAmount] = useState(0);
 
@@ -43,11 +44,35 @@ function PropertyPayment() {
     fetchContractDetails(contractIdFromQuery);
   }, [id, location.search]);
 
+  useEffect(() => {
+    const fetchPropertyDetails = async () => {
+      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+      const response = await axios.get(`/realEstate/property/list`, { headers });
+      const item = response.data.result.content[id - 1];
+      setSelectedItem(item);
+      localStorage.setItem("userInfo", item.user.userId);
+    };
+    fetchPropertyDetails();
+  }, [id]);
+
+  useEffect(() => {
+    if (selectedItem.weeklyFee !== undefined && selectedItem.depositFee !== undefined) {
+      const installment = Number(contractDetails.installment) || 0;
+      const contractPrice = Number(contractDetails.contractPrice) || 0;
+      const balance = Number(contractDetails.balance) || 0;
+      const weeklyFee = Number(selectedItem.weeklyFee) || 0;
+      const depositFee = Number(selectedItem.depositFee) || 0;
+      const total = installment + contractPrice + balance + weeklyFee + depositFee;
+      setTotalAmount(total);
+    }
+  }, [contractDetails, selectedItem]);
+  
+
   const fetchContractDetails = async (contractIdFromQuery) => {
       try {
         if (contractIdFromQuery) {
           const token = localStorage.getItem('token');
-          const response = await axios.get(`http://15.164.30.195:8080/realEstate/contract/item/${contractIdFromQuery}`,{
+          const response = await axios.get(`/realEstate/contract/item/${contractIdFromQuery}`,{
             headers: { Authorization: `Bearer ${token}` }
           });
           if (response.data.resultCode === "SUCCESS") {
@@ -56,7 +81,9 @@ function PropertyPayment() {
             const installment = Number(response.data.result.installment) || 0;
             const contractPrice = Number(response.data.result.contractPrice) || 0;
             const balance = Number(response.data.result.balance) || 0;
-            const total = installment + contractPrice + balance;
+            const weeklyFee = Number(selectedItem.weeklyFee) || 0;
+            const depositFee = Number(selectedItem.depositFee) || 0;
+            const total = installment + contractPrice + balance + weeklyFee + depositFee;
             setTotalAmount(total);
           } else {
             alert('Failed to fetch contract details');
@@ -89,62 +116,115 @@ function PropertyPayment() {
       buyer_addr: '서울특별시',
       buyer_postcode: '123-456',
     }, async (rsp) => {
-      if (rsp.success) {
-        const token = localStorage.getItem("token");
-        console.log('결제 ')
-        // 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-        window.jQuery.ajax({
-          url: `http://15.164.30.195:8080/realEstate/verify/${rsp.imp_uid}`, //cross-domain error가 발생하지 않도록 주의해주세요
-          type: 'POST',
-          dataType: 'json',
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          data: {
-            imp_uid: rsp.imp_uid
-            //기타 필요한 데이터가 있으면 추가 전달
-          }
-        }).done(function(data) {
-          // 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-          if ( data.response && rsp.paid_amount === data.response.amount) {
-            var msg = '결제가 완료되었습니다.';
-            msg += '\n고유ID : ' + rsp.imp_uid;
-            msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-            msg += '\결제 금액 : ' + rsp.paid_amount;
-            msg += '카드 승인번호 : ' + rsp.apply_num;
-            
-            alert(msg);
-            // 성공적인 결제 및 서버 측 검증 후:
-            navigate(`/contract/${id}?contractId=${contractId}?${rsp.merchant_uid}`, { state: { paymentCompleted: true } });
-          } else {
-            alert('결제 실패: 금액 불일치');
-          }
-        }).fail(function(error) {
-          console.error('Error while verifying payment:', error);
-          alert('결제 검증 실패');
-        });
-      } else {
-        var msg = '결제에 실패하였습니다.';
-        msg += '에러내용 : ' + rsp.error_msg;
-        alert(msg);
+      try {
+        const { data } = await axios.post(`/realEstate/verify/${rsp.imp_uid}`);
+        if (rsp.paid_amount === data.response.amount) {
+          alert('결제 성공');
+          const url = `/contract/${id}`;
+          const searchParams = new URLSearchParams({ contractId: contractId, merchantUid: rsp.merchant_uid });
+          navigate(`${url}?${searchParams.toString()}`, { state: { paymentCompleted: true } });
+        } else {
+          alert('결제 실패');
+        }
+      } catch (error) {
+        console.error('Error while verifying payment:', error);
+        alert('결제 실패');
       }
     });
   };
 
+  
+
   return (
-    <div>
+    <div style={{
+      margin: '140px 30px ',
+      padding: '20px',
+      backgroundColor: '#fff',
+      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+      borderRadius: '8px'
+    }}>
       {contractDetails && (
-        <div>
-          <h2>Contract Details</h2>
-          <p>installment: ${contractDetails.installment}</p>
-          <p>Contract Price: ${contractDetails.contractPrice}</p>
-          <p>Balance: ${contractDetails.balance}</p>
-          <h3>Total Amount: ${totalAmount}</h3>
+        <div >
+          <h2 style={{
+            borderBottom: '2px solid #eee',
+            paddingBottom: '10px',
+            marginBottom: '20px'
+          }}>결제금액</h2>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '10px',
+            fontSize: '16px'
+          }}>
+            <span>중도금</span>
+            <span>{contractDetails.installment}원</span>
+          </div>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '10px',
+            fontSize: '16px'
+          }}>
+            <span>계약금</span>
+            <span>{contractDetails.contractPrice}원</span>
+          </div>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '20px',
+            fontSize: '16px'
+          }}>
+            <span>잔금</span>
+            <span>{contractDetails.balance}원</span>
+          </div>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            paddingTop: '20px',
+            borderTop: '2px solid #333',
+            fontWeight: 'bold',
+            marginBottom: '20px',
+            fontSize: '18px'
+          }}>
+            <span>주차임</span>
+            <span>{selectedItem.weeklyFee}원</span>
+          </div>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '20px',
+            fontSize: '16px'
+          }}>
+            <span>보증금</span>
+            <span>{selectedItem.depositFee}원</span>
+          </div>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            paddingTop: '20px',
+            borderTop: '2px solid #333',
+            fontWeight: 'bold',
+            fontSize: '18px'
+          }}>
+            <strong>총 금액</strong>
+            <strong>{totalAmount}원</strong>
+          </div>
         </div>
       )}
-      <button onClick={requestPay}>결제하기</button>
+      <button style={{
+        width: '100%',
+        backgroundColor: '#5E4017',
+        color: 'white',
+        padding: '15px',
+        fontSize: '16px',
+        border: 'none',
+        borderRadius: '5px',
+        marginTop: '20px',
+        cursor: 'pointer'
+      }} onClick={requestPay}>결제하기</button>
     </div>
   );
+  
 }
 
 export default PropertyPayment;
