@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import axios from '../api/axios';
+import axios from "../api/axios";
 import '../components/ListItem/style.css';
 import SignContractModal from '../components/Bar/SignContractModal.js';
 
@@ -204,7 +204,7 @@ function Contract() {
             <p style={{ margin: '0 30px',color:'#979797' }}>결제방식 및 결제일 확인</p>
             </div>
           )}
-        {!showProceedButton && !showSignButton && (
+        { !showProceedButton && !showSignButton && !showReceiveButton && (
           <div>
             <p style={{ margin: '0 30px',color:'#979797' }}>거래 당사자간 입력/수정이 가능합니다.</p>
             <button 
@@ -213,7 +213,7 @@ function Contract() {
             >계약서 작성</button>
           </div>
         )}
-        {(showSignButton || showReceiveButton) && (
+        { (showReceiveButton || showSignButton) &&(
           <div>
           <p style={{ margin: '0 30px',color:'#979797' }}>거래 당사자간 입력/수정이 가능합니다.</p>
           <button 
@@ -230,7 +230,7 @@ function Contract() {
                 <p style={{ margin: '0 30px',color:'#979797' }}>· 수기서명/지문서명</p>
             </div>
           )}
-          {!showProceedButton && !showSignButton && (
+          {!showProceedButton && !showSignButton && !showReceiveButton &&(
           <div>
           <button 
             style={{ margin:'15px 30px', borderRadius: '10px', padding: "5px 10px", backgroundColor: '#B9B9B9', color: 'white', border: 'none' }}
@@ -256,6 +256,7 @@ function Contract() {
         )}
         {showReceiveButton && (
           <div>
+          <p style={{ margin: '0 30px',color:'#979797' }}>서명 후에는 계약서 수정이 불가능합니다.</p>
           <button 
             style={{ margin:'15px 30px', borderRadius: '10px', padding: "5px 10px", backgroundColor: '#D99E73', color: 'white', border: 'none' }}
           >서명완료</button>
@@ -271,7 +272,7 @@ function Contract() {
                 <p style={{ margin: '0 30px',color:'#979797' }}>· 계약 승인 후 열람 가능</p>
             </div>
           )}
-          {showSignButton && (
+          {!showProceedButton && !showSignButton && !showReceiveButton && (
           <div>
           <button 
               style={{ margin: '15px 30px', borderRadius: '10px', padding: "5px 10px", backgroundColor: '#B9B9B9', color: 'white', border: 'none' }}
@@ -282,7 +283,7 @@ function Contract() {
           <div>
             <p style={{ margin: '0 30px',color:'#979797' }}>계약성사가 완료되었습니다.</p>
             <button 
-              style={{ borderRadius: '15px 30px', padding: "5px 10px", backgroundColor: '#D99E73', color: 'white', border: 'none' }}
+              style={{ margin: '15px 30px', borderRadius: '10px', padding: "5px 10px", backgroundColor: '#D99E73', color: 'white', border: 'none' }}
               onClick={handleReceiveContract}
             >계약서 수령</button>
           </div>
@@ -320,7 +321,7 @@ const navItemIcon = {
 const styles = {
   scrollContainer: {
     overflowY: 'auto',
-    height: '520px',
+    height: '500px',
     padding: '10px',
     border: '1px solid #ccc',
   },

@@ -40,7 +40,7 @@ function MainUnderBar() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          marginTop: '198px',
+          marginTop: '175px',
           width: '100%',
           display: 'flex',
           justifyContent: 'center'

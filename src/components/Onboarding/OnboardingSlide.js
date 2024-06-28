@@ -8,18 +8,18 @@ function OnboardingSlide({ handleButtonClick } ) {
 		{
 			image: onboarding1,
 			content:
-				'<center><h2><strong>부동산 원스톱 전자계약</strong></h2><br>부동부동은 수수료와 종이 날인 없이<br> 매물 등록, 매물 거래 서비스를<br> 제공합니다.</center>',
+				'<center><h3><strong>One-Stop Real Estate Contract</strong></h2>Budong offers <br>property listing, transaction,<br> and contract services <br>without any fees or paper stamps.</center>',
 			showButton: false
 		},
 		{
 			image: onboarding2,
 			content:
-				'<center><h2><strong>부동산 원스톱 전자계약</strong></h2><br>부동부동은 ~~~한<br><br> 매물 계약 서비스를 제공합니다.</center>',
+				'<center><h3><strong>One-Stop Real Estate Contract</strong></h2>Budong provides <br>an easy and convenient property contract service <br>without the need for offline paperwork.</center>',
 			showButton: false
 		},
 		{
 			content:
-				'<center><h2><strong><br>부동산 원스톱 전자계약</strong></h2></center><br>21세기 디지털 혁명 시대,<br> 무엇보다 빠르고 편리한 부동산 계약을 <br>원하신다면.',
+				'<center><h3><strong><br>One-Stop Real Estate Contract</strong></h2></center><br>In the era of online transactions,<br> if you want fast and <br>secure real estate contracts,<br> start now.',
 			showButton: true
 		},
 	];
@@ -45,8 +45,8 @@ function OnboardingSlide({ handleButtonClick } ) {
 						</Grid>
                     	{i === 2 && item.showButton && ( 
 						<Grid theme='main_background'>
-							<Button theme='mainStartBtn' children='시작하기' onClick={() => handleButtonClick('login')} />
-							<Button theme='mainStartBtn' children='계정이 없다면? 회원가입' onClick={() => handleButtonClick('/signup')} />
+							<Button theme='mainStartBtn' children='START' onClick={() => handleButtonClick('login')} />
+							<Button theme='mainStartBtn' children='Sign UP' onClick={() => handleButtonClick('/signup')} />
 						</Grid>
                     )}
 					</div>

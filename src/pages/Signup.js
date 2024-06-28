@@ -36,15 +36,14 @@ function Signup() {
             const response = await instance.post('/realEstate/user/emailcheck', { email: signupData.email });
             if (response.data.resultCode === 'SUCCESS') {
                 setEmailAlertSeverity('success');
-                setEmailAlertMessage('사용 가능한 이메일입니다.');
+                setEmailAlertMessage('The email is available.');
             } else {
                 setEmailAlertSeverity('error');
-                setEmailAlertMessage('이미 존재하는 이메일입니다.');
+                setEmailAlertMessage('The email already exists.');
             }
         } catch (error) {
-            console.error('이메일 중복 체크 실패:', error);
             setEmailAlertSeverity('error');
-            setEmailAlertMessage('이미 존재하는 이메일입니다.');
+            setEmailAlertMessage('The email already exists.');
         }
     };
 
@@ -57,10 +56,10 @@ function Signup() {
         const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
         if (!passwordRegex.test(signupData.password)) {
             setPasswordAlertSeverity('error');
-            setPasswordAlertMessage('비밀번호는 영문, 숫자, 특수문자를 포함하여 8자 이상이어야 합니다.');
+            setPasswordAlertMessage('The password must be at least 8 characters long and include letters, numbers, and special characters.');
         } else {
             setPasswordAlertSeverity('success');
-            setPasswordAlertMessage('사용 가능한 비밀번호입니다.');
+            setPasswordAlertMessage('The password is available.');
         }
     };
 
@@ -84,7 +83,7 @@ function Signup() {
             const response = await instance.post('realEstate/user/join', signupData);
 
             if (response.status === 200) {
-                alert('회원가입이 완료되었습니다.');
+                alert('Registration is complete.');
                 setSignupData({
 					name: '',
 					password: '',
@@ -94,11 +93,10 @@ function Signup() {
                 });
                 navigate('/login');
             } else {
-                alert('회원가입에 실패했습니다.');
+                alert('Registration failed.');
             }
         } catch (error) {
-            console.log('회원가입 실패 ', error);
-            alert('회원가입 실패 ');
+            alert('Registration failed.');
         }
     };
 
@@ -112,14 +110,14 @@ function Signup() {
                 <div style={{ height: '70px' }}></div>
 
                 <Grid theme='onboardingSlide'>
-                    <Grid theme='JoinFont'>회원가입</Grid>
+                    <Grid theme='JoinFont'>Sign Up</Grid>
                     <br/>
                     <Grid theme='signForm'>
                     <form onSubmit={postSignupData}>
                         <Grid theme='registerForm'>
                             <TextField 
                                 id='name' 
-                                label='아이디' 
+                                label='ID' 
                                 variant='outlined' 
                                 size='small' 
                                 onChange={handleNameChange} 
@@ -127,14 +125,14 @@ function Signup() {
                             
                             <TextField 
                                 id='email'
-								label='이메일' 
+								label='email' 
                                 variant='outlined' 
                                 size='small' 
                                 onChange={handleEmailChange} 
                                 />
                             <Grid container alignItems="center" spacing={1} theme='signupBtnContainer' >
                                 <Grid item>
-                                    <Button theme='signupBtn' onClick={handleEmailCheck} disabled={!signupData.email || !signupData.email.includes('@')}>사용 가능 여부 확인</Button>
+                                    <Button theme='signupBtn' onClick={handleEmailCheck} disabled={!signupData.email || !signupData.email.includes('@')}>Check Availability</Button>
                                 </Grid>
                             </Grid>
                             <div style={{ display: emailAlertMessage ? 'block' : 'none' }}>
@@ -153,7 +151,7 @@ function Signup() {
             
                             <TextField
                                 id='password'
-                                label='비밀번호'
+                                label='password'
                                 variant='outlined'
                                 size='small'
                                 type='password'
@@ -161,7 +159,7 @@ function Signup() {
                             />
                             <Grid container alignItems="center" spacing={1} theme='signupBtnContainer'>
                                 <Grid item>
-                                    <Button theme='signupBtn' onClick={handlePasswordCheck}>사용 가능 여부 확인</Button>
+                                    <Button theme='signupBtn' onClick={handlePasswordCheck}>Check Availability</Button>
                                 </Grid>
                             </Grid>
                             <div style={{ display: passwordAlertMessage ? 'block' : 'none' }}>
@@ -178,7 +176,7 @@ function Signup() {
                                 </Alert>
                             </div>
                             <FormControl variant="outlined" size="small">
-                                <InputLabel id="gender-label">성별</InputLabel>
+                                <InputLabel id="gender-label">gender</InputLabel>
                                 <Select 
                                     id='gender' 
                                     label="성별"
@@ -186,13 +184,13 @@ function Signup() {
                                     value={signupData.gender} 
                                     onChange={handleGenderChange}
                                 >
-                                    <MenuItem value='MEN'>남성</MenuItem>
-                                    <MenuItem value='WOMEN'>여성</MenuItem>
+                                    <MenuItem value='MEN'>MEN</MenuItem>
+                                    <MenuItem value='WOMEN'>WOMEN</MenuItem>
                                 </Select>
                             </FormControl>
                             <TextField
                                 id='age'
-                                label='나이'
+                                label='age'
                                 inputProps={{ min: 14, max: 120 }}
                                 variant='outlined'
                                 size='small'
@@ -202,7 +200,7 @@ function Signup() {
                         </Grid>
 
                         <Grid theme='startGrid'>
-                            <Button theme='startBtn' children='회원가입' type='submit' onClick={postSignupData} />
+                            <Button theme='startBtn' children='SIGN UP' type='submit' onClick={postSignupData} />
                         </Grid>
                     </form>
                     </Grid>

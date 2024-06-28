@@ -43,15 +43,15 @@ function Main(){
         <>  
             <div style={mainWrap}>
 
-            <div style={{ fontSize: '24px', fontWeight: 'bold', marginLeft: '30px', color: 'black' }}>부동산 원스톱 전자계약</div>
+            <div style={{ fontSize: '20px', fontWeight: 'bold', marginLeft: '30px', color: 'black' }}>One-Stop Real Estate Contract</div>
             <br/>
-            <div style={{ fontSize: '15px', marginTop: '3px', marginLeft: '30px', marginBottom: '3px', color: '#757575' }}>수수료 없이 <br></br> 종이·날인 없이</div>
+            <div style={{ fontSize: '15px', marginTop: '3px', marginLeft: '30px', marginBottom: '3px', color: '#757575' }}>No fees <br></br> Without paper and stamps</div>
             <br/>
             
                 <Grid theme='loginForm' >
                     <Button theme='RegisStart' onClick={onClickPropertyRegis} >
                         <Img theme='checkmark' src={checkmark} alt='checkmark' />
-                        <span style={{fontSize:'20px', color:'Black',  textAlign: 'left'}}> 매물 등록하기
+                        <span style={{fontSize:'18px', color:'Black',  textAlign: 'left'}}>  매물 등록하기
                         <div style={{ marginTop:'0px', fontSize:'12px',color:'#828282',lineHeight: '1.2' }}>가장 빠르고 좋은 가격으로<br></br>거래를 시작하세요.</div></span>
                         <Img theme='arrow_' src={arrow} alt='arrow' />
                     </Button>
@@ -60,12 +60,12 @@ function Main(){
                         <Button theme='TransStart' onClick={onClickPropertyTransApart} >
                             <div style={{fontSize:'20px', color:'Black',  textAlign: 'center'}}> 
                             <Img src={a} alt='a' />
-                            <br></br>외국인 단기 임대</div>
+                            <br></br>Short-Term Rentals</div>
                         </Button>
                         <Button theme='TransStart' onClick={onClickPropertyTrans} >
                             <div style={{fontSize:'20px', color:'Black',  textAlign: 'center'}}> 
                             <Img src={b} alt='b' />
-                            <br></br>출시예정</div>
+                            <br></br>Coming Soon</div>
                         </Button>
                     </Grid>
                     <Grid theme='loginOption'>

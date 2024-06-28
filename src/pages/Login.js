@@ -81,7 +81,7 @@ function Login(){
             <div style={loginWrap}>
                 <div style={{ height: '70px' }}></div>
                 <Grid theme='onboardingSlide'>
-                    <Grid theme='JoinFont'>로그인</Grid>
+                    <Grid theme='JoinFont'>LOGIN</Grid>
                     <br/>
                     <form onSubmit={handleFormSubmit}>
                         <Grid theme='loginForm'>
@@ -90,7 +90,7 @@ function Login(){
                                 <TextField 
                                     id='email' 
                                     type='email' 
-                                    label='이메일' 
+                                    label='email' 
                                     variant='outlined' 
                                     size='small' 
                                     onChange={handleEmailChange} 
@@ -101,7 +101,7 @@ function Login(){
                                 <TextField
                                     id='password'
                                     type='password'
-                                    label='패스워드'
+                                    label='password'
                                     variant='outlined'
                                     size='small'
                                     onChange={handlePasswordChange}
@@ -109,7 +109,7 @@ function Login(){
                             </Grid>
                         </Grid>
                         <Grid theme='startGrid'>
-                            <Button theme='startBtn' children='로그인' type='submit' />
+                            <Button theme='startBtn' children='LOGIN' type='submit' />
                         </Grid>
                         {successLogin ? null : (
                             <div style={{
@@ -125,14 +125,13 @@ function Login(){
                                         lineHeight: '1.2'
                                     }}
                                 >
-                                    <AlertTitle>로그인 실패</AlertTitle>
-                                    <strong>아이디</strong>와 <strong>비밀번호</strong>를 확인해보세요.
+                                    <AlertTitle>Login Failed</AlertTitle>
+                                    Please check your <strong>ID</strong> and <strong>Password</strong>
                                 </Alert>
                             </div>
                         )}
                         <Grid theme='loginForm'>
                             <hr style={{ width: '50%', height: '3px', backgroundColor: '#ccc', border: 'none' }} />
-                            <Grid theme='sloginFont'>소셜 로그인하기</Grid>
                             <Grid theme='loginOption_'>
                                 <Button theme='loginBtn' onClick={handleClick}>
                                     <Img theme='loginImage_' src={naver} />
@@ -145,16 +144,16 @@ function Login(){
                                 </Button>
                             </Grid>
                             <Grid theme='loginOption'>
-                                <div style={{ marginTop: '5px', color: '#757575' }}>계정이 없으신가요?
-                                    <Button theme='signupBtn' children='회원가입' onClick={onClickSignup} />
+                                <div style={{ marginTop: '5px', color: '#757575' }}>If you don't have an account,
+                                    <Button theme='signupBtn' children='sign up' onClick={onClickSignup} />
                                 </div>
                             </Grid>
                             <Grid theme='loginOption'>
-                                <Button theme='signupBtn_' children='아이디 찾기' onClick={handleClick} /> 
+                                <Button theme='signupBtn_' children='Find ID' onClick={handleClick} /> 
                                 <div style={{ marginTop: '10px', color: '#757575' }}>|</div>
-                                <Button theme='signupBtn_' children='비밀번호 찾기' onClick={handleClick} />
+                                <Button theme='signupBtn_' children='Find Password' onClick={handleClick} />
                             </Grid>
-                            {showMessage && <div style={{fontSize:'14px'}}><center>현재 개발 진행 중에 있습니다.<br />빠른 시일 내에 제공하도록 하겠습니다.</center></div>}
+                            {showMessage && <div style={{fontSize:'12px'}}><center>We are currently in the development process.<br />We will provide the service as soon as possible.</center></div>}
                         </Grid>
                     </form>
                 </Grid>
