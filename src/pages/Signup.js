@@ -52,16 +52,6 @@ function Signup() {
         setPasswordAlertMessage('');
     };
 
-    const handlePasswordCheck = () => {
-        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-        if (!passwordRegex.test(signupData.password)) {
-            setPasswordAlertSeverity('error');
-            setPasswordAlertMessage('The password must be at least 8 characters long and include letters, numbers, and special characters.');
-        } else {
-            setPasswordAlertSeverity('success');
-            setPasswordAlertMessage('The password is available.');
-        }
-    };
 
     const handleGenderChange = (event) => {
         setSignupData({ ...signupData, gender: event.target.value });
@@ -157,11 +147,6 @@ function Signup() {
                                 type='password'
                                 onChange={handlePasswordChange}
                             />
-                            <Grid container alignItems="center" spacing={1} theme='signupBtnContainer'>
-                                <Grid item>
-                                    <Button theme='signupBtn' onClick={handlePasswordCheck}>Check Availability</Button>
-                                </Grid>
-                            </Grid>
                             <div style={{ display: passwordAlertMessage ? 'block' : 'none' }}>
                                 <Alert 
                                     severity={passwordAlertSeverity} 
