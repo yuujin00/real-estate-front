@@ -13,7 +13,7 @@ export default function ListItem({ item }) {
     >
       <div className="list-image">
         <img
-          src={item.imageUrls}
+          src={item.imageUrls[0]}
           alt="Property"
           style={{ width: "80px", height: "auto" }}
         />
