@@ -134,7 +134,7 @@ function Contract() {
         <div className='list-item'>
         <div className="list-image">
         <img
-          src={selectedItem.imageUrls}
+          src={selectedItem.imageUrls[0]}
           alt="Property"
           style={{ width: "80px", height: "auto" }}
         />

@@ -132,7 +132,6 @@ export default function PropertyTransApart() {
             );
 
             setPropertyList(response.data.result.content);
-
             setLocations(response.data.result.content[0].address.streetAddress);
 
             console.log(response.data.result.content)

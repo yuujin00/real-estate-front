@@ -120,7 +120,11 @@ const DetailPageApart = () => {
 
   return (
     <div>
-      <StyledImage src={selectedItem.imageUrls} alt="Property" />
+      {selectedItem.imageUrls.map((url, index) => (
+        <StyledImage key={index} src={url} alt={`Property ${index + 1}`} />
+      ))}
+
+
 
       <div
         style={{ display: "flex", alignItems: "center", marginLeft: "20px" }}
