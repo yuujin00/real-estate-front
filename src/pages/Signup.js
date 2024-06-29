@@ -132,7 +132,8 @@ function Signup() {
                                 />
                             <Grid container alignItems="center" spacing={1} theme='signupBtnContainer' >
                                 <Grid item>
-                                    <Button theme='signupBtn' onClick={handleEmailCheck} disabled={!signupData.email || !signupData.email.includes('@')}>사용 가능 여부 확인</Button>
+                                    <Button theme='signupBtn' onClick={handleEmailCheck} disabled={!signupData.email || !signupData.email.includes('@')}>
+                                    Check availability</Button>
                                 </Grid>
                             </Grid>
                             <div style={{ display: emailAlertMessage ? 'block' : 'none' }}>
@@ -159,7 +160,7 @@ function Signup() {
                             />
                             <Grid container alignItems="center" spacing={1} theme='signupBtnContainer'>
                                 <Grid item>
-                                    <Button theme='signupBtn' onClick={handlePasswordCheck}>사용 가능 여부 확인</Button>
+                                    <Button theme='signupBtn' onClick={handlePasswordCheck}>Check availability</Button>
                                 </Grid>
                             </Grid>
                             <div style={{ display: passwordAlertMessage ? 'block' : 'none' }}>
@@ -190,7 +191,7 @@ function Signup() {
                             </FormControl>
                             <TextField
                                 id='age'
-                                label='나이'
+                                label='age'
                                 inputProps={{ min: 14, max: 120 }}
                                 variant='outlined'
                                 size='small'
@@ -200,7 +201,7 @@ function Signup() {
                         </Grid>
 
                         <Grid theme='startGrid'>
-                            <Button theme='startBtn' children='회원가입' type='submit' onClick={postSignupData} />
+                            <Button theme='startBtn' children='Sign up' type='submit' onClick={postSignupData} />
                         </Grid>
                     </form>
                     </Grid>
