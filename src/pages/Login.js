@@ -132,7 +132,7 @@ function Login(){
                         )}
                         <Grid theme='loginForm'>
                             <hr style={{ width: '50%', height: '3px', backgroundColor: '#ccc', border: 'none' }} />
-                            <Grid theme='loginOption_'>
+                            {/*<Grid theme='loginOption_'>
                                 <Button theme='loginBtn' onClick={handleClick}>
                                     <Img theme='loginImage_' src={naver} />
                                 </Button>
@@ -142,7 +142,7 @@ function Login(){
                                 <Button theme='loginBtn' onClick={handleClick}>
                                     <Img theme='loginImage__' src={kakao} />
                                 </Button>
-                            </Grid>
+                            </Grid>*/}
                             <Grid theme='loginOption'>
                                 <div style={{ marginTop: '5px', color: '#757575' }}>If you don't have an account,
                                     <Button theme='signupBtn' children='sign up' onClick={onClickSignup} />
