@@ -52,7 +52,7 @@ function Signup() {
         setPasswordAlertMessage('');
     };
 
-    const handlePasswordCheck = () => {
+    /*const handlePasswordCheck = () => {
         const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
         if (!passwordRegex.test(signupData.password)) {
             setPasswordAlertSeverity('error');
@@ -61,7 +61,7 @@ function Signup() {
             setPasswordAlertSeverity('success');
             setPasswordAlertMessage('The password is available.');
         }
-    };
+    };*/
 
     const handleGenderChange = (event) => {
         setSignupData({ ...signupData, gender: event.target.value });
@@ -159,9 +159,9 @@ function Signup() {
                                 onChange={handlePasswordChange}
                             />
                             <Grid container alignItems="center" spacing={1} theme='signupBtnContainer'>
-                                <Grid item>
+                                {/*<Grid item>
                                     <Button theme='signupBtn' onClick={handlePasswordCheck}>Check availability</Button>
-                                </Grid>
+                                </Grid>*/}
                             </Grid>
                             <div style={{ display: passwordAlertMessage ? 'block' : 'none' }}>
                                 <Alert 
