@@ -1,34 +1,37 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { styled, Modal, Box, Dialog } from '@mui/material';
-import { Grid, Button, Img } from '..';
-import budong from '../../assets/images/부동맞춤 로고_v2_without txt.svg';
+import { Grid, Button } from '..'; // Assuming you're correctly importing these from your local project setup
 
 function Header({ onBackButtonClick }) {
-	const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleButtonClick = () => {
-        navigate('/main');
+        const token = localStorage.getItem('token'); // Get the token from localStorage
+        if (token) {
+            navigate('/main'); // Navigate only if the token exists
+        } else {
+            alert('You are not logged in. Please log in to continue.'); // Inform the user if the token is missing
+        }
     };
 
-	return (
-		<>
-			<Grid theme='header_'>
-                <Button 
-                    theme='headerTitle' 
-                    children='budong' 
+    return (
+        <>
+            <Grid theme='header_'>
+                <Button
+                    theme='headerTitle'
+                    children='budong'
                     onClick={handleButtonClick}
-                    style={buttonStyle} 
+                    style={buttonStyle}
                 />
             </Grid>
-		</>
-	);
+        </>
+    );
 }
 
 const buttonStyle = {
-	background: '#fff',
-	border: 'none',
-	cursor: 'pointer',
+    background: '#fff',
+    border: 'none',
+    cursor: 'pointer',
 };
 
 export default Header;
