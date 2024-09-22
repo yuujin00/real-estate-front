@@ -23,22 +23,26 @@ const DetailPageApart = () => {
     fetchData();
   }, [id]);
 
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+  
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token"); // 쿠키에서 토큰을 가져옴
       const headers = {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
         `/realEstate/property/${id}`,
-        {
-          headers: headers,
-        }
+        { headers: headers }
       );
       console.log("API 응답 데이터:", response.data);
       const item = response.data.result;
       setSelectedItem(item);
-      localStorage.setItem("userInfo", item.user.userId);
+      localStorage.setItem("userInfo", item.user.userId); // 여전히 userInfo는 로컬 스토리지에 저장
       setIsLiked(item.isLiked);
       setLoading(false);
     } catch (error) {
@@ -46,6 +50,7 @@ const DetailPageApart = () => {
       setLoading(false);
     }
   };
+  
 
   const handleInquiry = async () => {
     if (!selectedItem) return;

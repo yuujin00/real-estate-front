@@ -44,7 +44,7 @@ function Login(){
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-
+    
         try {
             const response = await instance.post(
                 '/realEstate/user/login',
@@ -53,19 +53,17 @@ function Login(){
                     password: password,
                 },
             );
-
+    
             console.log(response);
             // Extracting token from the new response structure
-            const token = response.data.result.token;                                                                                                                                   
-            const userEmail = response.data.userEmail;
-            // Store the token in LocalStorage
-            localStorage.setItem('token', token);
-            // Store the user email in LocalStorage
-            localStorage.setItem('userEmail', userEmail);
-
+            const token = response.data.result.token;
+            
+            // Store the token in a cookie with HttpOnly and Secure flags
+            document.cookie = `token=${token}; path=/; max-age=3600; Secure`;
+    
             // Handle successful login
             console.log('로그인 성공:');
-
+    
             // Navigate to main
             navigate('/main');
         } catch (error) {
@@ -75,6 +73,7 @@ function Login(){
         }
         sessionStorage.setItem('email', email);
     };
+    
 
     return (
         <>
