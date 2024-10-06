@@ -59,7 +59,7 @@ function Login(){
             const token = response.data.result.token;
             
             // Store the token in a cookie with HttpOnly and Secure flags
-            document.cookie = `token=${token}; path=/; max-age=3600; Secure`;
+            document.cookie = `token=${token}; path=/; Secure`;
     
             // Handle successful login
             console.log('로그인 성공:');
