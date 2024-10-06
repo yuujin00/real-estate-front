@@ -75,8 +75,8 @@ export default function PropertyTransApart() {
     const [search, setSearch] = useState('');
     const [showFilters, setShowFilters] = useState(false);
     const [dealType, setDealType] = useState('전체');
-    const [deposit, setDeposit] = useState([0, 50000]);
-    const [weeklyRent, setWeeklyRent] = useState([0, 5000]);
+    const [deposit, setDeposit] = useState([0, 1000000]);
+    const [weeklyRent, setWeeklyRent] = useState([0, 1000000]);
     const [includeMaintenance, setIncludeMaintenance] = useState(false);
     const [salesPrice, setSalesPrice] = useState([0, 1000000]);
     const [filtersApplied, setFiltersApplied] = useState(false);
@@ -192,8 +192,8 @@ export default function PropertyTransApart() {
     };
 
     const handleResetFilters = () => {
-        setDeposit([0, 50000]);
-        setWeeklyRent([0, 5000]);
+        setDeposit([0, 1000000]);
+        setWeeklyRent([0, 1000000]);
         setIncludeMaintenance(false);
         setSalesPrice([0, 1000000]);
         setSelectedArea('전체');
@@ -417,12 +417,13 @@ export default function PropertyTransApart() {
                                         onChange={handleDepositChange}
                                         valueLabelDisplay="auto"
                                         min={0}
-                                        max={50000}
-                                        step={10}
+                                        max={1000000}
+                                        step={10000}
                                         marks={[
                                             { value: 0, label: '0' },
-                                            { value: 500, label: '500' },
-                                            { value: 50000, label: '50000' },
+                                            { value: 500000, label: '50만원' },
+                                            { value: 1000000, label: '100만원' },
+                                            { value: 10000000, label: '최대' },
                                         ]}
                                     />
                                 </div>
@@ -433,12 +434,12 @@ export default function PropertyTransApart() {
                                         onChange={handleWeeklyRentChange}
                                         valueLabelDisplay="auto"
                                         min={0}
-                                        max={5000}
-                                        step={10}
+                                        max={1000000}
+                                        step={10000}
                                         marks={[
                                             { value: 0, label: '0' },
-                                            { value: 2500, label: '2500' },
-                                            { value: 5000, label: '5000' },
+                                            { value: 500000, label: '50만원' },
+                                            { value: 1000000, label: '100만원' },
                                         ]}
                                     />
                                 </div>
