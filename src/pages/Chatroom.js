@@ -56,7 +56,7 @@ const Chatroom = () => {
     // 연결되어있는 경우 먼저 연결 해제
     disconnect();
 
-    const socket = new WebSocket("ws://3.35.10.79:8080/chat"); //주소변경 필요
+    const socket = new WebSocket(process.env.REACT_APP_SOCKET_URL); //주소변경 필요
     stompClient.current = Stomp.over(socket); // STOMP 클라이언트 생성
 
     // 연결
