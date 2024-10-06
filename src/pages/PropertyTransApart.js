@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import instance from '../api/axios';
+import Searchimage from '../assets/images/Searchimage';
 
 const theme = createTheme({
     palette: {
@@ -328,7 +329,8 @@ export default function PropertyTransApart() {
                         alignItems: 'center',
                     }}
                 >
-                    <input
+                    {/* <Searchimage/> */}
+                    {/* <input
                         type="text"
                         placeholder="매물검색"
                         style={{
@@ -340,11 +342,11 @@ export default function PropertyTransApart() {
                             flex: '1',
                         }}
                         onChange={handleChangeSearch}
-                    />
-                    <button onClick={handleToggleFilters} style={filterButtonStyle}>
-                        필터
+                    /> */}
+                    <button onClick={handleToggleFilters} style={{ background: 'none', border: 'none', padding: 0, margin: '0 10px 0 0', cursor: 'pointer' }}>
+                    <Searchimage/>
                     </button>
-                    <button onClick={handleSearch} style={filterButtonStyle}>
+                    <button onClick={handleSearch} style={{ ...filterButtonStyle, marginTop: '-5px' }}>
                         검색
                     </button>
                 </div>
