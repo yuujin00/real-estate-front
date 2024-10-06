@@ -5,8 +5,14 @@ import { Grid, Button } from '..'; // Assuming you're correctly importing these 
 function Header({ onBackButtonClick }) {
     const navigate = useNavigate();
 
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+      
     const handleButtonClick = () => {
-        const token = localStorage.getItem('token'); // Get the token from localStorage
+        const token = getCookie("token"); // Get the token from localStorage
         if (token) {
             navigate('/main'); // Navigate only if the token exists
         } else {
